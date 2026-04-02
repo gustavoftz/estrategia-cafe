@@ -21,40 +21,19 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Deploy via FTP
+      - name: Deploy via SFTP
         env:
-          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
         run: |
-          python3 - <<'PYEOF'
-          import ftplib, os, pathlib, sys
+          mkdir -p ~/.ssh
+          echo "$SSH_PRIVATE_KEY" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          ssh-keyscan -p 65002 147.93.38.41 >> ~/.ssh/known_hosts 2>/dev/null
 
-          HOST     = '147.93.38.41'
-          USER     = 'u164538823.estrategia.cafe'
-          PASSWORD = os.environ['FTP_PASSWORD']
-          LOCAL    = pathlib.Path('dist')
-          REMOTE   = '/public_html'
-
-          def upload(ftp, local_dir, remote_dir):
-              for item in sorted(local_dir.iterdir()):
-                  remote_path = f"{remote_dir}/{item.name}"
-                  if item.is_dir():
-                      try:
-                          ftp.mkd(remote_path)
-                      except ftplib.error_perm:
-                          pass
-                      upload(ftp, item, remote_path)
-                  else:
-                      with open(item, 'rb') as f:
-                          ftp.storbinary(f'STOR {remote_path}', f)
-                      print(f'  ✓ {remote_path}')
-
-          print(f'Connecting to {HOST}...')
-          ftp = ftplib.FTP()
-          ftp.connect(HOST, 21, timeout=30)
-          ftp.login(USER, PASSWORD)
-          ftp.set_pasv(True)
-          print('Logged in. Uploading dist/ → /public_html ...')
-          upload(ftp, LOCAL, REMOTE)
-          ftp.quit()
-          print('Deploy complete!')
-          PYEOF
+          sftp -i ~/.ssh/deploy_key -P 65002 -o StrictHostKeyChecking=no \
+            u164538823@147.93.38.41 <<'SFTPEOF'
+          lcd dist
+          cd /public_html
+          put -r .
+          quit
+          SFTPEOF
