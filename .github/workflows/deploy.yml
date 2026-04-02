@@ -21,7 +21,7 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Deploy via SFTP
+      - name: Deploy via rsync
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
         run: |
@@ -30,10 +30,6 @@ jobs:
           chmod 600 ~/.ssh/deploy_key
           ssh-keyscan -p 65002 147.93.38.41 >> ~/.ssh/known_hosts 2>/dev/null
 
-          sftp -i ~/.ssh/deploy_key -P 65002 -o StrictHostKeyChecking=no \
-            u164538823@147.93.38.41 <<'SFTPEOF'
-          lcd dist
-          cd /public_html
-          put -r .
-          quit
-          SFTPEOF
+          rsync -avz --delete \
+            -e "ssh -i ~/.ssh/deploy_key -p 65002 -o StrictHostKeyChecking=no" \
+            out/ u164538823@147.93.38.41:/public_html/
