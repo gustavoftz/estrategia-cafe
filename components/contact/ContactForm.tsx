@@ -50,6 +50,20 @@ const inputClass =
 
 const textareaClass = cn(inputClass, 'resize-none min-h-[120px]')
 
+function normalizeSiteUrl(value: string) {
+  const site = value.trim()
+
+  if (!site) {
+    return ''
+  }
+
+  if (/^https?:\/\//i.test(site)) {
+    return site
+  }
+
+  return `https://${site}`
+}
+
 export default function ContactForm() {
   const [state, setState] = useState<FormState>('idle')
   const [error, setError] = useState('')
@@ -96,7 +110,10 @@ export default function ContactForm() {
           'Content-Type': 'application/json',
           Accept: 'application/json',
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify({
+          ...data,
+          site: normalizeSiteUrl(data.site),
+        }),
       })
 
       const result = (await response.json()) as { ok?: boolean; error?: string }
@@ -198,10 +215,10 @@ export default function ContactForm() {
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
         <Field label="Site" hint="URL do site atual, se houver">
           <input
-            type="url"
+            type="text"
             value={data.site}
             onChange={set('site')}
-            placeholder="https://seusite.com.br"
+            placeholder="seusite.com.br ou https://seusite.com.br"
             className={inputClass}
           />
         </Field>

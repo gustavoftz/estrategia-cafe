@@ -159,10 +159,22 @@ function field_value(array $payload, string $key, int $maxLength = 4000): string
   return mb_substr($value, 0, $maxLength, 'UTF-8');
 }
 
+function normalize_site_url(string $site): string {
+  if ($site === '') {
+    return '';
+  }
+
+  if (preg_match('#^https?://#i', $site)) {
+    return $site;
+  }
+
+  return 'https://' . $site;
+}
+
 $nome = field_value($payload, 'nome', 120);
 $empresa = field_value($payload, 'empresa', 180);
 $retorno = field_value($payload, 'retorno', 180);
-$site = field_value($payload, 'site', 240);
+$site = normalize_site_url(field_value($payload, 'site', 240));
 $segmento = field_value($payload, 'segmento', 180);
 $desafio = field_value($payload, 'desafio', 4000);
 $tentativas = field_value($payload, 'tentativas', 4000);
