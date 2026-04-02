@@ -32,4 +32,4 @@ jobs:
 
           rsync -avz --delete \
             -e "ssh -i ~/.ssh/deploy_key -p 65002 -o StrictHostKeyChecking=no" \
-            out/ u164538823@147.93.38.41:public_html/
+            out/ u164538823@147.93.38.41:domains/estrategia.cafe/public_html/
