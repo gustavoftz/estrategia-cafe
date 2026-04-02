@@ -89,9 +89,21 @@ export default function Footer() {
           <p className="text-xs text-ink-inverse/35">
             © {year} estrategia.cafe. Todos os direitos reservados.
           </p>
-          <p className="text-xs text-ink-inverse/35 italic">
-            Estratégia antes da execução. Diagnóstico antes do investimento.
-          </p>
+          <div className="flex items-center gap-4">
+            <Link
+              href="/politica-de-privacidade"
+              className="text-xs text-ink-inverse/35 hover:text-ink-inverse/60 transition-colors duration-150"
+            >
+              Política de Privacidade
+            </Link>
+            <span className="text-ink-inverse/20 text-xs">·</span>
+            <Link
+              href="/termos"
+              className="text-xs text-ink-inverse/35 hover:text-ink-inverse/60 transition-colors duration-150"
+            >
+              Termos de Serviço
+            </Link>
+          </div>
         </div>
       </div>
     </footer>
