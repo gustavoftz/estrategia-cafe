@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { DM_Serif_Display, Inter } from 'next/font/google'
+import Script from 'next/script'
 import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
 import '@/styles/globals.css'
@@ -30,6 +31,9 @@ export const metadata: Metadata = {
     locale: 'pt_BR',
     type: 'website',
   },
+  verification: {
+    google: 'fKo22fvmAVUEbDOTag38TKtschky34sVry55GbWrMV8',
+  },
 }
 
 export default function RootLayout({
@@ -52,6 +56,18 @@ export default function RootLayout({
         <Header />
         <main id="main-content" className="flex-1">{children}</main>
         <Footer />
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-TKHRQ4LYRM"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-TKHRQ4LYRM');
+          `}
+        </Script>
       </body>
     </html>
   )
