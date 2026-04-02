@@ -1,4 +1,10 @@
 node_modules/
 dist/
+.next/
+out/
+.claude/
 .env
 .env.local
+contact.config.php
+public/api/contact.config.php
+public/api/contact-error.log

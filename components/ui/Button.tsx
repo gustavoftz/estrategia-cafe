@@ -7,14 +7,14 @@ type Size = 'sm' | 'md' | 'lg'
 
 const variantStyles: Record<Variant, string> = {
   primary:
-    'bg-ink-primary text-ink-inverse border border-ink-primary hover:bg-ink-primary/90 active:scale-[0.98]',
+    'bg-ink-primary text-ink-inverse border border-ink-primary hover:bg-ink-primary/90 hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98]',
   secondary:
-    'bg-transparent text-ink-primary border border-ink-primary hover:bg-ink-primary hover:text-ink-inverse active:scale-[0.98]',
+    'bg-transparent text-ink-primary border border-ink-primary hover:bg-ink-primary hover:text-ink-inverse hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98]',
   ghost:
     'bg-transparent text-ink-primary border border-transparent hover:text-accent underline-offset-4 hover:underline',
   // For use on dark/ink-primary backgrounds
   inverse:
-    'bg-transparent text-ink-inverse border border-ink-inverse/60 hover:bg-ink-inverse hover:text-ink-primary active:scale-[0.98]',
+    'bg-transparent text-ink-inverse border border-ink-inverse/60 hover:bg-ink-inverse hover:text-ink-primary hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98]',
 }
 
 const sizeStyles: Record<Size, string> = {
@@ -24,7 +24,7 @@ const sizeStyles: Record<Size, string> = {
 }
 
 const base =
-  'inline-flex items-center justify-center gap-2 font-sans font-medium transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-primary focus-visible:ring-offset-2'
+  'inline-flex items-center justify-center gap-2 font-sans font-medium transition-all duration-300 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-primary focus-visible:ring-offset-2'
 
 type SharedProps = {
   variant?: Variant

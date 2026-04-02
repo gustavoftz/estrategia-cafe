@@ -123,8 +123,8 @@ export default function Header() {
         className={cn(
           'fixed inset-0 z-40 bg-canvas flex flex-col transition-all duration-300 lg:hidden',
           menuOpen
-            ? 'opacity-100 pointer-events-auto'
-            : 'opacity-0 pointer-events-none'
+            ? 'visible opacity-100 pointer-events-auto'
+            : 'invisible opacity-0 pointer-events-none'
         )}
         aria-hidden={!menuOpen}
       >

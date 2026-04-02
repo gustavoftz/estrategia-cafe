@@ -244,7 +244,7 @@ export default function HomePage() {
               <a
                 key={tag}
                 href={href}
-                className="group flex flex-col gap-5 p-7 border border-border hover:border-ink-muted transition-colors duration-150"
+                className="group flex flex-col gap-5 p-7 border border-border hover:border-ink-muted transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-[0_24px_60px_rgba(17,17,17,0.08)]"
               >
                 <span className="eyebrow text-ink-muted">{tag}</span>
                 <div className="flex flex-col gap-3">

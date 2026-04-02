@@ -1,4 +1,5 @@
 import { cn } from '@/lib/utils'
+import RevealOnScroll from '@/components/motion/RevealOnScroll'
 import type { ReactNode, ElementType } from 'react'
 
 type Variant = 'default' | 'narrow' | 'wide'
@@ -57,7 +58,7 @@ export default function SectionWrapper({
           innerClassName
         )}
       >
-        {children}
+        <RevealOnScroll>{children}</RevealOnScroll>
       </div>
     </Tag>
   )

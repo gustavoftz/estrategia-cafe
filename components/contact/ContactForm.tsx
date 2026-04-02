@@ -4,7 +4,7 @@ import { useState } from 'react'
 import Button from '@/components/ui/Button'
 import { cn } from '@/lib/utils'
 
-type FormState = 'idle' | 'submitting' | 'success'
+type FormState = 'idle' | 'submitting' | 'success' | 'error'
 
 const frenteOptions = [
   { value: '', label: 'Selecione a frente mais urgente' },
@@ -52,15 +52,18 @@ const textareaClass = cn(inputClass, 'resize-none min-h-[120px]')
 
 export default function ContactForm() {
   const [state, setState] = useState<FormState>('idle')
+  const [error, setError] = useState('')
   const [data, setData] = useState({
     nome: '',
     empresa: '',
+    retorno: '',
     site: '',
     segmento: '',
     desafio: '',
     tentativas: '',
     frente: '',
     contato: '',
+    website: '',
   })
 
   const set = (field: keyof typeof data) =>
@@ -69,15 +72,66 @@ export default function ContactForm() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+
+    if (
+      !data.nome.trim() ||
+      !data.empresa.trim() ||
+      !data.retorno.trim() ||
+      !data.segmento.trim() ||
+      !data.desafio.trim() ||
+      !data.frente
+    ) {
+      setError('Preencha os campos obrigatórios para enviar a mensagem.')
+      setState('error')
+      return
+    }
+
     setState('submitting')
-    await new Promise(r => setTimeout(r, 1200))
-    setState('success')
+    setError('')
+
+    try {
+      const response = await fetch('/api/contact.php', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+        body: JSON.stringify(data),
+      })
+
+      const result = (await response.json()) as { ok?: boolean; error?: string }
+
+      if (!response.ok || !result.ok) {
+        throw new Error(result.error || 'Não foi possível enviar sua mensagem agora.')
+      }
+
+      setData({
+        nome: '',
+        empresa: '',
+        retorno: '',
+        site: '',
+        segmento: '',
+        desafio: '',
+        tentativas: '',
+        frente: '',
+        contato: '',
+        website: '',
+      })
+      setState('success')
+    } catch (submitError) {
+      setError(
+        submitError instanceof Error
+          ? submitError.message
+          : 'Não foi possível enviar sua mensagem agora.'
+      )
+      setState('error')
+    }
   }
 
   if (state === 'success') {
     return (
       <div className="flex flex-col gap-4 py-12 border border-border px-8">
-        <span className="eyebrow text-accent">Mensagem recebida</span>
+        <span className="eyebrow text-accent">Mensagem enviada</span>
         <h3 className="text-h3 font-serif text-ink-primary">
           Vou ler com atenção antes de responder.
         </h3>
@@ -111,6 +165,32 @@ export default function ContactForm() {
             placeholder="Nome da empresa"
             className={inputClass}
           />
+        </Field>
+      </div>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        <Field label="E-mail ou WhatsApp para retorno" required>
+          <input
+            type="text"
+            required
+            value={data.retorno}
+            onChange={set('retorno')}
+            placeholder="seu@email.com ou +55 11 99999-9999"
+            className={inputClass}
+          />
+        </Field>
+        <Field label="Forma preferida de contato">
+          <select
+            value={data.contato}
+            onChange={set('contato')}
+            className={cn(inputClass, 'cursor-pointer')}
+          >
+            {contatoOptions.map(o => (
+              <option key={o.value} value={o.value} disabled={o.value === ''}>
+                {o.label}
+              </option>
+            ))}
+          </select>
         </Field>
       </div>
 
@@ -181,22 +261,27 @@ export default function ContactForm() {
             ))}
           </select>
         </Field>
-        <Field label="Forma preferida de contato">
-          <select
-            value={data.contato}
-            onChange={set('contato')}
-            className={cn(inputClass, 'cursor-pointer')}
-          >
-            {contatoOptions.map(o => (
-              <option key={o.value} value={o.value} disabled={o.value === ''}>
-                {o.label}
-              </option>
-            ))}
-          </select>
+      </div>
+
+      <div className="hidden" aria-hidden="true">
+        <Field label="Website">
+          <input
+            type="text"
+            tabIndex={-1}
+            autoComplete="off"
+            value={data.website}
+            onChange={set('website')}
+            className={inputClass}
+          />
         </Field>
       </div>
 
       <div className="pt-2">
+        {state === 'error' && (
+          <p className="mb-4 text-sm text-accent" role="alert">
+            {error}
+          </p>
+        )}
         <Button
           type="submit"
           variant="primary"
