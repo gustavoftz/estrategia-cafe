@@ -5,7 +5,7 @@ import SectionHeader from '@/components/sections/SectionHeader'
 import ContactForm from '@/components/contact/ContactForm'
 
 export const metadata: Metadata = createMetadata({
-  title: 'Contato',
+  title: 'Iniciar Conversa Estratégica',
   description:
     'Inicie uma conversa estratégica. Não é uma página de orçamento — é o começo de um diagnóstico para entender onde está a principal fricção no seu sistema comercial.',
   path: '/contato',

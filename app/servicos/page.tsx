@@ -7,7 +7,7 @@ import CTASection from '@/components/sections/CTASection'
 import Prose from '@/components/ui/Prose'
 
 export const metadata: Metadata = createMetadata({
-  title: 'Serviços',
+  title: 'Consultoria Estratégica Digital',
   description:
     'Estratégia e posicionamento, sites e conversão, SEO e aquisição orgânica, automação por WhatsApp. Frentes integradas de um sistema comercial, não serviços isolados.',
   path: '/servicos',

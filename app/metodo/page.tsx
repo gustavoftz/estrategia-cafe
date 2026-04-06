@@ -7,7 +7,7 @@ import CTASection from '@/components/sections/CTASection'
 import Prose from '@/components/ui/Prose'
 
 export const metadata: Metadata = createMetadata({
-  title: 'Método',
+  title: 'Método de Diagnóstico Estratégico',
   description:
     'Diagnóstico, priorização, estruturação, implementação e otimização. Um processo baseado em entender antes de propor — e estruturar antes de executar.',
   path: '/metodo',

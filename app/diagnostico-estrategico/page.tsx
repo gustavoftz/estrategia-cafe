@@ -28,9 +28,52 @@ const howItWorks = [
   { step: '04', title: 'Recomendação de próximos passos', description: 'O documento inclui uma recomendação clara sobre por onde começar — seja para trabalhar junto ou para executar internamente.' },
 ]
 
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    {
+      '@type': 'Question',
+      name: 'O que é o Diagnóstico Estratégico?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'O Diagnóstico Estratégico é uma análise estruturada do sistema comercial digital de uma empresa. Inclui avaliação de posicionamento, site, aquisição, conversão e operação por WhatsApp. O resultado é um documento com as principais fricções identificadas e prioridades de ação.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'Quando faz sentido contratar um diagnóstico digital?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'O diagnóstico faz sentido quando você investe em digital mas não vê retorno proporcional, quando sente que algo não está funcionando mas não sabe exatamente o quê, quando está prestes a escalar investimento e quer clareza sobre onde focar, ou quando recebe leads mal qualificados.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'Como funciona o Diagnóstico Estratégico?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'O processo tem quatro etapas: preenchimento de formulário de contexto, sessão de diagnóstico de 90 minutos por videochamada, entrega de documento de análise com fricções e prioridades identificadas, e recomendação de próximos passos.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'O diagnóstico inclui proposta comercial?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Não. O Diagnóstico Estratégico é uma sessão de trabalho independente, sem pitch e sem pressão para contratar. O documento entregue pode ser usado independentemente de qualquer decisão de contratação.',
+      },
+    },
+  ],
+}
+
 export default function DiagnosticoPage() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
       {/* 1. Headline */}
       <SectionWrapper background="canvas" className="border-b border-border">
         <div className="flex flex-col gap-8 max-w-[720px]">

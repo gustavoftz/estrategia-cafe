@@ -36,6 +36,25 @@ export const metadata: Metadata = {
   },
 }
 
+const organizationSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'ProfessionalService',
+  name: 'estrategia.cafe',
+  url: 'https://estrategia.cafe',
+  description:
+    'Consultoria estratégica especializada em reduzir fricção comercial no digital: posicionamento, site, aquisição, conversão e operação por WhatsApp como um sistema integrado.',
+  email: 'contato@estrategia.cafe',
+  areaServed: 'BR',
+  serviceType: 'Consultoria Estratégica Digital',
+  contactPoint: {
+    '@type': 'ContactPoint',
+    contactType: 'customer service',
+    email: 'contato@estrategia.cafe',
+    url: 'https://estrategia.cafe/contato/',
+    availableLanguage: 'Portuguese',
+  },
+}
+
 export default function RootLayout({
   children,
 }: {
@@ -44,6 +63,10 @@ export default function RootLayout({
   return (
     <html lang="pt-BR" className={`${serif.variable} ${sans.variable}`}>
       <body className="flex min-h-screen flex-col">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+        />
         {/* Skip-to-content for keyboard users */}
         <a
           href="#main-content"

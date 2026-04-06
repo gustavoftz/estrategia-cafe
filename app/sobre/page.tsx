@@ -6,7 +6,7 @@ import CTASection from '@/components/sections/CTASection'
 import Prose from '@/components/ui/Prose'
 
 export const metadata: Metadata = createMetadata({
-  title: 'Sobre',
+  title: 'Sobre — Estratégia Digital Integrada',
   description:
     'A estrategia.cafe nasceu da observação de que os problemas de digital raramente são de canal ou ferramenta — são de clareza, estrutura e coerência comercial.',
   path: '/sobre',
