@@ -21,50 +21,26 @@ const readingGuides = [
 export default function SimuladorDeImpactoComercialPage() {
   return (
     <>
-      <SectionWrapper background="canvas" className="border-b border-border">
-        <div className="grid grid-cols-1 gap-10 lg:grid-cols-[minmax(0,1fr)_20rem] lg:gap-14">
-          <div className="flex max-w-[720px] flex-col gap-7">
+      <SectionWrapper background="canvas" className="overflow-hidden border-b border-border">
+        <div className="grid grid-cols-1 gap-8 xl:grid-cols-[minmax(0,0.68fr)_minmax(0,1.32fr)] xl:items-start xl:gap-10">
+          <div className="flex max-w-[40rem] flex-col gap-6 xl:pr-4">
             <span className="eyebrow">Simulador de impacto comercial</span>
             <h1 className="text-display font-serif text-ink-primary">
               Antes de investir mais,{' '}
               <span className="text-ink-secondary">estime o tamanho da oportunidade.</span>
             </h1>
-            <div className="flex max-w-[58ch] flex-col gap-4">
-              <p className="text-lg leading-relaxed text-ink-secondary">
-                Esta simulação ajuda a traduzir melhoria de conversão e processo comercial em ordem
-                de grandeza financeira. O objetivo não é prever o futuro com precisão absoluta, mas
-                dar clareza para uma decisão comercial melhor.
-              </p>
-              <p className="text-base leading-relaxed text-ink-secondary">
-                Use como ferramenta de leitura: quanto sua operação já gera hoje, quanto poderia
-                gerar com menos fricção e qual seria o retorno potencial sobre um investimento
-                mensal para capturar essa melhora.
-              </p>
-            </div>
-
-            <div className="flex flex-col gap-3 sm:flex-row">
-              <TrackedButton
-                href="/contato"
-                variant="primary"
-                size="lg"
-                trackingLocation="impact_calculator_hero"
-                trackingLabel="Falar sobre meu cenário"
-              >
-                Falar sobre meu cenário
-              </TrackedButton>
-              <TrackedButton
-                href="/diagnostico-estrategico"
-                variant="secondary"
-                size="lg"
-                trackingLocation="impact_calculator_hero"
-                trackingLabel="Ver o Diagnóstico Estratégico"
-              >
-                Ver o Diagnóstico Estratégico
-              </TrackedButton>
-            </div>
+            <p className="max-w-[48ch] text-lg leading-relaxed text-ink-secondary">
+              Esta simulação traduz volume, conversão, ticket e margem em uma leitura financeira
+              mais concreta. A ideia é ajudar você a enxergar a ordem de grandeza da oportunidade
+              antes de aprofundar um diagnóstico.
+            </p>
           </div>
 
-          <div className="editorial-panel px-6 py-6 md:px-7 md:py-7 lg:mt-8">
+          <div className="xl:row-span-2">
+            <RoiCalculatorSection noWrapper showHeader={false} />
+          </div>
+
+          <div className="editorial-panel px-6 py-6 md:px-7 md:py-7 xl:pr-8">
             <div className="relative flex flex-col gap-5">
               <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-ink-muted">
                 Como ler esta simulação
@@ -80,12 +56,33 @@ export default function SimuladorDeImpactoComercialPage() {
                   </div>
                 ))}
               </div>
+
+              <div className="flex flex-col gap-3 pt-1 sm:flex-row xl:flex-col">
+                <TrackedButton
+                  href="/contato"
+                  variant="primary"
+                  size="lg"
+                  className="w-full justify-center sm:w-auto xl:w-full"
+                  trackingLocation="impact_calculator_hero"
+                  trackingLabel="Falar sobre meu cenário"
+                >
+                  Falar sobre meu cenário
+                </TrackedButton>
+                <TrackedButton
+                  href="/diagnostico-estrategico"
+                  variant="secondary"
+                  size="lg"
+                  className="w-full justify-center sm:w-auto xl:w-full"
+                  trackingLocation="impact_calculator_hero"
+                  trackingLabel="Ver o Diagnóstico Estratégico"
+                >
+                  Ver o Diagnóstico Estratégico
+                </TrackedButton>
+              </div>
             </div>
           </div>
         </div>
       </SectionWrapper>
-
-      <RoiCalculatorSection />
 
       <CTASection
         eyebrow="Próximo passo"
