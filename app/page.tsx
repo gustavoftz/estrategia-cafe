@@ -4,7 +4,6 @@ import SectionHeader from '@/components/sections/SectionHeader'
 import TrackedButton from '@/components/analytics/TrackedButton'
 import CTASection from '@/components/sections/CTASection'
 import ImpactCalculatorTeaserSection from '@/components/sections/ImpactCalculatorTeaserSection'
-import Button from '@/components/ui/Button'
 import Prose from '@/components/ui/Prose'
 
 export const metadata: Metadata = {
@@ -324,9 +323,14 @@ export default function HomePage() {
             ))}
           </div>
           <div>
-            <Button href="/servicos" variant="secondary">
+            <TrackedButton
+              href="/servicos"
+              variant="secondary"
+              trackingLocation="home_fronts"
+              trackingLabel="Ver todas as frentes em detalhe"
+            >
               Ver todas as frentes em detalhe
-            </Button>
+            </TrackedButton>
           </div>
         </div>
       </SectionWrapper>
@@ -353,9 +357,14 @@ export default function HomePage() {
             ))}
           </div>
           <div>
-            <Button href="/metodo" variant="secondary">
+            <TrackedButton
+              href="/metodo"
+              variant="secondary"
+              trackingLocation="home_method"
+              trackingLabel="Entender o método completo"
+            >
               Entender o método completo
-            </Button>
+            </TrackedButton>
           </div>
         </div>
       </SectionWrapper>

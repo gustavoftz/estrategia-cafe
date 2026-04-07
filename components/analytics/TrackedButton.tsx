@@ -1,7 +1,7 @@
 'use client'
 
 import Button from '@/components/ui/Button'
-import { trackCtaClick } from '@/lib/analytics'
+import { getHrefTrackingParams, trackCtaClick } from '@/lib/analytics'
 import type { ReactNode, ButtonHTMLAttributes } from 'react'
 
 type TrackingButtonProps =
@@ -26,43 +26,21 @@ type TrackingButtonProps =
       trackingLabel?: string
     })
 
-function getTrackedDestination(href?: string) {
-  if (!href) {
-    return null
-  }
-
-  if (href === '/contato') {
-    return 'contato'
-  }
-
-  if (href === '/diagnostico-estrategico') {
-    return 'diagnostico_estrategico'
-  }
-
-  if (href === '/simulador-de-impacto-comercial') {
-    return 'simulador_impacto_comercial'
-  }
-
-  return null
-}
-
 export default function TrackedButton(props: TrackingButtonProps) {
   if ('href' in props && props.href) {
-    const destination = getTrackedDestination(props.href)
     const { href, onClick, trackingLabel, trackingLocation, ...buttonProps } = props
+    const trackingParams = getHrefTrackingParams(href)
 
     return (
       <Button
         href={href}
         onClick={() => {
-          if (destination) {
-            trackCtaClick({
-              destination,
-              href,
-              location: trackingLocation,
-              label: trackingLabel,
-            })
-          }
+          trackCtaClick({
+            ...trackingParams,
+            element_type: 'button',
+            label: trackingLabel,
+            location: trackingLocation,
+          })
 
           onClick?.()
         }}

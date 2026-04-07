@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState, type ChangeEvent } from 'react'
+import { useEffect, useRef, useState, type ChangeEvent } from 'react'
 import DetailedAnalysisGate from '@/components/roi/DetailedAnalysisGate'
 import ScenarioSelector from '@/components/roi/ScenarioSelector'
 import Button from '@/components/ui/Button'
@@ -142,6 +142,7 @@ export default function RoiCalculator() {
   const [isAdvancedOpen, setIsAdvancedOpen] = useState(false)
   const [detailedAnalysisState, setDetailedAnalysisState] =
     useState<DetailedAnalysisState>('locked')
+  const hasTrackedStartRef = useRef(false)
 
   const fieldErrors = getRoiFieldErrors(formValues)
   const hasFieldErrors = hasRoiFieldErrors(fieldErrors)
@@ -220,8 +221,23 @@ export default function RoiCalculator() {
     )
   }
 
+  const trackCalculatorStart = (interactionSource: string) => {
+    if (hasTrackedStartRef.current) {
+      return
+    }
+
+    hasTrackedStartRef.current = true
+    trackEvent('roi_calculator_start', {
+      interaction_source: interactionSource,
+      projection_mode: projectionMode,
+      scenario_preset: selectedScenario,
+    })
+  }
+
   const handleChange =
     (fieldName: RoiBaseFieldName) => (event: ChangeEvent<HTMLInputElement>) => {
+      trackCalculatorStart(`field_${fieldName}`)
+
       const nextValue = event.target.value
 
       setFormValues((previousValues) => ({
@@ -231,6 +247,15 @@ export default function RoiCalculator() {
     }
 
   const handleManualProjectionChange = (event: ChangeEvent<HTMLInputElement>) => {
+    trackCalculatorStart('manual_projection')
+
+    if (projectionMode !== 'manual') {
+      trackEvent('roi_manual_projection_enable', {
+        projection_mode: projectionMode,
+        reference_scenario_preset: selectedScenario,
+      })
+    }
+
     const nextValue = event.target.value
 
     setProjectionMode('manual')
@@ -241,6 +266,16 @@ export default function RoiCalculator() {
   }
 
   const handleScenarioSelect = (scenario: ScenarioPreset) => {
+    trackCalculatorStart('scenario_select')
+
+    if (scenario !== selectedScenario || projectionMode !== 'scenario') {
+      trackEvent('roi_scenario_select', {
+        next_scenario_preset: scenario,
+        previous_projection_mode: projectionMode,
+        previous_scenario_preset: selectedScenario,
+      })
+    }
+
     const nextProjectedRate = calculateProjectedRateFromScenario(
       inputs.currentConversionRate,
       scenario
@@ -255,6 +290,24 @@ export default function RoiCalculator() {
   }
 
   const handleRestoreExample = () => {
+    const hasCustomInputs =
+      selectedScenario !== defaultScenarioPreset ||
+      projectionMode !== 'scenario' ||
+      isAdvancedOpen ||
+      detailedAnalysisState !== 'locked' ||
+      Object.entries(formValues).some(
+        ([fieldName, fieldValue]) =>
+          fieldValue !== roiExampleFormValues[fieldName as keyof RoiFormValues]
+      )
+
+    if (hasCustomInputs) {
+      trackEvent('roi_restore_example', {
+        previous_projection_mode: projectionMode,
+        previous_scenario_preset: selectedScenario,
+      })
+    }
+
+    hasTrackedStartRef.current = false
     setFormValues(roiExampleFormValues)
     setSelectedScenario(defaultScenarioPreset)
     setProjectionMode('scenario')
@@ -263,6 +316,9 @@ export default function RoiCalculator() {
   }
 
   const handleUseScenarioAgain = () => {
+    trackEvent('roi_return_to_scenario', {
+      scenario_preset: selectedScenario,
+    })
     setProjectionMode('scenario')
     setFormValues((previousValues) => ({
       ...previousValues,
@@ -271,12 +327,27 @@ export default function RoiCalculator() {
   }
 
   const handleUnlockDetailedAnalysis = () => {
+    trackCalculatorStart('unlock_detailed_analysis')
     setDetailedAnalysisState('unlocked')
     trackEvent('roi_detailed_analysis_unlock', {
       scenario_preset: selectedScenario,
       projection_mode: projectionMode,
       projected_rate: Number(formatDecimal(inputs.projectedConversionRate).replace(',', '.')),
     })
+  }
+
+  const handleAdvancedToggle = () => {
+    const nextIsOpen = !isAdvancedOpen
+
+    if (nextIsOpen) {
+      trackCalculatorStart('advanced_panel_open')
+      trackEvent('roi_advanced_panel_open', {
+        projection_mode: projectionMode,
+        scenario_preset: selectedScenario,
+      })
+    }
+
+    setIsAdvancedOpen(nextIsOpen)
   }
 
   const detailedPreviewItems = [
@@ -367,7 +438,7 @@ export default function RoiCalculator() {
               <button
                 type="button"
                 className="flex w-full items-center justify-between gap-4 px-5 py-4 text-left"
-                onClick={() => setIsAdvancedOpen((previousValue) => !previousValue)}
+                onClick={handleAdvancedToggle}
                 aria-expanded={isAdvancedOpen}
               >
                 <div className="flex flex-col gap-1">

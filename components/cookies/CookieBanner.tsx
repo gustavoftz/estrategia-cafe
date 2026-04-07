@@ -3,6 +3,8 @@
 import { useState, useEffect } from 'react'
 import Script from 'next/script'
 import Link from 'next/link'
+import AnalyticsPageTracker from '@/components/analytics/AnalyticsPageTracker'
+import { setAnalyticsEnabled, trackEvent } from '@/lib/analytics'
 
 const CONSENT_KEY = 'ec_consent'
 const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || 'G-TKHRQ4LYRM'
@@ -14,7 +16,9 @@ export default function CookieBanner() {
 
   useEffect(() => {
     const stored = localStorage.getItem(CONSENT_KEY) as Consent
+
     if (stored === 'accepted' || stored === 'declined') {
+      setAnalyticsEnabled(stored === 'accepted')
       setConsent(stored)
     } else {
       setVisible(true)
@@ -23,12 +27,17 @@ export default function CookieBanner() {
 
   function accept() {
     localStorage.setItem(CONSENT_KEY, 'accepted')
+    setAnalyticsEnabled(true)
+    trackEvent('cookie_consent_update', {
+      consent_status: 'accepted',
+    })
     setConsent('accepted')
     setVisible(false)
   }
 
   function decline() {
     localStorage.setItem(CONSENT_KEY, 'declined')
+    setAnalyticsEnabled(false)
     setConsent('declined')
     setVisible(false)
   }
@@ -48,10 +57,19 @@ export default function CookieBanner() {
               window.gtag = gtag;
               gtag('js', new Date());
               gtag('config', '${GA_MEASUREMENT_ID}', {
-                anonymize_ip: true
+                anonymize_ip: true,
+                send_page_view: false
               });
+              if (Array.isArray(window.__analyticsQueue) && window.__analyticsQueue.length > 0) {
+                var queuedEvents = window.__analyticsQueue.slice();
+                window.__analyticsQueue = [];
+                queuedEvents.forEach(function(item) {
+                  gtag('event', item.eventName, item.params);
+                });
+              }
             `}
           </Script>
+          <AnalyticsPageTracker />
         </>
       )}
 

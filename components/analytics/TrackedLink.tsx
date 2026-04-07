@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { trackCtaClick } from '@/lib/analytics'
+import { getHrefTrackingParams, trackCtaClick } from '@/lib/analytics'
 import type { ReactNode } from 'react'
 
 interface TrackedLinkProps {
@@ -12,22 +12,6 @@ interface TrackedLinkProps {
   trackingLabel?: string
 }
 
-function getTrackedDestination(href: string) {
-  if (href === '/contato') {
-    return 'contato'
-  }
-
-  if (href === '/diagnostico-estrategico') {
-    return 'diagnostico_estrategico'
-  }
-
-  if (href === '/simulador-de-impacto-comercial') {
-    return 'simulador_impacto_comercial'
-  }
-
-  return null
-}
-
 export default function TrackedLink({
   href,
   children,
@@ -35,21 +19,19 @@ export default function TrackedLink({
   trackingLocation,
   trackingLabel,
 }: TrackedLinkProps) {
-  const destination = getTrackedDestination(href)
+  const trackingParams = getHrefTrackingParams(href)
 
   return (
     <Link
       href={href}
       className={className}
       onClick={() => {
-        if (destination) {
-          trackCtaClick({
-            destination,
-            href,
-            location: trackingLocation,
-            label: trackingLabel,
-          })
-        }
+        trackCtaClick({
+          ...trackingParams,
+          element_type: 'link',
+          label: trackingLabel,
+          location: trackingLocation,
+        })
       }}
     >
       {children}

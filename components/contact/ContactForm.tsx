@@ -1,12 +1,36 @@
 'use client'
 
-import { useId, useState } from 'react'
+import { useId, useRef, useState } from 'react'
 import Button from '@/components/ui/Button'
 import FormField from '@/components/ui/FormField'
 import { inputClass, selectClass, textareaClass } from '@/components/ui/formStyles'
 import { trackEvent } from '@/lib/analytics'
 
 type FormState = 'idle' | 'submitting' | 'success' | 'error'
+
+const initialData = {
+  nome: '',
+  empresa: '',
+  retorno: '',
+  site: '',
+  segmento: '',
+  desafio: '',
+  tentativas: '',
+  frente: '',
+  contato: '',
+  website: '',
+}
+
+type ContactFormData = typeof initialData
+
+const requiredFields: Array<keyof ContactFormData> = [
+  'nome',
+  'empresa',
+  'retorno',
+  'segmento',
+  'desafio',
+  'frente',
+]
 
 const frenteOptions = [
   { value: '', label: 'Selecione a frente mais urgente' },
@@ -39,23 +63,29 @@ function normalizeSiteUrl(value: string) {
   return `https://${site}`
 }
 
+function getMissingRequiredFields(data: ContactFormData) {
+  return requiredFields.filter((fieldName) => !data[fieldName].trim())
+}
+
 export default function ContactForm() {
   const [state, setState] = useState<FormState>('idle')
   const [error, setError] = useState('')
   const liveStatusId = useId()
   const errorId = `${liveStatusId}-error`
-  const [data, setData] = useState({
-    nome: '',
-    empresa: '',
-    retorno: '',
-    site: '',
-    segmento: '',
-    desafio: '',
-    tentativas: '',
-    frente: '',
-    contato: '',
-    website: '',
-  })
+  const [data, setData] = useState<ContactFormData>(initialData)
+  const hasTrackedStartRef = useRef(false)
+
+  const trackFormStart = () => {
+    if (hasTrackedStartRef.current) {
+      return
+    }
+
+    hasTrackedStartRef.current = true
+    trackEvent('form_start', {
+      form_name: 'contact_form',
+      form_destination: 'contato',
+    })
+  }
 
   const set = (field: keyof typeof data) =>
     (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) =>
@@ -65,15 +95,18 @@ export default function ContactForm() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    trackFormStart()
 
-    if (
-      !data.nome.trim() ||
-      !data.empresa.trim() ||
-      !data.retorno.trim() ||
-      !data.segmento.trim() ||
-      !data.desafio.trim() ||
-      !data.frente
-    ) {
+    const missingRequiredFields = getMissingRequiredFields(data)
+
+    if (missingRequiredFields.length > 0) {
+      trackEvent('form_validation_error', {
+        error_type: 'missing_required_fields',
+        form_destination: 'contato',
+        form_name: 'contact_form',
+        missing_field_count: missingRequiredFields.length,
+        missing_required_fields: missingRequiredFields.join('|'),
+      })
       setError('Preencha os campos obrigatórios para enviar a mensagem.')
       setState('error')
       return
@@ -81,6 +114,13 @@ export default function ContactForm() {
 
     setState('submitting')
     setError('')
+    trackEvent('form_submit_attempt', {
+      form_destination: 'contato',
+      form_name: 'contact_form',
+      frente: data.frente,
+      has_site: Boolean(data.site.trim()),
+      preferred_contact: data.contato || 'nao_informado',
+    })
 
     try {
       const response = await fetch('/api/contact.php', {
@@ -101,26 +141,23 @@ export default function ContactForm() {
         throw new Error(result.error || 'Não foi possível enviar sua mensagem agora.')
       }
 
-      setData({
-        nome: '',
-        empresa: '',
-        retorno: '',
-        site: '',
-        segmento: '',
-        desafio: '',
-        tentativas: '',
-        frente: '',
-        contato: '',
-        website: '',
-      })
+      setData(initialData)
       trackEvent('generate_lead', {
         form_name: 'contact_form',
         form_destination: 'contato',
         frente: data.frente,
+        has_site: Boolean(data.site.trim()),
         preferred_contact: data.contato || 'nao_informado',
       })
       setState('success')
     } catch (submitError) {
+      trackEvent('form_submit_error', {
+        error_type: 'request_failed',
+        form_destination: 'contato',
+        form_name: 'contact_form',
+        frente: data.frente || 'nao_informado',
+        preferred_contact: data.contato || 'nao_informado',
+      })
       setError(
         submitError instanceof Error
           ? submitError.message
@@ -150,6 +187,7 @@ export default function ContactForm() {
   return (
     <form
       onSubmit={handleSubmit}
+      onFocusCapture={trackFormStart}
       className="flex flex-col gap-6"
       noValidate
       aria-busy={isSubmitting}
