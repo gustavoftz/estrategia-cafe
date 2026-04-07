@@ -61,6 +61,8 @@ const baseFieldConfig: Array<{
   hint: string
   placeholder: string
   inputMode: 'decimal' | 'numeric'
+  prefix?: string
+  suffix?: string
 }> = [
   {
     name: 'monthlyQuoteRequests',
@@ -75,6 +77,7 @@ const baseFieldConfig: Array<{
     hint: 'Percentual médio de pedidos que hoje viram contrato.',
     placeholder: '14',
     inputMode: 'decimal',
+    suffix: '%',
   },
   {
     name: 'averageContractValue',
@@ -82,6 +85,7 @@ const baseFieldConfig: Array<{
     hint: 'Ticket médio de cada novo contrato fechado.',
     placeholder: '8500',
     inputMode: 'decimal',
+    prefix: 'R$',
   },
   {
     name: 'netMarginRate',
@@ -89,6 +93,7 @@ const baseFieldConfig: Array<{
     hint: 'Margem estimada depois de custos, impostos e operação.',
     placeholder: '28',
     inputMode: 'decimal',
+    suffix: '%',
   },
   {
     name: 'monthlyInvestment',
@@ -96,6 +101,7 @@ const baseFieldConfig: Array<{
     hint: 'Quanto você pretende investir por mês para capturar essa melhora.',
     placeholder: '9000',
     inputMode: 'decimal',
+    prefix: 'R$',
   },
 ]
 
@@ -103,7 +109,7 @@ function MetricCard({ label, value, detail, tone = 'default' }: MetricCardProps)
   return (
     <div
       className={cn(
-        'rounded-[1.35rem] border px-5 py-5',
+        'h-full rounded-[1.35rem] border px-5 py-5',
         tone === 'highlight'
           ? 'border-accent/15 bg-accent/5'
           : 'border-border bg-canvas/80'
@@ -320,18 +326,32 @@ export default function RoiCalculator() {
                   hint={field.hint}
                   error={fieldErrors[field.name]}
                 >
-                  <input
-                    type="text"
-                    inputMode={field.inputMode}
-                    value={formValues[field.name]}
-                    onChange={handleChange(field.name)}
-                    placeholder={field.placeholder}
-                    aria-invalid={Boolean(fieldErrors[field.name])}
-                    className={cn(
-                      inputClass,
-                      fieldErrors[field.name] && 'border-ink-primary bg-white'
+                  <div className="relative">
+                    {field.prefix && (
+                      <span className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 select-none text-sm text-ink-muted">
+                        {field.prefix}
+                      </span>
                     )}
-                  />
+                    <input
+                      type="text"
+                      inputMode={field.inputMode}
+                      value={formValues[field.name]}
+                      onChange={handleChange(field.name)}
+                      placeholder={field.placeholder}
+                      aria-invalid={Boolean(fieldErrors[field.name])}
+                      className={cn(
+                        inputClass,
+                        field.prefix && 'pl-9',
+                        field.suffix && 'pr-9',
+                        fieldErrors[field.name] && 'border-ink-primary bg-white'
+                      )}
+                    />
+                    {field.suffix && (
+                      <span className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 select-none text-sm text-ink-muted">
+                        {field.suffix}
+                      </span>
+                    )}
+                  </div>
                 </FormField>
               ))}
             </div>
@@ -358,9 +378,24 @@ export default function RoiCalculator() {
                     Abra este modo só se quiser sair da faixa guiada e usar uma projeção manual.
                   </span>
                 </div>
-                <span className="text-xs font-semibold uppercase tracking-[0.16em] text-ink-muted">
-                  {isAdvancedOpen ? 'Fechar' : 'Abrir'}
-                </span>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className={cn(
+                    'shrink-0 text-ink-muted transition-transform duration-200',
+                    isAdvancedOpen && 'rotate-180'
+                  )}
+                  aria-hidden="true"
+                >
+                  <path d="M6 9l6 6 6-6" />
+                </svg>
               </button>
 
               {isAdvancedOpen && (
@@ -479,7 +514,7 @@ export default function RoiCalculator() {
               </div>
             )}
 
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <div className="grid grid-cols-1 items-stretch gap-4 sm:grid-cols-2">
               <MetricCard
                 label="Base atual de faturamento"
                 value={formatCurrencyBRL(results.currentRevenue)}
@@ -510,7 +545,7 @@ export default function RoiCalculator() {
               previewItems={detailedPreviewItems}
             >
               <div className="flex flex-col gap-4">
-                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <div className="grid grid-cols-1 items-stretch gap-4 sm:grid-cols-2">
                   <MetricCard
                     label="Payback aproximado"
                     value={formatPaybackMonths(results.paybackMonths)}
