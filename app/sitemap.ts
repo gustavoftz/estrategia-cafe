@@ -1,4 +1,5 @@
 import type { MetadataRoute } from 'next'
+import { blogPosts } from '@/lib/blog'
 
 export const dynamic = 'force-static'
 
@@ -54,66 +55,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'weekly',
       priority: 0.8,
     },
-    {
-      url: `${base}/blog/sistema-comercial-digital/`,
+    ...blogPosts.map((post) => ({
+      url: `${base}${post.path}/`,
       lastModified: new Date(),
-      changeFrequency: 'monthly',
+      changeFrequency: 'monthly' as const,
       priority: 0.7,
-    },
-    {
-      url: `${base}/blog/agencia-ou-consultoria-de-marketing/`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.7,
-    },
-    {
-      url: `${base}/blog/cro-para-ecommerce/`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.7,
-    },
-    {
-      url: `${base}/blog/por-que-meu-site-nao-converte/`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.7,
-    },
-    {
-      url: `${base}/blog/como-estruturar-operacao-whatsapp/`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.7,
-    },
-    {
-      url: `${base}/blog/o-que-e-diagnostico-de-marketing-digital/`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.7,
-    },
-    {
-      url: `${base}/blog/site-que-vende-vs-site-que-existe/`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.7,
-    },
-    {
-      url: `${base}/blog/seo-organico-para-empresas-b2b/`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.7,
-    },
-    {
-      url: `${base}/blog/como-qualificar-leads-whatsapp/`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.7,
-    },
-    {
-      url: `${base}/blog/posicionamento-de-marca/`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.7,
-    },
+    })),
     {
       url: `${base}/politica-de-privacidade/`,
       lastModified: new Date(),

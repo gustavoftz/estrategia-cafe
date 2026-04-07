@@ -1,37 +1,36 @@
 import type { Metadata } from 'next'
-import { createMetadata } from '@/lib/metadata'
+import BlogArticleHeader from '@/components/blog/BlogArticleHeader'
+import BlogArticleSchema from '@/components/blog/BlogArticleSchema'
+import RelatedArticles from '@/components/blog/RelatedArticles'
 import SectionWrapper from '@/components/sections/SectionWrapper'
 import CTASection from '@/components/sections/CTASection'
-import Tag from '@/components/ui/Tag'
+import { getBlogPost } from '@/lib/blog'
+import { createArticleMetadata } from '@/lib/metadata'
 
-export const metadata: Metadata = createMetadata({
-  title: 'Como estruturar a operação comercial no WhatsApp',
-  description:
-    'O WhatsApp é onde a maioria das conversas comerciais acontece no Brasil. Mas sem estrutura, acumula atrito e perde oportunidades. Como sair do caos operacional com qualificação e fluxos estruturados.',
-  path: '/blog/como-estruturar-operacao-whatsapp',
+const post = getBlogPost('como-estruturar-operacao-whatsapp')
+
+export const metadata: Metadata = createArticleMetadata({
+  title: post.title,
+  description: post.description,
+  path: post.path,
+  category: post.category,
+  keywords: post.keywords,
 })
 
 export default function ArticlePage() {
   return (
     <>
-      {/* Hero */}
-      <SectionWrapper background="canvas" className="border-b border-border">
-        <div className="flex flex-col gap-6 max-w-[700px]">
-          <div className="flex items-center gap-3">
-            <Tag variant="accent">Operação Comercial</Tag>
-            <span className="text-xs text-ink-muted">Abr 2026</span>
-            <span className="text-xs text-ink-muted">·</span>
-            <span className="text-xs text-ink-muted">7 min de leitura</span>
-          </div>
-          <h1 className="text-display font-serif text-ink-primary leading-tight">
+      <BlogArticleSchema post={post} />
+      <BlogArticleHeader
+        post={post}
+        title={
+          <>
             Como estruturar a operação comercial no WhatsApp{' '}
             <span className="text-ink-secondary">— sem perder oportunidades</span>
-          </h1>
-          <p className="text-lg text-ink-secondary leading-relaxed max-w-[56ch]">
-            O WhatsApp é onde a maioria das conversas comerciais acontece no Brasil. Mas sem estrutura, ele vira uma caixa de entrada sobrecarregada que perde leads por demora, esgota o time com triagem manual e cria inconsistência no atendimento.
-          </p>
-        </div>
-      </SectionWrapper>
+          </>
+        }
+        description="O WhatsApp é onde a maioria das conversas comerciais acontece no Brasil. Mas sem estrutura, ele vira uma caixa de entrada sobrecarregada que perde leads por demora, esgota o time com triagem manual e cria inconsistência no atendimento."
+      />
 
       {/* Body */}
       <SectionWrapper background="canvas" variant="narrow">
@@ -172,6 +171,8 @@ export default function ArticlePage() {
 
         </article>
       </SectionWrapper>
+
+      <RelatedArticles currentSlug={post.slug} />
 
       <CTASection
         eyebrow="Operação comercial por WhatsApp"

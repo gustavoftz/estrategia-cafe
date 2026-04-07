@@ -1,36 +1,38 @@
 import type { Metadata } from 'next'
-import { createMetadata } from '@/lib/metadata'
+import BlogArticleHeader from '@/components/blog/BlogArticleHeader'
+import BlogArticleSchema from '@/components/blog/BlogArticleSchema'
+import RelatedArticles from '@/components/blog/RelatedArticles'
 import SectionWrapper from '@/components/sections/SectionWrapper'
 import CTASection from '@/components/sections/CTASection'
-import Tag from '@/components/ui/Tag'
+import { getBlogPost } from '@/lib/blog'
+import { createArticleMetadata } from '@/lib/metadata'
 
-export const metadata: Metadata = createMetadata({
-  title: 'CRO para e-commerce: como aumentar a conversão sem aumentar o tráfego',
-  description:
-    'A maioria dos e-commerces perde mais em conversão do que ganharia em tráfego. O que é CRO, onde estão os maiores problemas de conversão em lojas online e como priorizar as intervenções.',
-  path: '/blog/cro-para-ecommerce',
+const post = getBlogPost('cro-para-ecommerce')
+
+export const metadata: Metadata = createArticleMetadata({
+  title: post.title,
+  description: post.description,
+  path: post.path,
+  category: post.category,
+  keywords: post.keywords,
 })
 
 export default function ArticlePage() {
   return (
     <>
-      <SectionWrapper background="canvas" className="border-b border-border">
-        <div className="flex flex-col gap-6 max-w-[700px]">
-          <div className="flex items-center gap-3">
-            <Tag variant="accent">Conversão</Tag>
-            <span className="text-xs text-ink-muted">Abr 2026</span>
-            <span className="text-xs text-ink-muted">·</span>
-            <span className="text-xs text-ink-muted">9 min de leitura</span>
-          </div>
-          <h1 className="text-display font-serif text-ink-primary leading-tight">
+      <BlogArticleSchema post={post} />
+      <BlogArticleHeader
+        post={post}
+        title={
+          <>
             CRO para e-commerce:{' '}
-            <span className="text-ink-secondary">como aumentar a conversão sem aumentar o tráfego</span>
-          </h1>
-          <p className="text-lg text-ink-secondary leading-relaxed max-w-[56ch]">
-            A taxa média de conversão de e-commerces brasileiros gira em torno de 1 a 2%. Isso significa que 98 de cada 100 visitantes vão embora sem comprar. Aumentar esse número de 1% para 2% dobra a receita sem gastar um real a mais em aquisição.
-          </p>
-        </div>
-      </SectionWrapper>
+            <span className="text-ink-secondary">
+              como aumentar a conversão sem aumentar o tráfego
+            </span>
+          </>
+        }
+        description="A taxa média de conversão de e-commerces brasileiros gira em torno de 1 a 2%. Isso significa que 98 de cada 100 visitantes vão embora sem comprar. Aumentar esse número de 1% para 2% dobra a receita sem gastar um real a mais em aquisição."
+      />
 
       <SectionWrapper background="canvas" variant="narrow">
         <article className="flex flex-col gap-10 text-base text-ink-secondary leading-relaxed">
@@ -164,6 +166,8 @@ export default function ArticlePage() {
 
         </article>
       </SectionWrapper>
+
+      <RelatedArticles currentSlug={post.slug} />
 
       <CTASection
         eyebrow="Conversão e CRO"

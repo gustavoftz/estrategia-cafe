@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useId, useState } from 'react'
 import Button from '@/components/ui/Button'
 import { trackEvent } from '@/lib/analytics'
 import { cn } from '@/lib/utils'
@@ -68,6 +68,8 @@ function normalizeSiteUrl(value: string) {
 export default function ContactForm() {
   const [state, setState] = useState<FormState>('idle')
   const [error, setError] = useState('')
+  const liveStatusId = useId()
+  const errorId = `${liveStatusId}-error`
   const [data, setData] = useState({
     nome: '',
     empresa: '',
@@ -84,6 +86,8 @@ export default function ContactForm() {
   const set = (field: keyof typeof data) =>
     (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) =>
       setData(prev => ({ ...prev, [field]: e.target.value }))
+
+  const isSubmitting = state === 'submitting'
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -154,7 +158,7 @@ export default function ContactForm() {
 
   if (state === 'success') {
     return (
-      <div className="editorial-panel px-8 py-12">
+      <div className="editorial-panel px-8 py-12" role="status" aria-live="polite">
         <div className="relative flex flex-col gap-4">
           <span className="eyebrow text-accent">Mensagem enviada</span>
           <h3 className="text-h3 font-serif text-ink-primary">
@@ -170,27 +174,43 @@ export default function ContactForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-6" noValidate>
+    <form
+      onSubmit={handleSubmit}
+      className="flex flex-col gap-6"
+      noValidate
+      aria-busy={isSubmitting}
+      aria-describedby={state === 'error' ? errorId : undefined}
+    >
+      <p id={liveStatusId} className="sr-only" aria-live="polite">
+        {isSubmitting ? 'Enviando sua mensagem.' : state === 'error' ? error : ''}
+      </p>
+
       {/* Row: Nome + Empresa */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
         <Field label="Nome" required>
           <input
             type="text"
+            name="nome"
             required
             value={data.nome}
             onChange={set('nome')}
             placeholder="Seu nome"
             className={inputClass}
+            autoComplete="name"
+            disabled={isSubmitting}
           />
         </Field>
         <Field label="Empresa" required>
           <input
             type="text"
+            name="empresa"
             required
             value={data.empresa}
             onChange={set('empresa')}
             placeholder="Nome da empresa"
             className={inputClass}
+            autoComplete="organization"
+            disabled={isSubmitting}
           />
         </Field>
       </div>
@@ -199,18 +219,23 @@ export default function ContactForm() {
         <Field label="E-mail ou WhatsApp para retorno" required>
           <input
             type="text"
+            name="retorno"
             required
             value={data.retorno}
             onChange={set('retorno')}
             placeholder="seu@email.com ou +55 11 99999-9999"
             className={inputClass}
+            autoComplete="email"
+            disabled={isSubmitting}
           />
         </Field>
         <Field label="Forma preferida de contato">
           <select
+            name="contato"
             value={data.contato}
             onChange={set('contato')}
             className={cn(inputClass, 'cursor-pointer')}
+            disabled={isSubmitting}
           >
             {contatoOptions.map(o => (
               <option key={o.value} value={o.value} disabled={o.value === ''}>
@@ -225,21 +250,29 @@ export default function ContactForm() {
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
         <Field label="Site" hint="URL do site atual, se houver">
           <input
-            type="text"
+            type="url"
+            name="site"
             value={data.site}
             onChange={set('site')}
             placeholder="seusite.com.br ou https://seusite.com.br"
             className={inputClass}
+            autoComplete="url"
+            autoCapitalize="off"
+            inputMode="url"
+            spellCheck={false}
+            disabled={isSubmitting}
           />
         </Field>
         <Field label="Segmento" required>
           <input
             type="text"
+            name="segmento"
             required
             value={data.segmento}
             onChange={set('segmento')}
             placeholder="Ex: e-commerce, serviços B2B, SaaS..."
             className={inputClass}
+            disabled={isSubmitting}
           />
         </Field>
       </div>
@@ -251,11 +284,13 @@ export default function ContactForm() {
         required
       >
         <textarea
+          name="desafio"
           required
           value={data.desafio}
           onChange={set('desafio')}
           placeholder="Qual é o problema central que você quer resolver?"
           className={textareaClass}
+          disabled={isSubmitting}
         />
       </Field>
 
@@ -265,10 +300,12 @@ export default function ContactForm() {
         hint="Soluções anteriores, agências, ferramentas, abordagens — e o resultado."
       >
         <textarea
+          name="tentativas"
           value={data.tentativas}
           onChange={set('tentativas')}
           placeholder="O que você já tentou? O que funcionou, o que não funcionou?"
           className={textareaClass}
+          disabled={isSubmitting}
         />
       </Field>
 
@@ -276,10 +313,12 @@ export default function ContactForm() {
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
         <Field label="Frente mais urgente" required>
           <select
+            name="frente"
             required
             value={data.frente}
             onChange={set('frente')}
             className={cn(inputClass, 'cursor-pointer')}
+            disabled={isSubmitting}
           >
             {frenteOptions.map(o => (
               <option key={o.value} value={o.value} disabled={o.value === ''}>
@@ -294,11 +333,13 @@ export default function ContactForm() {
         <Field label="Website">
           <input
             type="text"
+            name="website"
             tabIndex={-1}
             autoComplete="off"
             value={data.website}
             onChange={set('website')}
             className={inputClass}
+            disabled={isSubmitting}
           />
         </Field>
       </div>
@@ -315,7 +356,7 @@ export default function ContactForm() {
         </div>
 
         {state === 'error' && (
-          <p className="mb-4 text-sm text-accent" role="alert">
+          <p id={errorId} className="mb-4 text-sm text-accent" role="alert">
             {error}
           </p>
         )}
@@ -324,10 +365,10 @@ export default function ContactForm() {
           type="submit"
           variant="primary"
           size="lg"
-          disabled={state === 'submitting'}
+          disabled={isSubmitting}
           className="w-full sm:w-auto"
         >
-          {state === 'submitting' ? 'Enviando...' : 'Enviar mensagem'}
+          {isSubmitting ? 'Enviando...' : 'Enviar mensagem'}
         </Button>
       </div>
     </form>

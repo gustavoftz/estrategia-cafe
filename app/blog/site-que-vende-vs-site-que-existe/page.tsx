@@ -1,14 +1,20 @@
 import type { Metadata } from 'next'
-import { createMetadata } from '@/lib/metadata'
+import BlogArticleHeader from '@/components/blog/BlogArticleHeader'
+import BlogArticleSchema from '@/components/blog/BlogArticleSchema'
+import RelatedArticles from '@/components/blog/RelatedArticles'
 import SectionWrapper from '@/components/sections/SectionWrapper'
 import CTASection from '@/components/sections/CTASection'
-import Tag from '@/components/ui/Tag'
+import { getBlogPost } from '@/lib/blog'
+import { createArticleMetadata } from '@/lib/metadata'
 
-export const metadata: Metadata = createMetadata({
-  title: 'Site que vende vs site que existe: 12 diferenças práticas',
-  description:
-    'A maioria dos sites existe. Poucos vendem. A diferença não está no design — está em clareza, estrutura e persuasão. 12 critérios para avaliar em qual dos dois lados o seu site está.',
-  path: '/blog/site-que-vende-vs-site-que-existe',
+const post = getBlogPost('site-que-vende-vs-site-que-existe')
+
+export const metadata: Metadata = createArticleMetadata({
+  title: post.title,
+  description: post.description,
+  path: post.path,
+  category: post.category,
+  keywords: post.keywords,
 })
 
 const criteria: { label: string; exists: string; sells: string }[] = [
@@ -77,23 +83,17 @@ const criteria: { label: string; exists: string; sells: string }[] = [
 export default function ArticlePage() {
   return (
     <>
-      <SectionWrapper background="canvas" className="border-b border-border">
-        <div className="flex flex-col gap-6 max-w-[700px]">
-          <div className="flex items-center gap-3">
-            <Tag variant="accent">Conversão</Tag>
-            <span className="text-xs text-ink-muted">Abr 2026</span>
-            <span className="text-xs text-ink-muted">·</span>
-            <span className="text-xs text-ink-muted">6 min de leitura</span>
-          </div>
-          <h1 className="text-display font-serif text-ink-primary leading-tight">
+      <BlogArticleSchema post={post} />
+      <BlogArticleHeader
+        post={post}
+        title={
+          <>
             Site que vende vs site que existe:{' '}
             <span className="text-ink-secondary">12 diferenças práticas</span>
-          </h1>
-          <p className="text-lg text-ink-secondary leading-relaxed max-w-[56ch]">
-            A maioria dos sites existe. Está no ar, tem as páginas certas, funciona no mobile, carrega razoavelmente. Mas não vende — ou vende muito menos do que deveria dado o tráfego que recebe. A diferença não está no design.
-          </p>
-        </div>
-      </SectionWrapper>
+          </>
+        }
+        description="A maioria dos sites existe. Está no ar, tem as páginas certas, funciona no mobile, carrega razoavelmente. Mas não vende — ou vende muito menos do que deveria dado o tráfego que recebe. A diferença não está no design."
+      />
 
       <SectionWrapper background="canvas" variant="narrow">
         <article className="flex flex-col gap-10 text-base text-ink-secondary leading-relaxed">
@@ -143,6 +143,8 @@ export default function ArticlePage() {
 
         </article>
       </SectionWrapper>
+
+      <RelatedArticles currentSlug={post.slug} />
 
       <CTASection
         eyebrow="Site como ativo comercial"

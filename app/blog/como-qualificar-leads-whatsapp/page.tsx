@@ -1,36 +1,36 @@
 import type { Metadata } from 'next'
-import { createMetadata } from '@/lib/metadata'
+import BlogArticleHeader from '@/components/blog/BlogArticleHeader'
+import BlogArticleSchema from '@/components/blog/BlogArticleSchema'
+import RelatedArticles from '@/components/blog/RelatedArticles'
 import SectionWrapper from '@/components/sections/SectionWrapper'
 import CTASection from '@/components/sections/CTASection'
-import Tag from '@/components/ui/Tag'
+import { getBlogPost } from '@/lib/blog'
+import { createArticleMetadata } from '@/lib/metadata'
 
-export const metadata: Metadata = createMetadata({
-  title: 'Como qualificar leads no WhatsApp antes do contato humano',
-  description:
-    'Qualificação de leads no WhatsApp não é sobre filtrar pessoas — é sobre ter contexto antes da primeira conversa. Como estruturar o fluxo para que o atendente entre preparado e o lead certo chegue mais rápido.',
-  path: '/blog/como-qualificar-leads-whatsapp',
+const post = getBlogPost('como-qualificar-leads-whatsapp')
+
+export const metadata: Metadata = createArticleMetadata({
+  title: post.title,
+  description: post.description,
+  path: post.path,
+  category: post.category,
+  keywords: post.keywords,
 })
 
 export default function ArticlePage() {
   return (
     <>
-      <SectionWrapper background="canvas" className="border-b border-border">
-        <div className="flex flex-col gap-6 max-w-[700px]">
-          <div className="flex items-center gap-3">
-            <Tag variant="accent">Operação Comercial</Tag>
-            <span className="text-xs text-ink-muted">Abr 2026</span>
-            <span className="text-xs text-ink-muted">·</span>
-            <span className="text-xs text-ink-muted">7 min de leitura</span>
-          </div>
-          <h1 className="text-display font-serif text-ink-primary leading-tight">
+      <BlogArticleSchema post={post} />
+      <BlogArticleHeader
+        post={post}
+        title={
+          <>
             Como qualificar leads no WhatsApp{' '}
             <span className="text-ink-secondary">antes do contato humano</span>
-          </h1>
-          <p className="text-lg text-ink-secondary leading-relaxed max-w-[56ch]">
-            Qualificação não é sobre filtrar pessoas ou criar barreiras de entrada. É sobre ter contexto antes da primeira conversa — para que o atendente entre preparado e o lead não precise repetir as mesmas informações três vezes.
-          </p>
-        </div>
-      </SectionWrapper>
+          </>
+        }
+        description="Qualificação não é sobre filtrar pessoas ou criar barreiras de entrada. É sobre ter contexto antes da primeira conversa — para que o atendente entre preparado e o lead não precise repetir as mesmas informações três vezes."
+      />
 
       <SectionWrapper background="canvas" variant="narrow">
         <article className="flex flex-col gap-10 text-base text-ink-secondary leading-relaxed">
@@ -164,6 +164,8 @@ export default function ArticlePage() {
 
         </article>
       </SectionWrapper>
+
+      <RelatedArticles currentSlug={post.slug} />
 
       <CTASection
         eyebrow="Operação comercial por WhatsApp"

@@ -8,6 +8,7 @@
     -moz-osx-font-smoothing: grayscale;
     scroll-behavior: smooth;
     scroll-padding-top: 5.5rem;
+    scrollbar-gutter: stable;
   }
 
   body {
@@ -41,6 +42,10 @@
 
   a {
     @apply transition-colors duration-150;
+  }
+
+  button {
+    touch-action: manipulation;
   }
 }
 

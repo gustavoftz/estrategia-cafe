@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { featuredReadingSlugs, getBlogPost } from '@/lib/blog'
 import TrackedButton from '@/components/analytics/TrackedButton'
 
 const navLinks = [
@@ -13,12 +14,13 @@ const navLinks = [
 
 export default function Footer() {
   const year = new Date().getFullYear()
+  const featuredReading = featuredReadingSlugs.map((slug) => getBlogPost(slug))
 
   return (
     <footer className="bg-ink-primary text-ink-inverse" aria-label="Rodapé">
       {/* Main footer content */}
       <div className="container-content max-w-content py-16 md:py-20">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 lg:gap-16">
+        <div className="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-4 lg:gap-12">
           {/* Column 1: Brand + summary */}
           <div className="flex flex-col gap-5 lg:col-span-1">
             <Link
@@ -53,7 +55,27 @@ export default function Footer() {
             </nav>
           </div>
 
-          {/* Column 3: Contact + CTA */}
+          <div className="flex flex-col gap-4">
+            <span className="text-xs font-semibold uppercase tracking-widest text-ink-inverse/40">
+              Leituras
+            </span>
+            <nav aria-label="Leituras recomendadas">
+              <ul className="flex flex-col gap-3">
+                {featuredReading.map((post) => (
+                  <li key={post.slug}>
+                    <Link
+                      href={`${post.path}/`}
+                      className="text-sm leading-relaxed text-ink-inverse/65 transition-colors duration-150 hover:text-ink-inverse"
+                    >
+                      {post.title}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          </div>
+
+          {/* Column 4: Contact + CTA */}
           <div className="flex flex-col gap-6">
             <div className="flex flex-col gap-4">
               <span className="text-xs font-semibold uppercase tracking-widest text-ink-inverse/40">

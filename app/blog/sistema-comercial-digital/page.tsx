@@ -1,36 +1,36 @@
 import type { Metadata } from 'next'
-import { createMetadata } from '@/lib/metadata'
+import BlogArticleHeader from '@/components/blog/BlogArticleHeader'
+import BlogArticleSchema from '@/components/blog/BlogArticleSchema'
+import RelatedArticles from '@/components/blog/RelatedArticles'
 import SectionWrapper from '@/components/sections/SectionWrapper'
 import CTASection from '@/components/sections/CTASection'
-import Tag from '@/components/ui/Tag'
+import { getBlogPost } from '@/lib/blog'
+import { createArticleMetadata } from '@/lib/metadata'
 
-export const metadata: Metadata = createMetadata({
-  title: 'Sistema comercial digital: o que é e por que pensar em sistema',
-  description:
-    'Tráfego, site, conversão, WhatsApp — a maioria das empresas trata cada um como canal separado. O problema é que eles não funcionam separados. O que é um sistema comercial digital e por que isso muda tudo.',
-  path: '/blog/sistema-comercial-digital',
+const post = getBlogPost('sistema-comercial-digital')
+
+export const metadata: Metadata = createArticleMetadata({
+  title: post.title,
+  description: post.description,
+  path: post.path,
+  category: post.category,
+  keywords: post.keywords,
 })
 
 export default function ArticlePage() {
   return (
     <>
-      <SectionWrapper background="canvas" className="border-b border-border">
-        <div className="flex flex-col gap-6 max-w-[700px]">
-          <div className="flex items-center gap-3">
-            <Tag variant="accent">Estratégia</Tag>
-            <span className="text-xs text-ink-muted">Abr 2026</span>
-            <span className="text-xs text-ink-muted">·</span>
-            <span className="text-xs text-ink-muted">8 min de leitura</span>
-          </div>
-          <h1 className="text-display font-serif text-ink-primary leading-tight">
+      <BlogArticleSchema post={post} />
+      <BlogArticleHeader
+        post={post}
+        title={
+          <>
             Sistema comercial digital:{' '}
             <span className="text-ink-secondary">o que é e por que pensar em sistema</span>
-          </h1>
-          <p className="text-lg text-ink-secondary leading-relaxed max-w-[56ch]">
-            Tráfego, site, conversão, atendimento — a maioria das empresas trata cada um como canal separado, com fornecedor separado e métrica separada. O problema é que eles não funcionam separados.
-          </p>
-        </div>
-      </SectionWrapper>
+          </>
+        }
+        description="Tráfego, site, conversão, atendimento — a maioria das empresas trata cada um como canal separado, com fornecedor separado e métrica separada. O problema é que eles não funcionam separados."
+      />
 
       <SectionWrapper background="canvas" variant="narrow">
         <article className="flex flex-col gap-10 text-base text-ink-secondary leading-relaxed">
@@ -158,6 +158,8 @@ export default function ArticlePage() {
 
         </article>
       </SectionWrapper>
+
+      <RelatedArticles currentSlug={post.slug} />
 
       <CTASection
         eyebrow="Diagnóstico sistêmico"

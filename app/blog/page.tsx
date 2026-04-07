@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import { blogCategoryDescriptions, blogCategoryOrder, blogPosts, featuredReadingSlugs, getBlogPost, getBlogPostsByCategory } from '@/lib/blog'
 import { createMetadata } from '@/lib/metadata'
 import SectionWrapper from '@/components/sections/SectionWrapper'
 import SectionHeader from '@/components/sections/SectionHeader'
@@ -11,104 +12,51 @@ export const metadata: Metadata = createMetadata({
   description:
     'Artigos sobre estratégia digital, conversão, SEO e operação comercial por WhatsApp. Diagnóstico antes de execução — para empresas que querem resultado, não apenas atividade.',
   path: '/blog',
+  keywords: [
+    'estratégia digital',
+    'seo',
+    'cro',
+    'operação comercial',
+    'whatsapp',
+    'diagnóstico estratégico',
+  ],
 })
 
-const posts = [
-  {
-    slug: 'site-que-vende-vs-site-que-existe',
-    title: 'Site que vende vs site que existe: 12 diferenças práticas',
-    excerpt:
-      'A maioria dos sites existe. Poucos vendem. A diferença não está no design — está em clareza, estrutura e persuasão. 12 critérios para avaliar em qual dos dois lados o seu site está.',
-    category: 'Conversão',
-    date: 'Abr 2026',
-    readTime: '6 min',
-  },
-  {
-    slug: 'seo-organico-para-empresas-b2b',
-    title: 'SEO orgânico para empresas B2B: o que muda em relação ao B2C',
-    excerpt:
-      'SEO para B2B não é SEO para B2C com outro produto. O ciclo de venda é mais longo, a decisão envolve mais pessoas e o conteúdo precisa trabalhar de forma diferente.',
-    category: 'SEO',
-    date: 'Abr 2026',
-    readTime: '8 min',
-  },
-  {
-    slug: 'como-qualificar-leads-whatsapp',
-    title: 'Como qualificar leads no WhatsApp antes do contato humano',
-    excerpt:
-      'Qualificação não é sobre filtrar pessoas. É sobre ter contexto antes da primeira conversa — para que o atendente entre preparado e o lead não precise repetir as mesmas informações três vezes.',
-    category: 'Operação Comercial',
-    date: 'Abr 2026',
-    readTime: '7 min',
-  },
-  {
-    slug: 'posicionamento-de-marca',
-    title: 'Posicionamento de marca: o que é e por que determina o resultado de tudo',
-    excerpt:
-      'Posicionamento não é slogan nem identidade visual. É a clareza sobre quem você atende, qual problema resolve e por que alguém deveria escolher você. Sem isso, site, mídia e comercial operam no escuro.',
-    category: 'Estratégia',
-    date: 'Abr 2026',
-    readTime: '8 min',
-  },
-  {
-    slug: 'sistema-comercial-digital',
-    title: 'Sistema comercial digital: o que é e por que pensar em sistema',
-    excerpt:
-      'Tráfego, site, conversão, WhatsApp — a maioria das empresas trata cada um como canal separado. O problema é que eles não funcionam separados. O que muda quando você pensa em sistema.',
-    category: 'Estratégia',
-    date: 'Abr 2026',
-    readTime: '8 min',
-  },
-  {
-    slug: 'agencia-ou-consultoria-de-marketing',
-    title: 'Agência ou consultoria de marketing: qual a diferença e quando contratar cada uma',
-    excerpt:
-      'Agência executa. Consultoria diagnostica, prioriza e estrutura antes de executar. A diferença parece simples, mas tem impacto direto no resultado. Quando cada modelo faz sentido.',
-    category: 'Estratégia',
-    date: 'Abr 2026',
-    readTime: '7 min',
-  },
-  {
-    slug: 'cro-para-ecommerce',
-    title: 'CRO para e-commerce: como aumentar a conversão sem aumentar o tráfego',
-    excerpt:
-      'A taxa média de conversão de e-commerces brasileiros é de 1 a 2%. Passar de 1% para 2% dobra a receita sem investir mais em aquisição. O que é CRO e onde estão os maiores pontos de melhoria.',
-    category: 'Conversão',
-    date: 'Abr 2026',
-    readTime: '9 min',
-  },
-  {
-    slug: 'por-que-meu-site-nao-converte',
-    title: 'Por que meu site não converte — e não é problema de tráfego',
-    excerpt:
-      'A causa mais comum de conversão baixa não é falta de tráfego. É falta de clareza, estrutura e persuasão. Os cinco problemas mais frequentes e como identificá-los antes de investir em mais mídia.',
-    category: 'Conversão',
-    date: 'Abr 2026',
-    readTime: '8 min',
-  },
-  {
-    slug: 'como-estruturar-operacao-whatsapp',
-    title: 'Como estruturar a operação comercial no WhatsApp — sem perder oportunidades',
-    excerpt:
-      'O WhatsApp é onde a maioria das conversas comerciais acontece no Brasil. Mas sem estrutura, acumula atrito, perde oportunidades e sobrecarrega o time. Como sair do caos operacional.',
-    category: 'Operação Comercial',
-    date: 'Abr 2026',
-    readTime: '7 min',
-  },
-  {
-    slug: 'o-que-e-diagnostico-de-marketing-digital',
-    title: 'O que é diagnóstico de marketing digital — e quando sua empresa precisa de um',
-    excerpt:
-      'Diagnóstico não é auditoria e não é proposta comercial. É a fase que determina se o que vem depois vai funcionar. O que inclui, quando faz sentido e o que esperar do processo.',
-    category: 'Estratégia',
-    date: 'Abr 2026',
-    readTime: '6 min',
-  },
-]
+const featuredReading = featuredReadingSlugs.map((slug) => getBlogPost(slug))
+
+const categoryAnchors = Object.fromEntries(
+  blogCategoryOrder.map((category) => [
+    category,
+    category
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/\s+/g, '-')
+      .toLowerCase(),
+  ])
+) as Record<(typeof blogCategoryOrder)[number], string>
+
+const blogCollectionSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  name: 'Blog estrategia.cafe',
+  description:
+    'Artigos sobre estratégia digital, SEO, conversão e operação comercial por WhatsApp.',
+  hasPart: blogPosts.map((post) => ({
+    '@type': 'BlogPosting',
+    headline: post.title,
+    url: `https://estrategia.cafe${post.path}`,
+    articleSection: post.category,
+  })),
+}
 
 export default function BlogPage() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(blogCollectionSchema) }}
+      />
+
       <SectionWrapper background="canvas" className="border-b border-border">
         <div className="flex flex-col gap-8 max-w-[680px]">
           <span className="eyebrow">Blog</span>
@@ -119,24 +67,37 @@ export default function BlogPage() {
           <p className="text-lg text-ink-secondary leading-relaxed max-w-[54ch]">
             Artigos sobre posicionamento, conversão, SEO, operação por WhatsApp e tudo que compõe um sistema comercial digital que funciona de verdade.
           </p>
+          <div className="flex flex-wrap gap-3">
+            {blogCategoryOrder.map((category) => (
+              <Link
+                key={category}
+                href={`#${categoryAnchors[category]}`}
+                className="rounded-full border border-border px-4 py-2 text-xs font-semibold uppercase tracking-[0.16em] text-ink-secondary hover:border-border-strong hover:text-ink-primary"
+              >
+                {category}
+              </Link>
+            ))}
+          </div>
         </div>
       </SectionWrapper>
 
-      <SectionWrapper background="canvas">
+      <SectionWrapper background="surface">
         <div className="flex flex-col gap-12">
           <SectionHeader
-            eyebrow="Artigos"
-            title="Leitura que informa decisão"
+            eyebrow="Comece por aqui"
+            title="Três leituras para entrar no raciocínio do site"
+            subtitle="Se esta é sua primeira visita ao blog, estes artigos dão o contexto mais rápido sobre diagnóstico, conversão e aquisição."
           />
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {posts.map((post) => (
+          <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
+            {featuredReading.map((post) => (
               <Link
                 key={post.slug}
                 href={`/blog/${post.slug}/`}
-                className="group flex flex-col gap-5 p-7 border border-border hover:border-border-strong transition-colors duration-150"
+                className="group flex flex-col gap-5 rounded-[1.5rem] border border-border bg-canvas/90 p-7 transition-colors duration-150 hover:border-border-strong"
               >
                 <div className="flex items-center gap-3">
                   <Tag variant="accent">{post.category}</Tag>
+                  <span className="text-xs text-ink-muted">{post.readTime} de leitura</span>
                 </div>
                 <h2 className="text-h3 font-serif text-ink-primary leading-snug group-hover:text-accent transition-colors duration-150">
                   {post.title}
@@ -144,14 +105,67 @@ export default function BlogPage() {
                 <p className="text-sm text-ink-secondary leading-relaxed flex-1">
                   {post.excerpt}
                 </p>
-                <div className="flex items-center gap-2 pt-1">
-                  <span className="text-xs text-ink-muted">{post.date}</span>
-                  <span className="text-xs text-ink-muted">·</span>
-                  <span className="text-xs text-ink-muted">{post.readTime} de leitura</span>
-                </div>
+                <span className="text-xs font-semibold uppercase tracking-[0.16em] text-ink-muted">
+                  Ler artigo
+                </span>
               </Link>
             ))}
           </div>
+        </div>
+      </SectionWrapper>
+
+      <SectionWrapper background="canvas">
+        <div className="flex flex-col gap-16">
+          <SectionHeader
+            eyebrow="Arquitetura editorial"
+            title="Conteúdo organizado por frente estratégica"
+            subtitle="Cada trilha abaixo aprofunda uma parte do sistema comercial, mas as páginas foram conectadas para facilitar a navegação entre sintomas, causas e próximos passos."
+          />
+
+          {blogCategoryOrder.map((category) => {
+            const posts = getBlogPostsByCategory(category)
+
+            return (
+              <section
+                key={category}
+                id={categoryAnchors[category]}
+                className="grid grid-cols-1 gap-8 border-t border-border pt-10 lg:grid-cols-[17rem_minmax(0,1fr)] lg:gap-12"
+              >
+                <div className="flex flex-col gap-3">
+                  <h2 className="text-h2 font-serif text-ink-primary">{category}</h2>
+                  <p className="text-sm leading-relaxed text-ink-secondary">
+                    {blogCategoryDescriptions[category]}
+                  </p>
+                </div>
+
+                <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+                  {posts.map((post) => (
+                    <Link
+                      key={post.slug}
+                      href={`${post.path}/`}
+                      className="group flex h-full flex-col gap-4 rounded-[1.5rem] border border-border p-6 transition-colors duration-150 hover:border-border-strong"
+                    >
+                      <div className="flex flex-wrap items-center gap-3">
+                        <Tag variant="accent">{post.category}</Tag>
+                        <span className="text-xs text-ink-muted">{post.dateLabel}</span>
+                        <span className="text-xs text-ink-muted">·</span>
+                        <span className="text-xs text-ink-muted">{post.readTime} de leitura</span>
+                      </div>
+                      <h3 className="text-h3 font-serif leading-snug text-ink-primary transition-colors duration-150 group-hover:text-accent">
+                        {post.title}
+                      </h3>
+                      <p className="flex-1 text-sm leading-relaxed text-ink-secondary">
+                        {post.excerpt}
+                      </p>
+                      <span className="text-xs font-semibold uppercase tracking-[0.16em] text-ink-muted">
+                        Abrir leitura
+                      </span>
+                    </Link>
+                  ))}
+                </div>
+              </section>
+            )
+          })}
         </div>
       </SectionWrapper>
 

@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { useEffect, useId, useRef, useState } from 'react'
 import TrackedButton from '@/components/analytics/TrackedButton'
 import TrackedLink from '@/components/analytics/TrackedLink'
 import { cn } from '@/lib/utils'
@@ -19,12 +19,38 @@ export default function Header() {
   const pathname = usePathname()
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
+  const mobileMenuId = useId()
+  const menuButtonRef = useRef<HTMLButtonElement | null>(null)
+  const firstMobileLinkRef = useRef<HTMLAnchorElement | null>(null)
+  const shouldRestoreFocusRef = useRef(false)
 
   // Subtle background on scroll
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24)
+    let frame = 0
+
+    const updateScrolled = () => {
+      frame = 0
+      const next = window.scrollY > 24
+      setScrolled((prev) => (prev === next ? prev : next))
+    }
+
+    const onScroll = () => {
+      if (frame !== 0) {
+        return
+      }
+
+      frame = window.requestAnimationFrame(updateScrolled)
+    }
+
+    updateScrolled()
     window.addEventListener('scroll', onScroll, { passive: true })
-    return () => window.removeEventListener('scroll', onScroll)
+
+    return () => {
+      window.removeEventListener('scroll', onScroll)
+      if (frame !== 0) {
+        window.cancelAnimationFrame(frame)
+      }
+    }
   }, [])
 
   // Close menu on route change
@@ -32,11 +58,56 @@ export default function Header() {
     setMenuOpen(false)
   }, [pathname])
 
+  // Close menu when switching back to desktop width
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(min-width: 1280px)')
+    const handleChange = (event: MediaQueryListEvent) => {
+      if (event.matches) {
+        setMenuOpen(false)
+      }
+    }
+
+    mediaQuery.addEventListener('change', handleChange)
+    return () => mediaQuery.removeEventListener('change', handleChange)
+  }, [])
+
   // Lock body scroll when menu is open
   useEffect(() => {
     document.body.style.overflow = menuOpen ? 'hidden' : ''
+    document.documentElement.style.overflow = menuOpen ? 'hidden' : ''
     return () => {
       document.body.style.overflow = ''
+      document.documentElement.style.overflow = ''
+    }
+  }, [menuOpen])
+
+  // Close menu with Escape on mobile
+  useEffect(() => {
+    if (!menuOpen) {
+      return
+    }
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setMenuOpen(false)
+      }
+    }
+
+    window.addEventListener('keydown', onKeyDown)
+    return () => window.removeEventListener('keydown', onKeyDown)
+  }, [menuOpen])
+
+  // Focus the first menu item when opening and restore trigger focus when closing
+  useEffect(() => {
+    if (menuOpen) {
+      shouldRestoreFocusRef.current = true
+      firstMobileLinkRef.current?.focus()
+      return
+    }
+
+    if (shouldRestoreFocusRef.current) {
+      menuButtonRef.current?.focus()
+      shouldRestoreFocusRef.current = false
     }
   }, [menuOpen])
 
@@ -76,6 +147,7 @@ export default function Header() {
                 <Link
                   key={href}
                   href={href}
+                  aria-current={isActive(href) ? 'page' : undefined}
                   className={cn(
                     'whitespace-nowrap rounded-full px-3 py-2 text-[13px] font-medium transition-all duration-200',
                     isActive(href)
@@ -109,11 +181,13 @@ export default function Header() {
             </div>
 
             <button
+              ref={menuButtonRef}
               onClick={() => setMenuOpen(prev => !prev)}
               className={cn(
                 'flex h-10 w-10 flex-col items-center justify-center gap-[5px] rounded-full transition-colors xl:hidden',
                 menuOpen ? 'bg-surface' : 'bg-transparent'
               )}
+              aria-controls={mobileMenuId}
               aria-expanded={menuOpen}
               aria-label={menuOpen ? 'Fechar menu' : 'Abrir menu'}
             >
@@ -141,16 +215,24 @@ export default function Header() {
       </header>
 
       <div
+        id={mobileMenuId}
+        role="dialog"
+        aria-modal="true"
+        aria-label="Menu principal"
         className={cn(
           'fixed inset-0 z-40 bg-canvas/88 backdrop-blur-md transition-all duration-300 xl:hidden',
           menuOpen
             ? 'visible opacity-100 pointer-events-auto'
             : 'invisible opacity-0 pointer-events-none'
         )}
+        onClick={() => setMenuOpen(false)}
         aria-hidden={!menuOpen}
       >
         <div className="container-content pt-[84px]">
-          <div className="editorial-panel surface-grid px-6 py-6">
+          <div
+            className="editorial-panel surface-grid px-6 py-6"
+            onClick={(event) => event.stopPropagation()}
+          >
             <div className="relative flex flex-col gap-2">
               <span className="text-[10px] font-semibold uppercase tracking-[0.24em] text-ink-muted">
                 Diagnóstico primeiro
@@ -165,7 +247,9 @@ export default function Header() {
                 <Link
                   key={href}
                   href={href}
+                  ref={href === navLinks[0]?.href ? firstMobileLinkRef : undefined}
                   onClick={() => setMenuOpen(false)}
+                  aria-current={isActive(href) ? 'page' : undefined}
                   className={cn(
                     'border-b border-border py-4 text-2xl font-serif transition-colors duration-150 last:border-b-0',
                     isActive(href)

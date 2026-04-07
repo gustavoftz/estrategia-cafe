@@ -1,37 +1,36 @@
 import type { Metadata } from 'next'
-import { createMetadata } from '@/lib/metadata'
+import BlogArticleHeader from '@/components/blog/BlogArticleHeader'
+import BlogArticleSchema from '@/components/blog/BlogArticleSchema'
+import RelatedArticles from '@/components/blog/RelatedArticles'
 import SectionWrapper from '@/components/sections/SectionWrapper'
 import CTASection from '@/components/sections/CTASection'
-import Tag from '@/components/ui/Tag'
+import { getBlogPost } from '@/lib/blog'
+import { createArticleMetadata } from '@/lib/metadata'
 
-export const metadata: Metadata = createMetadata({
-  title: 'O que é diagnóstico de marketing digital — e quando fazer',
-  description:
-    'Diagnóstico não é auditoria e não é proposta comercial disfarçada. É a fase que determina se o que vem depois vai funcionar. O que inclui, quando faz sentido e o que esperar do processo.',
-  path: '/blog/o-que-e-diagnostico-de-marketing-digital',
+const post = getBlogPost('o-que-e-diagnostico-de-marketing-digital')
+
+export const metadata: Metadata = createArticleMetadata({
+  title: post.title,
+  description: post.description,
+  path: post.path,
+  category: post.category,
+  keywords: post.keywords,
 })
 
 export default function ArticlePage() {
   return (
     <>
-      {/* Hero */}
-      <SectionWrapper background="canvas" className="border-b border-border">
-        <div className="flex flex-col gap-6 max-w-[700px]">
-          <div className="flex items-center gap-3">
-            <Tag variant="accent">Estratégia</Tag>
-            <span className="text-xs text-ink-muted">Abr 2026</span>
-            <span className="text-xs text-ink-muted">·</span>
-            <span className="text-xs text-ink-muted">6 min de leitura</span>
-          </div>
-          <h1 className="text-display font-serif text-ink-primary leading-tight">
+      <BlogArticleSchema post={post} />
+      <BlogArticleHeader
+        post={post}
+        title={
+          <>
             O que é diagnóstico de marketing digital{' '}
             <span className="text-ink-secondary">— e quando sua empresa precisa de um</span>
-          </h1>
-          <p className="text-lg text-ink-secondary leading-relaxed max-w-[56ch]">
-            Diagnóstico não é auditoria de métricas e não é reunião de apresentação de serviços. É o processo de entender o que está falhando no sistema comercial antes de decidir o que fazer — e é a fase que mais impacta a qualidade de tudo que vem depois.
-          </p>
-        </div>
-      </SectionWrapper>
+          </>
+        }
+        description="Diagnóstico não é auditoria de métricas e não é reunião de apresentação de serviços. É o processo de entender o que está falhando no sistema comercial antes de decidir o que fazer — e é a fase que mais impacta a qualidade de tudo que vem depois."
+      />
 
       {/* Body */}
       <SectionWrapper background="canvas" variant="narrow">
@@ -174,6 +173,8 @@ export default function ArticlePage() {
 
         </article>
       </SectionWrapper>
+
+      <RelatedArticles currentSlug={post.slug} />
 
       <CTASection
         eyebrow="O diagnóstico como ponto de partida"
