@@ -7,10 +7,15 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     scroll-behavior: smooth;
+    scroll-padding-top: 5.5rem;
   }
 
   body {
     @apply bg-canvas text-ink-primary font-sans;
+    background-image:
+      radial-gradient(circle at top right, rgba(28, 92, 58, 0.08), transparent 28%),
+      radial-gradient(circle at top left, rgba(25, 24, 26, 0.04), transparent 24%);
+    overflow-x: clip;
   }
 
   /* Selection */
@@ -27,6 +32,7 @@
   /* Heading defaults — pages override via component classes */
   h1, h2, h3, h4, h5, h6 {
     @apply font-serif text-ink-primary;
+    text-wrap: balance;
   }
 
   p {
@@ -66,6 +72,26 @@
   .reveal-on-scroll.is-visible {
     opacity: 1;
     transform: translateY(0);
+  }
+
+  .editorial-panel {
+    @apply relative overflow-hidden rounded-[1.75rem] border border-border bg-canvas/90 shadow-[0_24px_80px_rgba(25,24,26,0.06)];
+  }
+
+  .editorial-panel::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.52), transparent 32%);
+    pointer-events: none;
+  }
+
+  .surface-grid {
+    background-image:
+      linear-gradient(to right, rgba(224, 222, 216, 0.55) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(224, 222, 216, 0.55) 1px, transparent 1px);
+    background-position: center;
+    background-size: 24px 24px;
   }
 }
 

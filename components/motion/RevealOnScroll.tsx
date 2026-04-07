@@ -21,7 +21,15 @@ export default function RevealOnScroll({
     const node = ref.current
     if (!node) return
 
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    if (
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches ||
+      typeof IntersectionObserver === 'undefined'
+    ) {
+      setIsVisible(true)
+      return
+    }
+
+    if (node.getBoundingClientRect().top <= window.innerHeight * 0.92) {
       setIsVisible(true)
       return
     }

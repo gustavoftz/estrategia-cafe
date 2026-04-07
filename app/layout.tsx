@@ -62,7 +62,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="pt-BR" className={`${serif.variable} ${sans.variable}`}>
-      <body className="flex min-h-screen flex-col">
+      <body className="flex min-h-screen flex-col overflow-x-clip">
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}

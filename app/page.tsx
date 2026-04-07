@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import SectionWrapper from '@/components/sections/SectionWrapper'
 import SectionHeader from '@/components/sections/SectionHeader'
+import TrackedButton from '@/components/analytics/TrackedButton'
 import CTASection from '@/components/sections/CTASection'
 import Button from '@/components/ui/Button'
 import Prose from '@/components/ui/Prose'
@@ -22,6 +23,40 @@ export const metadata: Metadata = {
     locale: 'pt_BR',
   },
 }
+
+const heroSignals = [
+  {
+    label: 'Diagnóstico em 90 minutos',
+    detail: 'Uma sessão estruturada para localizar a fricção dominante antes de qualquer execução.',
+  },
+  {
+    label: 'Documento com prioridades',
+    detail: 'Você sai com clareza sobre o que atacar primeiro e o que pode esperar.',
+  },
+  {
+    label: 'Visão de sistema',
+    detail: 'Site, aquisição, mensagem e operação comercial avaliados em conjunto.',
+  },
+]
+
+const systemPillars = [
+  {
+    label: 'Posicionamento',
+    detail: 'A mensagem certa para o público certo, sem ruído comercial.',
+  },
+  {
+    label: 'Site e conversão',
+    detail: 'A jornada precisa persuadir e sustentar a decisão de compra.',
+  },
+  {
+    label: 'Aquisição',
+    detail: 'O tráfego precisa chegar com intenção compatível com o que você vende.',
+  },
+  {
+    label: 'Operação comercial',
+    detail: 'WhatsApp e atendimento precisam transformar interesse em avanço real.',
+  },
+]
 
 const symptoms = [
   {
@@ -108,29 +143,122 @@ export default function HomePage() {
   return (
     <>
       {/* 1. Hero */}
-      <SectionWrapper background="canvas" className="border-b border-border">
-        <div className="flex flex-col gap-7 max-w-[680px]">
-          <span className="eyebrow">Consultoria estratégica digital</span>
-          <h1 className="text-display font-serif text-ink-primary">
-            Mais tráfego não resolve{' '}
-            <span className="text-ink-secondary">uma estrutura comercial fraca.</span>
-          </h1>
-          <div className="flex flex-col gap-4 max-w-[58ch]">
-            <p className="text-lg text-ink-secondary leading-relaxed">
-              Tráfego chega, mas não converte. O site existe, mas não persuade. Os leads chegam, mas
-              chegam errados. O WhatsApp acumula conversas sem estrutura para fechá-las.
-            </p>
-            <p className="text-base text-ink-secondary leading-relaxed">
-              Esses não são problemas de marketing. São problemas de sistema comercial.
-            </p>
-          </div>
-          <div className="flex flex-col sm:flex-row gap-3 pt-1">
-            <Button href="/contato" variant="primary" size="lg">
-              Iniciar uma conversa estratégica
-            </Button>
-            <Button href="/diagnostico-estrategico" variant="secondary" size="lg">
-              Ver o Diagnóstico Estratégico
-            </Button>
+      <SectionWrapper background="canvas" className="overflow-hidden border-b border-border">
+        <div className="relative flex flex-col gap-14">
+          <div
+            aria-hidden="true"
+            className="absolute -right-20 top-0 h-64 w-64 rounded-full bg-accent/10 blur-3xl"
+          />
+          <div
+            aria-hidden="true"
+            className="absolute left-[18%] top-16 hidden h-px w-40 bg-gradient-to-r from-accent/40 to-transparent lg:block"
+          />
+
+          <div className="grid grid-cols-1 gap-10 lg:grid-cols-[minmax(0,1fr)_22rem] lg:gap-14">
+            <div className="relative flex max-w-[680px] flex-col gap-7">
+              <span className="eyebrow">Consultoria estratégica digital</span>
+              <h1 className="text-display font-serif text-ink-primary">
+                Mais tráfego não resolve{' '}
+                <span className="text-ink-secondary">uma estrutura comercial fraca.</span>
+              </h1>
+
+              <div className="flex max-w-[58ch] flex-col gap-4">
+                <p className="text-lg text-ink-secondary leading-relaxed">
+                  Tráfego chega, mas não converte. O site existe, mas não persuade. Os leads chegam,
+                  mas chegam errados. O WhatsApp acumula conversas sem estrutura para fechá-las.
+                </p>
+                <p className="text-base text-ink-secondary leading-relaxed">
+                  Esses não são problemas de marketing. São problemas de sistema comercial.
+                </p>
+              </div>
+
+              <div className="flex flex-col gap-3 pt-1">
+                <div className="flex flex-col gap-3 sm:flex-row">
+                  <TrackedButton
+                    href="/contato"
+                    variant="primary"
+                    size="lg"
+                    trackingLocation="home_hero"
+                    trackingLabel="Iniciar uma conversa estratégica"
+                  >
+                    Iniciar uma conversa estratégica
+                  </TrackedButton>
+                  <TrackedButton
+                    href="/diagnostico-estrategico"
+                    variant="secondary"
+                    size="lg"
+                    trackingLocation="home_hero"
+                    trackingLabel="Ver o Diagnóstico Estratégico"
+                  >
+                    Ver o Diagnóstico Estratégico
+                  </TrackedButton>
+                </div>
+                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-ink-muted">
+                  Sem proposta genérica. Sem pacote fechado. Sem diagnóstico apressado.
+                </p>
+              </div>
+
+              <div className="grid grid-cols-1 gap-3 pt-2 sm:grid-cols-3">
+                {heroSignals.map(({ label, detail }) => (
+                  <div key={label} className="editorial-panel px-5 py-5">
+                    <div className="relative flex flex-col gap-3">
+                      <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-ink-muted">
+                        {label}
+                      </span>
+                      <p className="text-sm text-ink-secondary leading-relaxed">{detail}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="lg:pt-8">
+              <div className="editorial-panel surface-grid px-6 py-6 md:px-7 md:py-7">
+                <div
+                  aria-hidden="true"
+                  className="absolute -right-10 top-8 h-24 w-24 rounded-full bg-accent/10 blur-2xl"
+                />
+
+                <div className="relative flex flex-col gap-6">
+                  <div className="flex items-start justify-between gap-4">
+                    <div className="flex flex-col gap-2">
+                      <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-ink-muted">
+                        Leitura de sistema
+                      </span>
+                      <h2 className="text-h3 font-serif text-ink-primary">
+                        Onde a fricção costuma aparecer
+                      </h2>
+                    </div>
+                    <span className="rounded-full border border-border bg-white/65 px-3 py-1 text-xs font-medium text-ink-secondary">
+                      4 frentes conectadas
+                    </span>
+                  </div>
+
+                  <div className="grid grid-cols-1 gap-px overflow-hidden rounded-[1.25rem] bg-border">
+                    {systemPillars.map(({ label, detail }, index) => (
+                      <div key={label} className="bg-canvas/85 px-4 py-4">
+                        <div className="flex items-start gap-3">
+                          <span className="font-serif text-xl leading-none text-border-strong">
+                            {String(index + 1).padStart(2, '0')}
+                          </span>
+                          <div className="flex flex-col gap-1">
+                            <p className="text-sm font-semibold text-ink-primary">{label}</p>
+                            <p className="text-sm text-ink-secondary leading-relaxed">{detail}</p>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className="rounded-[1.25rem] border border-accent/15 bg-accent/5 px-4 py-4">
+                    <p className="text-sm text-ink-secondary leading-relaxed">
+                      Saída do diagnóstico: uma leitura clara sobre onde agir primeiro, o que pode
+                      esperar e o que hoje está desperdiçando esforço.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </SectionWrapper>
@@ -308,9 +436,14 @@ export default function HomePage() {
                 </div>
               ))}
             </div>
-            <Button href="/diagnostico-estrategico" variant="primary">
+            <TrackedButton
+              href="/diagnostico-estrategico"
+              variant="primary"
+              trackingLocation="home_offer"
+              trackingLabel="Solicitar o Diagnóstico Estratégico"
+            >
               Solicitar o Diagnóstico Estratégico
-            </Button>
+            </TrackedButton>
           </div>
         </div>
       </SectionWrapper>

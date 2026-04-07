@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import Button from '@/components/ui/Button'
+import { trackEvent } from '@/lib/analytics'
 import { cn } from '@/lib/utils'
 
 type FormState = 'idle' | 'submitting' | 'success' | 'error'
@@ -46,7 +47,7 @@ function Field({ label, hint, required, children }: FieldProps) {
 }
 
 const inputClass =
-  'w-full px-4 py-3 text-sm text-ink-primary bg-canvas border border-border focus:border-ink-primary focus:outline-none transition-colors duration-150 placeholder:text-ink-muted'
+  'w-full rounded-[1rem] border border-border bg-canvas px-4 py-3 text-sm text-ink-primary shadow-[0_14px_40px_rgba(25,24,26,0.04)] transition-colors duration-150 placeholder:text-ink-muted focus:border-ink-primary focus:outline-none'
 
 const textareaClass = cn(inputClass, 'resize-none min-h-[120px]')
 
@@ -134,6 +135,12 @@ export default function ContactForm() {
         contato: '',
         website: '',
       })
+      trackEvent('generate_lead', {
+        form_name: 'contact_form',
+        form_destination: 'contato',
+        frente: data.frente,
+        preferred_contact: data.contato || 'nao_informado',
+      })
       setState('success')
     } catch (submitError) {
       setError(
@@ -147,14 +154,17 @@ export default function ContactForm() {
 
   if (state === 'success') {
     return (
-      <div className="flex flex-col gap-4 py-12 border border-border px-8">
-        <span className="eyebrow text-accent">Mensagem enviada</span>
-        <h3 className="text-h3 font-serif text-ink-primary">
-          Vou ler com atenção antes de responder.
-        </h3>
-        <p className="text-base text-ink-secondary leading-relaxed max-w-[52ch]">
-          Se fizer sentido conversar, você receberá uma proposta de horário em até 48 horas úteis. Obrigado pela confiança.
-        </p>
+      <div className="editorial-panel px-8 py-12">
+        <div className="relative flex flex-col gap-4">
+          <span className="eyebrow text-accent">Mensagem enviada</span>
+          <h3 className="text-h3 font-serif text-ink-primary">
+            Vou ler com atenção antes de responder.
+          </h3>
+          <p className="max-w-[52ch] text-base text-ink-secondary leading-relaxed">
+            Se fizer sentido conversar, você receberá uma proposta de horário em até 48 horas úteis.
+            Obrigado pela confiança.
+          </p>
+        </div>
       </div>
     )
   }
@@ -262,7 +272,7 @@ export default function ContactForm() {
         />
       </Field>
 
-      {/* Row: Frente + Contato preferido */}
+      {/* Frente mais urgente */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
         <Field label="Frente mais urgente" required>
           <select
@@ -293,12 +303,23 @@ export default function ContactForm() {
         </Field>
       </div>
 
-      <div className="pt-2">
+      <div className="rounded-[1.5rem] border border-border bg-surface/70 px-5 py-5">
+        <div className="mb-4 flex flex-col gap-2">
+          <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-ink-muted">
+            O que acontece depois
+          </span>
+          <p className="text-sm text-ink-secondary leading-relaxed">
+            Cada mensagem é lida manualmente. Se houver encaixe, a resposta chega com uma proposta
+            de próximo passo em até 48 horas úteis.
+          </p>
+        </div>
+
         {state === 'error' && (
           <p className="mb-4 text-sm text-accent" role="alert">
             {error}
           </p>
         )}
+
         <Button
           type="submit"
           variant="primary"

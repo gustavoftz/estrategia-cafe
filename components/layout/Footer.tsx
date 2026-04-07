@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import Button from '@/components/ui/Button'
+import TrackedButton from '@/components/analytics/TrackedButton'
 
 const navLinks = [
   { href: '/servicos', label: 'Serviços' },
@@ -71,14 +71,16 @@ export default function Footer() {
               <p className="text-sm text-ink-inverse/50 leading-relaxed max-w-[32ch]">
                 Prefere começar com um diagnóstico antes de contratar?
               </p>
-              <Button
+              <TrackedButton
                 href="/diagnostico-estrategico"
                 variant="inverse"
                 size="sm"
                 className="self-start"
+                trackingLocation="footer_button"
+                trackingLabel="Ver o Diagnóstico Estratégico"
               >
                 Ver o Diagnóstico Estratégico
-              </Button>
+              </TrackedButton>
             </div>
           </div>
         </div>
