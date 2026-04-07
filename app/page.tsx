@@ -155,7 +155,7 @@ export default function HomePage() {
           />
 
           <div className="grid grid-cols-1 gap-10 lg:grid-cols-[minmax(0,1fr)_22rem] lg:gap-14">
-            <div className="relative flex max-w-[680px] flex-col gap-7">
+            <div className="relative flex max-w-[680px] flex-col items-center gap-8 text-center lg:items-start lg:text-left">
               <span className="eyebrow">Consultoria estratégica digital</span>
               <h1 className="text-display font-serif text-ink-primary">
                 Mais tráfego não resolve{' '}
@@ -172,8 +172,8 @@ export default function HomePage() {
                 </p>
               </div>
 
-              <div className="flex flex-col gap-3 pt-1">
-                <div className="flex flex-col gap-3 sm:flex-row">
+              <div className="flex w-full max-w-[34rem] flex-col gap-5 pt-2 lg:max-w-none lg:items-start">
+                <div className="flex w-full flex-col gap-3 sm:flex-row lg:w-auto">
                   <TrackedButton
                     href="/contato"
                     variant="primary"
@@ -193,12 +193,12 @@ export default function HomePage() {
                     Ver o Diagnóstico Estratégico
                   </TrackedButton>
                 </div>
-                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-ink-muted">
+                <p className="mx-auto max-w-[30ch] text-center text-xs font-semibold uppercase tracking-[0.18em] text-ink-muted lg:mx-0 lg:max-w-none lg:text-left">
                   Sem proposta genérica. Sem pacote fechado. Sem diagnóstico apressado.
                 </p>
               </div>
 
-              <div className="grid grid-cols-1 gap-3 pt-2 sm:grid-cols-3">
+              <div className="grid w-full grid-cols-1 gap-3 pt-3 text-left sm:grid-cols-3">
                 {heroSignals.map(({ label, detail }) => (
                   <div key={label} className="editorial-panel px-5 py-5">
                     <div className="relative flex flex-col gap-3">

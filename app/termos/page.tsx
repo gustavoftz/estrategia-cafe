@@ -19,7 +19,7 @@ export default function TermosPage() {
           <span className="eyebrow">Legal</span>
           <h1 className="text-h1 font-serif text-ink-primary">Termos de Serviço</h1>
           <p className="text-base text-ink-secondary leading-relaxed">
-            Última atualização: 2 de abril de 2026
+            Última atualização: 7 de abril de 2026
           </p>
         </div>
       </SectionWrapper>
@@ -76,6 +76,12 @@ export default function TermosPage() {
               É permitida a reprodução parcial para fins pessoais ou educacionais, desde que com
               atribuição explícita à estrategia.cafe e sem fins comerciais. A reprodução integral ou
               comercial sem autorização prévia por escrito é proibida.
+            </p>
+            <p>
+              É expressamente vedado o uso automatizado do conteúdo deste site para treinamento,
+              ajuste fino ou alimentação de modelos de inteligência artificial, sistemas de
+              aprendizado de máquina ou bases de dados similares, independentemente da finalidade
+              comercial ou não comercial, sem autorização prévia e por escrito da estrategia.cafe.
             </p>
           </section>
 

@@ -112,6 +112,10 @@ export default function EstudosDeCasoPage() {
                   </h3>
                   <p className="text-sm text-ink-secondary leading-relaxed">{c.result}</p>
                 </div>
+                <p className="text-xs text-ink-muted leading-relaxed">
+                  Os resultados descritos são específicos ao contexto deste cliente e não constituem
+                  garantia de desempenho para outros projetos.
+                </p>
               </div>
             </div>
           </article>

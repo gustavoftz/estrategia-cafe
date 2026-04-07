@@ -19,7 +19,7 @@ export default function PoliticaDePrivacidadePage() {
           <span className="eyebrow">Legal</span>
           <h1 className="text-h1 font-serif text-ink-primary">Política de Privacidade</h1>
           <p className="text-base text-ink-secondary leading-relaxed">
-            Última atualização: 2 de abril de 2026
+            Última atualização: 7 de abril de 2026
           </p>
         </div>
       </SectionWrapper>
@@ -36,13 +36,23 @@ export default function PoliticaDePrivacidadePage() {
               operação comercial por WhatsApp. Este site serve como canal institucional e de contato.
             </p>
             <p>
-              Para questões relacionadas a dados pessoais, o responsável pode ser contactado pelo
-              e-mail{' '}
+              O encarregado pelo tratamento de dados pessoais (art. 41 da LGPD) é{' '}
+              <strong className="font-semibold text-ink-primary">Gustavo Caetano</strong>, que pode
+              ser contactado pelo e-mail{' '}
               <a
-                href="mailto:contato@estrategia.cafe"
+                href="mailto:gustavo@estrategia.cafe"
                 className="underline underline-offset-2 hover:text-ink-primary"
               >
-                contato@estrategia.cafe
+                gustavo@estrategia.cafe
+              </a>{' '}
+              ou pelo WhatsApp{' '}
+              <a
+                href="https://wa.me/5561999885276"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline underline-offset-2 hover:text-ink-primary"
+              >
+                +55 61 99988-5276
               </a>
               .
             </p>
@@ -116,7 +126,12 @@ export default function PoliticaDePrivacidadePage() {
               momento limpando os dados do site nas configurações do seu navegador.
             </p>
             <p>
-              Para mais informações sobre como o Google trata esses dados, consulte a{' '}
+              O Google atua como operador de dados nos termos da LGPD, com base em{' '}
+              <strong className="font-semibold text-ink-primary">
+                Acordo de Processamento de Dados (DPA)
+              </strong>{' '}
+              celebrado com a estrategia.cafe. Para mais informações sobre como o Google trata esses
+              dados, consulte a{' '}
               <a
                 href="https://policies.google.com/privacy"
                 target="_blank"
@@ -201,14 +216,14 @@ export default function PoliticaDePrivacidadePage() {
             <h2 className="text-base font-serif text-ink-primary">9. Contato</h2>
             <p>
               Dúvidas sobre esta política ou sobre o tratamento de dados pessoais podem ser enviadas
-              para{' '}
+              ao encarregado pelo e-mail{' '}
               <a
-                href="mailto:contato@estrategia.cafe"
+                href="mailto:gustavo@estrategia.cafe"
                 className="underline underline-offset-2 hover:text-ink-primary"
               >
-                contato@estrategia.cafe
+                gustavo@estrategia.cafe
               </a>
-              .
+              . Responderemos em até 15 dias úteis.
             </p>
           </section>
 
