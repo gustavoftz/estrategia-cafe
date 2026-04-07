@@ -22,47 +22,58 @@ export default function SimuladorDeImpactoComercialPage() {
   return (
     <>
       <SectionWrapper background="canvas" className="overflow-hidden border-b border-border">
-        <div className="grid grid-cols-1 gap-8 xl:grid-cols-[minmax(0,0.68fr)_minmax(0,1.32fr)] xl:items-start xl:gap-10">
-          <div className="flex max-w-[40rem] flex-col gap-6 xl:pr-4">
+        <div className="flex flex-col gap-8">
+          <div className="flex max-w-[46rem] flex-col gap-4">
             <span className="eyebrow">Simulador de impacto comercial</span>
-            <h1 className="text-display font-serif text-ink-primary">
-              Antes de investir mais,{' '}
-              <span className="text-ink-secondary">estime o tamanho da oportunidade.</span>
+            <h1 className="text-h1 font-serif text-ink-primary">
+              Estime o impacto financeiro de reduzir a fricção comercial.
             </h1>
-            <p className="max-w-[48ch] text-lg leading-relaxed text-ink-secondary">
-              Esta simulação traduz volume, conversão, ticket e margem em uma leitura financeira
-              mais concreta. A ideia é ajudar você a enxergar a ordem de grandeza da oportunidade
-              antes de aprofundar um diagnóstico.
+            <p className="max-w-[56ch] text-base leading-relaxed text-ink-secondary md:text-lg">
+              Uma leitura rápida para transformar volume, conversão, ticket e margem em uma ordem
+              de grandeza mais concreta antes de decidir o próximo passo.
             </p>
           </div>
 
-          <div className="xl:row-span-2">
-            <RoiCalculatorSection noWrapper showHeader={false} />
-          </div>
+          <RoiCalculatorSection noWrapper showHeader={false} />
 
-          <div className="editorial-panel px-6 py-6 md:px-7 md:py-7 xl:pr-8">
-            <div className="relative flex flex-col gap-5">
-              <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-ink-muted">
-                Como ler esta simulação
-              </span>
-              <div className="flex flex-col divide-y divide-border">
-                {readingGuides.map((guide) => (
-                  <div key={guide} className="flex items-start gap-4 py-4 first:pt-0 last:pb-0">
-                    <span
-                      className="mt-[8px] h-[5px] w-[5px] shrink-0 rounded-full bg-accent"
-                      aria-hidden="true"
-                    />
-                    <p className="text-sm leading-relaxed text-ink-secondary">{guide}</p>
-                  </div>
-                ))}
+          <div className="grid grid-cols-1 gap-5 lg:grid-cols-[minmax(0,1fr)_18rem] lg:items-start">
+            <div className="rounded-[1.5rem] border border-border bg-surface/75 px-6 py-6">
+              <div className="flex flex-col gap-4">
+                <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-ink-muted">
+                  Como usar esta página
+                </span>
+                <div className="flex flex-col divide-y divide-border">
+                  {readingGuides.map((guide) => (
+                    <div key={guide} className="flex items-start gap-4 py-4 first:pt-0 last:pb-0">
+                      <span
+                        className="mt-[8px] h-[5px] w-[5px] shrink-0 rounded-full bg-accent"
+                        aria-hidden="true"
+                      />
+                      <p className="text-sm leading-relaxed text-ink-secondary">{guide}</p>
+                    </div>
+                  ))}
+                </div>
+                <p className="text-sm leading-relaxed text-ink-secondary">
+                  Se o cenário parecer relevante, o diagnóstico ajuda a entender qual fricção deve
+                  ser tratada primeiro para capturar esse potencial.
+                </p>
               </div>
+            </div>
 
-              <div className="flex flex-col gap-3 pt-1 sm:flex-row xl:flex-col">
+            <div className="rounded-[1.5rem] border border-border bg-canvas/90 px-6 py-6">
+              <div className="flex flex-col gap-4">
+                <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-ink-muted">
+                  Próximo passo
+                </span>
+                <p className="text-sm leading-relaxed text-ink-secondary">
+                  Quer cruzar essa estimativa com o seu contexto real de aquisição, site e operação
+                  comercial?
+                </p>
                 <TrackedButton
                   href="/contato"
                   variant="primary"
                   size="lg"
-                  className="w-full justify-center sm:w-auto xl:w-full"
+                  className="w-full justify-center"
                   trackingLocation="impact_calculator_hero"
                   trackingLabel="Falar sobre meu cenário"
                 >
@@ -72,7 +83,7 @@ export default function SimuladorDeImpactoComercialPage() {
                   href="/diagnostico-estrategico"
                   variant="secondary"
                   size="lg"
-                  className="w-full justify-center sm:w-auto xl:w-full"
+                  className="w-full justify-center"
                   trackingLocation="impact_calculator_hero"
                   trackingLabel="Ver o Diagnóstico Estratégico"
                 >
