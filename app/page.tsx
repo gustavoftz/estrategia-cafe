@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   description:
     'Ajudamos empresas a melhorar posicionamento, site, aquisição, conversão e atendimento comercial com uma abordagem integrada de estratégia, UX, CRO, SEO e automação por WhatsApp.',
   alternates: {
-    canonical: 'https://estrategia.cafe',
+    canonical: 'https://estrategia.cafe/',
   },
   openGraph: {
     title: 'estrategia.cafe — Consultoria estratégica digital',
