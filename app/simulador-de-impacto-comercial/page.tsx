@@ -13,9 +13,9 @@ export const metadata: Metadata = createMetadata({
 })
 
 const readingGuides = [
-  'Use médias mensais recentes, não o melhor mês do ano.',
-  'A taxa projetada deve refletir uma melhora plausível, não um cenário idealizado.',
-  'O resultado ajuda a priorizar decisões comerciais antes de detalhar um diagnóstico completo.',
+  'Use médias mensais recentes da operação, não o melhor mês do ano.',
+  'Os cenários guiados existem para manter a leitura dentro de uma faixa comercial plausível.',
+  'O objetivo não é acertar o futuro com exatidão, mas revelar se existe oportunidade suficiente para aprofundar a conversa.',
 ]
 
 export default function SimuladorDeImpactoComercialPage() {
@@ -23,14 +23,14 @@ export default function SimuladorDeImpactoComercialPage() {
     <>
       <SectionWrapper background="canvas" className="overflow-hidden border-b border-border">
         <div className="flex flex-col gap-8">
-          <div className="flex max-w-[46rem] flex-col gap-4">
-            <span className="eyebrow">Simulador de impacto comercial</span>
+          <div className="flex max-w-[48rem] flex-col gap-4">
+            <span className="eyebrow">Diagnóstico consultivo</span>
             <h1 className="text-h1 font-serif text-ink-primary">
-              Estime o impacto financeiro de reduzir a fricção comercial.
+              Quanto da oportunidade comercial pode estar ficando na mesa hoje.
             </h1>
             <p className="max-w-[56ch] text-base leading-relaxed text-ink-secondary md:text-lg">
-              Uma leitura rápida para transformar volume, conversão, ticket e margem em uma ordem
-              de grandeza mais concreta antes de decidir o próximo passo.
+              Você informa o cenário atual. A ferramenta organiza uma projeção plausível e devolve
+              uma leitura mais objetiva de receita, retorno e prioridade comercial.
             </p>
           </div>
 
@@ -40,7 +40,7 @@ export default function SimuladorDeImpactoComercialPage() {
             <div className="rounded-[1.5rem] border border-border bg-surface/75 px-6 py-6">
               <div className="flex flex-col gap-4">
                 <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-ink-muted">
-                  Como usar esta página
+                  Como ler este diagnóstico
                 </span>
                 <div className="flex flex-col divide-y divide-border">
                   {readingGuides.map((guide) => (
@@ -54,8 +54,8 @@ export default function SimuladorDeImpactoComercialPage() {
                   ))}
                 </div>
                 <p className="text-sm leading-relaxed text-ink-secondary">
-                  Se o cenário parecer relevante, o diagnóstico ajuda a entender qual fricção deve
-                  ser tratada primeiro para capturar esse potencial.
+                  Se a oportunidade fizer sentido, o próximo passo é descobrir onde a fricção está:
+                  proposta, página, processo, abordagem comercial ou operação.
                 </p>
               </div>
             </div>
@@ -63,11 +63,11 @@ export default function SimuladorDeImpactoComercialPage() {
             <div className="rounded-[1.5rem] border border-border bg-canvas/90 px-6 py-6">
               <div className="flex flex-col gap-4">
                 <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-ink-muted">
-                  Próximo passo
+                  Se a leitura fizer sentido
                 </span>
                 <p className="text-sm leading-relaxed text-ink-secondary">
-                  Quer cruzar essa estimativa com o seu contexto real de aquisição, site e operação
-                  comercial?
+                  O diagnóstico estratégico cruza esta estimativa com aquisição, site, proposta e
+                  operação comercial para mostrar onde agir primeiro.
                 </p>
                 <TrackedButton
                   href="/contato"

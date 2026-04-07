@@ -1,24 +1,47 @@
 'use client'
 
-import { useState, type ChangeEvent } from 'react'
+import { useEffect, useState, type ChangeEvent } from 'react'
+import DetailedAnalysisGate from '@/components/roi/DetailedAnalysisGate'
+import ScenarioSelector from '@/components/roi/ScenarioSelector'
 import Button from '@/components/ui/Button'
 import FormField from '@/components/ui/FormField'
 import { inputClass } from '@/components/ui/formStyles'
-import { cn } from '@/lib/utils'
+import { trackEvent } from '@/lib/analytics'
 import {
-  calculateRoiCalculatorResults,
+  calculateRoiResults,
   formatCurrencyBRL,
   formatDecimal,
+  formatInputNumber,
   formatPaybackMonths,
   formatPercentage,
   formatSignedPercentage,
-  getRoiCalculatorFieldErrors,
-  hasRoiCalculatorFieldErrors,
-  parseRoiCalculatorFormValues,
-  roiCalculatorExampleValues,
-  type RoiCalculatorFieldName,
-  type RoiCalculatorFormValues,
-} from '@/lib/roi-calculator'
+  getHeadlineNarrative,
+  getInterpretationSummary,
+  getMarginSensitivitySummary,
+  getOpportunitySignalSummary,
+  getRecommendedNextSteps,
+  getResultSuggestionSummary,
+  getRoiFieldErrors,
+  hasRoiFieldErrors,
+  parseRoiFormValues,
+  parseRoiNumberInput,
+  roiExampleFormValues,
+} from '@/lib/roi/calculations'
+import {
+  calculateProjectedRateFromScenario,
+  defaultScenarioPreset,
+  getPlausibleProjectedRateCap,
+  getScenarioDefinition,
+  limitProjectedConversionRate,
+} from '@/lib/roi/scenarios'
+import type {
+  DetailedAnalysisState,
+  ProjectionMode,
+  RoiBaseFieldName,
+  RoiFormValues,
+  ScenarioPreset,
+} from '@/lib/roi/types'
+import { cn } from '@/lib/utils'
 
 interface MetricCardProps {
   label: string
@@ -27,8 +50,13 @@ interface MetricCardProps {
   tone?: 'default' | 'highlight'
 }
 
-const fieldConfig: Array<{
-  name: RoiCalculatorFieldName
+interface AnalysisCardProps {
+  title: string
+  children: string
+}
+
+const baseFieldConfig: Array<{
+  name: RoiBaseFieldName
   label: string
   hint: string
   placeholder: string
@@ -63,13 +91,6 @@ const fieldConfig: Array<{
     inputMode: 'decimal',
   },
   {
-    name: 'projectedConversionRate',
-    label: 'Taxa projetada após melhoria (%)',
-    hint: 'Conversão esperada com ajustes de processo, mensagem e jornada.',
-    placeholder: '19',
-    inputMode: 'decimal',
-  },
-  {
     name: 'monthlyInvestment',
     label: 'Investimento mensal (R$)',
     hint: 'Quanto você pretende investir por mês para capturar essa melhora.',
@@ -97,18 +118,71 @@ function MetricCard({ label, value, detail, tone = 'default' }: MetricCardProps)
   )
 }
 
+function AnalysisCard({ title, children }: AnalysisCardProps) {
+  return (
+    <div className="rounded-[1.35rem] border border-border bg-surface/70 px-5 py-5">
+      <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-ink-muted">
+        {title}
+      </span>
+      <p className="mt-3 text-sm leading-relaxed text-ink-secondary">{children}</p>
+    </div>
+  )
+}
+
 export default function RoiCalculator() {
-  const [formValues, setFormValues] = useState<RoiCalculatorFormValues>(roiCalculatorExampleValues)
+  const [formValues, setFormValues] = useState<RoiFormValues>(roiExampleFormValues)
+  const [selectedScenario, setSelectedScenario] = useState<ScenarioPreset>(defaultScenarioPreset)
+  const [projectionMode, setProjectionMode] = useState<ProjectionMode>('scenario')
+  const [isAdvancedOpen, setIsAdvancedOpen] = useState(false)
+  const [detailedAnalysisState, setDetailedAnalysisState] =
+    useState<DetailedAnalysisState>('locked')
 
-  const fieldErrors = getRoiCalculatorFieldErrors(formValues)
-  const hasFieldErrors = hasRoiCalculatorFieldErrors(fieldErrors)
-  const parsedInputs = parseRoiCalculatorFormValues(formValues)
-  const results = calculateRoiCalculatorResults(parsedInputs)
+  const fieldErrors = getRoiFieldErrors(formValues)
+  const hasFieldErrors = hasRoiFieldErrors(fieldErrors)
+  const parsedFormValues = parseRoiFormValues(formValues)
+  const scenarioProjectedRate = calculateProjectedRateFromScenario(
+    parsedFormValues.currentConversionRate,
+    selectedScenario
+  )
 
-  const contractsDelta = results.projectedContracts - results.currentContracts
-  const projectedImprovement =
-    parsedInputs.projectedConversionRate > parsedInputs.currentConversionRate
+  useEffect(() => {
+    if (projectionMode !== 'scenario') {
+      return
+    }
+
+    const nextProjectedRate = formatInputNumber(scenarioProjectedRate)
+
+    setFormValues((previousValues) =>
+      previousValues.projectedConversionRate === nextProjectedRate
+        ? previousValues
+        : {
+            ...previousValues,
+            projectedConversionRate: nextProjectedRate,
+          }
+    )
+  }, [projectionMode, scenarioProjectedRate])
+
+  const rawManualProjectedRate = parseRoiNumberInput(formValues.projectedConversionRate)
+  const manualProjectedRate = limitProjectedConversionRate(
+    parsedFormValues.projectedConversionRate,
+    parsedFormValues.currentConversionRate
+  )
+  const effectiveProjectedRate =
+    projectionMode === 'manual' ? manualProjectedRate : scenarioProjectedRate
+  const inputs = {
+    ...parsedFormValues,
+    projectedConversionRate: effectiveProjectedRate,
+  }
+  const results = calculateRoiResults(inputs)
+  const selectedScenarioDefinition = getScenarioDefinition(selectedScenario)
+  const scenarioProjectedImprovement =
+    inputs.projectedConversionRate > inputs.currentConversionRate
   const hasPositiveIncrementalProfit = results.incrementalProfit > 0
+  const manualProjectionAdjusted =
+    projectionMode === 'manual' &&
+    rawManualProjectedRate > 0 &&
+    Math.abs(rawManualProjectedRate - manualProjectedRate) > 0.05
+  const contractsDelta = results.projectedContracts - results.currentContracts
 
   const notices: string[] = []
 
@@ -118,13 +192,19 @@ export default function RoiCalculator() {
     )
   }
 
-  if (parsedInputs.projectedConversionRate < parsedInputs.currentConversionRate) {
+  if (inputs.projectedConversionRate < inputs.currentConversionRate) {
     notices.push(
-      'A taxa projetada ficou abaixo da taxa atual. Neste caso, a simulação indica perda de eficiência, não ganho.'
+      'A taxa projetada ficou abaixo da taxa atual. Neste caso, a simulação passa a indicar perda de eficiência, não ganho.'
     )
   }
 
-  if (parsedInputs.monthlyInvestment <= 0) {
+  if (manualProjectionAdjusted) {
+    notices.push(
+      `Para manter a estimativa em uma faixa plausível, a projeção manual foi limitada a ${formatPercentage(getPlausibleProjectedRateCap(inputs.currentConversionRate))}.`
+    )
+  }
+
+  if (inputs.monthlyInvestment <= 0) {
     notices.push('Informe um investimento acima de zero para calcular ROI mensal e payback.')
   }
 
@@ -135,28 +215,89 @@ export default function RoiCalculator() {
   }
 
   const handleChange =
-    (fieldName: RoiCalculatorFieldName) => (event: ChangeEvent<HTMLInputElement>) => {
+    (fieldName: RoiBaseFieldName) => (event: ChangeEvent<HTMLInputElement>) => {
       const nextValue = event.target.value
 
-      setFormValues(prev => ({
-        ...prev,
+      setFormValues((previousValues) => ({
+        ...previousValues,
         [fieldName]: nextValue,
       }))
     }
 
+  const handleManualProjectionChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const nextValue = event.target.value
+
+    setProjectionMode('manual')
+    setFormValues((previousValues) => ({
+      ...previousValues,
+      projectedConversionRate: nextValue,
+    }))
+  }
+
+  const handleScenarioSelect = (scenario: ScenarioPreset) => {
+    const nextProjectedRate = calculateProjectedRateFromScenario(
+      inputs.currentConversionRate,
+      scenario
+    )
+
+    setSelectedScenario(scenario)
+    setProjectionMode('scenario')
+    setFormValues((previousValues) => ({
+      ...previousValues,
+      projectedConversionRate: formatInputNumber(nextProjectedRate),
+    }))
+  }
+
+  const handleRestoreExample = () => {
+    setFormValues(roiExampleFormValues)
+    setSelectedScenario(defaultScenarioPreset)
+    setProjectionMode('scenario')
+    setIsAdvancedOpen(false)
+    setDetailedAnalysisState('locked')
+  }
+
+  const handleUseScenarioAgain = () => {
+    setProjectionMode('scenario')
+    setFormValues((previousValues) => ({
+      ...previousValues,
+      projectedConversionRate: formatInputNumber(scenarioProjectedRate),
+    }))
+  }
+
+  const handleUnlockDetailedAnalysis = () => {
+    setDetailedAnalysisState('unlocked')
+    trackEvent('roi_detailed_analysis_unlock', {
+      scenario_preset: selectedScenario,
+      projection_mode: projectionMode,
+      projected_rate: Number(formatDecimal(inputs.projectedConversionRate).replace(',', '.')),
+    })
+  }
+
+  const detailedPreviewItems = [
+    'Tempo aproximado de retorno do investimento',
+    'Leitura estratégica da oportunidade',
+    'Sensibilidade da margem e do cenário',
+    'Próximo passo recomendado',
+  ]
+
+  const highlightedScenarioText =
+    projectionMode === 'scenario'
+      ? `${selectedScenarioDefinition.label} · taxa estimada ${formatPercentage(inputs.projectedConversionRate)}`
+      : `Projeção manual · taxa em uso ${formatPercentage(inputs.projectedConversionRate)}`
+
   return (
     <div className="editorial-panel surface-grid overflow-hidden">
-      <div className="grid grid-cols-1 gap-px bg-border lg:grid-cols-[minmax(0,1.1fr)_minmax(20rem,0.9fr)]">
+      <div className="grid grid-cols-1 gap-px bg-border lg:grid-cols-[minmax(0,1.05fr)_minmax(21rem,0.95fr)]">
         <div className="bg-canvas/90 px-6 py-6 md:px-8 md:py-8">
           <div className="flex flex-col gap-6">
             <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
               <div className="max-w-[52ch]">
                 <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-ink-muted">
-                  Cenário mensal
+                  Premissas do diagnóstico
                 </span>
                 <p className="mt-3 text-sm leading-relaxed text-ink-secondary">
-                  Começamos com um exemplo plausível para empresas que recebem demanda recorrente e
-                  querem estimar o impacto de reduzir fricção comercial.
+                  Informe o desenho atual da operação. A leitura ao lado transforma volume,
+                  conversão, ticket e margem em uma percepção mais clara da oportunidade comercial.
                 </p>
               </div>
 
@@ -165,14 +306,14 @@ export default function RoiCalculator() {
                 variant="secondary"
                 size="sm"
                 className="self-start"
-                onClick={() => setFormValues(roiCalculatorExampleValues)}
+                onClick={handleRestoreExample}
               >
                 Restaurar exemplo
               </Button>
             </div>
 
             <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
-              {fieldConfig.map(field => (
+              {baseFieldConfig.map((field) => (
                 <FormField
                   key={field.name}
                   label={field.label}
@@ -195,11 +336,89 @@ export default function RoiCalculator() {
               ))}
             </div>
 
+            <ScenarioSelector
+              currentConversionRate={inputs.currentConversionRate}
+              selectedScenario={selectedScenario}
+              projectionMode={projectionMode}
+              onSelect={handleScenarioSelect}
+            />
+
+            <div className="rounded-[1.35rem] border border-border bg-white/65">
+              <button
+                type="button"
+                className="flex w-full items-center justify-between gap-4 px-5 py-4 text-left"
+                onClick={() => setIsAdvancedOpen((previousValue) => !previousValue)}
+                aria-expanded={isAdvancedOpen}
+              >
+                <div className="flex flex-col gap-1">
+                  <span className="text-sm font-semibold text-ink-primary">
+                    Quero testar uma hipótese própria
+                  </span>
+                  <span className="text-xs leading-relaxed text-ink-muted">
+                    Abra este modo só se quiser sair da faixa guiada e usar uma projeção manual.
+                  </span>
+                </div>
+                <span className="text-xs font-semibold uppercase tracking-[0.16em] text-ink-muted">
+                  {isAdvancedOpen ? 'Fechar' : 'Abrir'}
+                </span>
+              </button>
+
+              {isAdvancedOpen && (
+                <div className="border-t border-border px-5 py-5">
+                  <div className="flex flex-col gap-4">
+                    <FormField
+                      label="Taxa projetada de conversão (%)"
+                      hint="Use esta opção apenas se quiser testar uma hipótese manual fora dos cenários guiados."
+                      error={fieldErrors.projectedConversionRate}
+                    >
+                      <input
+                        type="text"
+                        inputMode="decimal"
+                        value={formValues.projectedConversionRate}
+                        onChange={handleManualProjectionChange}
+                        placeholder={formatInputNumber(scenarioProjectedRate)}
+                        aria-invalid={Boolean(fieldErrors.projectedConversionRate)}
+                        className={cn(
+                          inputClass,
+                          fieldErrors.projectedConversionRate && 'border-ink-primary bg-white'
+                        )}
+                      />
+                    </FormField>
+
+                    <div className="rounded-[1.1rem] border border-border bg-surface/70 px-4 py-4">
+                      <p className="text-sm leading-relaxed text-ink-secondary">
+                        Projeções agressivas podem distorcer a estimativa. Sempre que necessário, a
+                        taxa manual é limitada a uma faixa plausível para preservar a credibilidade
+                        da análise.
+                      </p>
+                    </div>
+
+                    {projectionMode === 'manual' && (
+                      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                        <p className="text-sm leading-relaxed text-ink-secondary">
+                          A leitura estratégica está usando sua hipótese manual.
+                        </p>
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          size="sm"
+                          className="self-start sm:self-auto"
+                          onClick={handleUseScenarioAgain}
+                        >
+                          Voltar ao cenário {selectedScenarioDefinition.label.toLowerCase()}
+                        </Button>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
+            </div>
+
             <div className="rounded-[1.35rem] border border-border bg-surface/70 px-5 py-5">
               <p className="text-sm leading-relaxed text-ink-secondary">
-                Esta simulação trabalha com médias mensais. Ela ajuda a dimensionar ordem de
-                grandeza antes de um diagnóstico mais preciso sobre qualidade de lead, jornada e
-                capacidade comercial.
+                Trabalhamos com médias mensais e cenários plausíveis. O objetivo aqui não é prometer
+                precisão absoluta, mas revelar se existe uma oportunidade comercial material
+                escondida no processo atual.
               </p>
             </div>
           </div>
@@ -209,27 +428,27 @@ export default function RoiCalculator() {
           <div className="flex flex-col gap-5">
             <div className="rounded-[1.5rem] border border-accent/15 bg-accent/5 px-5 py-5">
               <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-accent">
-                Leitura do cenário
+                Sinal de oportunidade
               </span>
               <h3 className="mt-3 text-h3 font-serif text-ink-primary">
                 {formatCurrencyBRL(results.incrementalRevenue)}
               </h3>
               <p className="mt-2 text-sm leading-relaxed text-ink-secondary">
-                {projectedImprovement
-                  ? `Receita incremental mensal estimada se a conversão subir de ${formatPercentage(parsedInputs.currentConversionRate)} para ${formatPercentage(parsedInputs.projectedConversionRate)}.`
-                  : 'Receita incremental mensal estimada com base nas premissas informadas.'}
+                {getOpportunitySignalSummary(inputs, results)}
               </p>
               <p className="mt-3 text-xs font-semibold uppercase tracking-[0.18em] text-ink-muted">
-                {contractsDelta >= 0 ? '+' : '-'}
-                {formatDecimal(Math.abs(contractsDelta))} contratos por mês em potencial
+                {highlightedScenarioText}
               </p>
             </div>
 
             <div className="rounded-[1.35rem] border border-border bg-canvas/80 px-5 py-5">
               <p className="text-sm leading-relaxed text-ink-secondary">
-                Hoje, este cenário sugere cerca de {formatDecimal(results.currentContracts)}{' '}
-                contratos por mês. Com a melhora projetada, o volume pode chegar a{' '}
-                {formatDecimal(results.projectedContracts)} contratos por mês.
+                {scenarioProjectedImprovement
+                  ? `${selectedScenarioDefinition.description} Neste desenho, a conversão sairia de ${formatPercentage(inputs.currentConversionRate)} para ${formatPercentage(inputs.projectedConversionRate)}, adicionando ${formatDecimal(Math.abs(contractsDelta))} contratos por mês em potencial.`
+                  : 'Neste desenho, a taxa projetada não supera a taxa atual, então a leitura passa a sugerir uma retração de performance.'}
+              </p>
+              <p className="mt-3 text-sm leading-relaxed text-ink-secondary">
+                {getHeadlineNarrative(inputs, results)}
               </p>
             </div>
 
@@ -239,7 +458,7 @@ export default function RoiCalculator() {
                   Ajustes na leitura
                 </div>
                 <ul className="flex list-disc flex-col gap-2 pl-5 text-sm leading-relaxed text-ink-secondary">
-                  {notices.map(notice => (
+                  {notices.map((notice) => (
                     <li key={notice}>{notice}</li>
                   ))}
                 </ul>
@@ -248,42 +467,80 @@ export default function RoiCalculator() {
 
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               <MetricCard
-                label="Faturamento atual estimado"
+                label="Base atual de faturamento"
                 value={formatCurrencyBRL(results.currentRevenue)}
-                detail="Receita média mensal considerando a taxa atual de fechamento."
+                detail="Quanto a operação atual tende a capturar por mês no desenho de hoje."
               />
               <MetricCard
-                label="Faturamento potencial estimado"
+                label="Potencial no cenário"
                 value={formatCurrencyBRL(results.potentialRevenue)}
-                detail="Receita mensal projetada com a taxa de conversão desejada."
+                detail="Quanto o mesmo volume de oportunidades poderia render no cenário escolhido."
               />
               <MetricCard
-                label="Ganho incremental de receita"
+                label="Receita adicional em jogo"
                 value={formatCurrencyBRL(results.incrementalRevenue)}
-                detail="Diferença direta entre o cenário atual e o cenário projetado."
+                detail="A diferença de receita que o cenário indica como oportunidade comercial."
                 tone="highlight"
               />
               <MetricCard
-                label="Lucro incremental estimado"
-                value={formatCurrencyBRL(results.incrementalProfit)}
-                detail="Ganho de lucro depois de aplicar a margem líquida informada."
-                tone="highlight"
-              />
-              <MetricCard
-                label="ROI mensal estimado"
+                label="ROI mensal da hipótese"
                 value={formatSignedPercentage(results.monthlyRoi)}
-                detail="Retorno mensal estimado após descontar o investimento informado."
-              />
-              <MetricCard
-                label="Payback aproximado"
-                value={formatPaybackMonths(results.paybackMonths)}
-                detail="Tempo estimado para recuperar o investimento a partir do lucro incremental."
+                detail="Quanto o cenário devolve em retorno mensal depois do investimento estimado."
+                tone="highlight"
               />
             </div>
 
+            <DetailedAnalysisGate
+              state={detailedAnalysisState}
+              onUnlock={handleUnlockDetailedAnalysis}
+              previewItems={detailedPreviewItems}
+            >
+              <div className="flex flex-col gap-4">
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                  <MetricCard
+                    label="Payback aproximado"
+                    value={formatPaybackMonths(results.paybackMonths)}
+                    detail="Tempo estimado para o retorno compensar o investimento desta hipótese."
+                  />
+                  <MetricCard
+                    label="Lucro incremental estimado"
+                    value={formatCurrencyBRL(results.incrementalProfit)}
+                    detail="Quanto da oportunidade adicional tende a permanecer como ganho líquido."
+                  />
+                </div>
+
+                <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
+                  <AnalysisCard title="O que este cenário indica">
+                    {getInterpretationSummary(
+                      selectedScenario,
+                      results.monthlyRoi,
+                      results.incrementalProfit,
+                      results.paybackMonths
+                    )}
+                  </AnalysisCard>
+                  <AnalysisCard title="Onde a margem muda a leitura">
+                    {getMarginSensitivitySummary(inputs, results)}
+                  </AnalysisCard>
+                  <AnalysisCard title="Qual prioridade aparece daqui">
+                    {getResultSuggestionSummary(inputs, results)}
+                  </AnalysisCard>
+                  <div className="rounded-[1.35rem] border border-border bg-surface/70 px-5 py-5">
+                    <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-ink-muted">
+                      Próximo passo recomendado
+                    </span>
+                    <ul className="mt-3 flex list-disc flex-col gap-2 pl-5 text-sm leading-relaxed text-ink-secondary">
+                      {getRecommendedNextSteps(inputs, results).map((step) => (
+                        <li key={step}>{step}</li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </DetailedAnalysisGate>
+
             <p className="text-xs leading-relaxed text-ink-muted">
-              Estimativa ilustrativa. Os resultados variam conforme mix de ticket, qualidade dos
-              leads, capacidade operacional e ritmo real de implementação.
+              Leitura orientativa, não promessa de resultado. Os números variam conforme qualidade
+              do tráfego, clareza da proposta, operação comercial, margem real e ritmo de execução.
             </p>
           </div>
         </div>
