@@ -9,7 +9,7 @@ import { cn } from '@/lib/utils'
 const navLinks = [
   { href: '/servicos', label: 'Serviços' },
   { href: '/metodo', label: 'Método' },
-  { href: '/estudos-de-caso', label: 'Estudos de Caso' },
+  { href: '/estudos-de-caso', label: 'Cases' },
   { href: '/blog', label: 'Blog' },
   { href: '/sobre', label: 'Sobre' },
 ]
@@ -64,7 +64,7 @@ export default function Header() {
             </Link>
 
             {/* Desktop navigation */}
-            <nav className="hidden lg:flex items-center gap-8" aria-label="Navegação principal">
+            <nav className="hidden lg:flex items-center gap-6" aria-label="Navegação principal">
               {navLinks.map(({ href, label }) => (
                 <Link
                   key={href}
