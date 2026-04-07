@@ -287,7 +287,7 @@ export default function RoiCalculator() {
 
   return (
     <div className="editorial-panel surface-grid overflow-hidden">
-      <div className="grid grid-cols-1 gap-px bg-border lg:grid-cols-[minmax(0,1.05fr)_minmax(21rem,0.95fr)]">
+      <div className="flex flex-col gap-px bg-border">
         <div className="bg-canvas/90 px-6 py-6 md:px-8 md:py-8">
           <div className="flex flex-col gap-6">
             <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
@@ -296,7 +296,7 @@ export default function RoiCalculator() {
                   Premissas do diagnóstico
                 </span>
                 <p className="mt-3 text-sm leading-relaxed text-ink-secondary">
-                  Informe o desenho atual da operação. A leitura ao lado transforma volume,
+                  Informe o desenho atual da operação. A leitura abaixo transforma volume,
                   conversão, ticket e margem em uma percepção mais clara da oportunidade comercial.
                 </p>
               </div>
@@ -424,8 +424,22 @@ export default function RoiCalculator() {
           </div>
         </div>
 
-        <div className="bg-surface/85 px-6 py-6 md:px-8 md:py-8" aria-live="polite">
+        <div
+          className="bg-surface/85 px-6 py-6 md:px-8 md:py-8"
+          aria-live="polite"
+          aria-label="Resultados do diagnóstico"
+        >
           <div className="flex flex-col gap-5">
+            <div className="rounded-[1.35rem] border border-border bg-canvas/88 px-5 py-5">
+              <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-ink-muted">
+                Resultado do diagnóstico
+              </span>
+              <p className="mt-3 text-sm leading-relaxed text-ink-secondary">
+                Com base nas premissas acima, esta é a leitura inicial da oportunidade comercial e
+                do retorno potencial do cenário escolhido.
+              </p>
+            </div>
+
             <div className="rounded-[1.5rem] border border-accent/15 bg-accent/5 px-5 py-5">
               <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-accent">
                 Sinal de oportunidade
