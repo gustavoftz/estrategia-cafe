@@ -1,36 +1,38 @@
 import type { Metadata } from 'next'
-import { createMetadata } from '@/lib/metadata'
+import BlogArticleHeader from '@/components/blog/BlogArticleHeader'
+import BlogArticleSchema from '@/components/blog/BlogArticleSchema'
+import RelatedArticles from '@/components/blog/RelatedArticles'
 import SectionWrapper from '@/components/sections/SectionWrapper'
 import CTASection from '@/components/sections/CTASection'
-import Tag from '@/components/ui/Tag'
+import { getBlogPost } from '@/lib/blog'
+import { createArticleMetadata } from '@/lib/metadata'
 
-export const metadata: Metadata = createMetadata({
-  title: 'Posicionamento de marca: o que é e por que determina o resultado de tudo',
-  description:
-    'Posicionamento não é slogan nem identidade visual. É a clareza sobre quem você atende, qual problema resolve e por que alguém deveria escolher você. Sem isso, site, mídia e comercial operam no escuro.',
-  path: '/blog/posicionamento-de-marca',
+const post = getBlogPost('posicionamento-de-marca')
+
+export const metadata: Metadata = createArticleMetadata({
+  title: post.title,
+  description: post.description,
+  path: post.path,
+  category: post.category,
+  keywords: post.keywords,
 })
 
 export default function ArticlePage() {
   return (
     <>
-      <SectionWrapper background="canvas" className="border-b border-border">
-        <div className="flex flex-col gap-6 max-w-[700px]">
-          <div className="flex items-center gap-3">
-            <Tag variant="accent">Estratégia</Tag>
-            <span className="text-xs text-ink-muted">Abr 2026</span>
-            <span className="text-xs text-ink-muted">·</span>
-            <span className="text-xs text-ink-muted">8 min de leitura</span>
-          </div>
-          <h1 className="text-display font-serif text-ink-primary leading-tight">
+      <BlogArticleSchema post={post} />
+      <BlogArticleHeader
+        post={post}
+        title={
+          <>
             Posicionamento de marca:{' '}
-            <span className="text-ink-secondary">o que é e por que determina o resultado de tudo</span>
-          </h1>
-          <p className="text-lg text-ink-secondary leading-relaxed max-w-[56ch]">
-            Posicionamento não é slogan, não é identidade visual e não é o parágrafo de &ldquo;quem somos&rdquo; no site. É a clareza sobre quem você atende, qual problema específico resolve e por que alguém deveria escolher você em vez da alternativa.
-          </p>
-        </div>
-      </SectionWrapper>
+            <span className="text-ink-secondary">
+              o que é e por que determina o resultado de tudo
+            </span>
+          </>
+        }
+        description='Posicionamento não é slogan, não é identidade visual e não é o parágrafo de "quem somos" no site. É a clareza sobre quem você atende, qual problema específico resolve e por que alguém deveria escolher você em vez da alternativa.'
+      />
 
       <SectionWrapper background="canvas" variant="narrow">
         <article className="flex flex-col gap-10 text-base text-ink-secondary leading-relaxed">
@@ -174,6 +176,8 @@ export default function ArticlePage() {
 
         </article>
       </SectionWrapper>
+
+      <RelatedArticles currentSlug={post.slug} />
 
       <CTASection
         eyebrow="Posicionamento e estratégia"

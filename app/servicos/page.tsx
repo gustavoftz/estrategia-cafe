@@ -4,6 +4,7 @@ import SectionWrapper from '@/components/sections/SectionWrapper'
 import SectionHeader from '@/components/sections/SectionHeader'
 import ServiceFront from '@/components/sections/ServiceFront'
 import CTASection from '@/components/sections/CTASection'
+import ImpactCalculatorTeaserSection from '@/components/sections/ImpactCalculatorTeaserSection'
 import Prose from '@/components/ui/Prose'
 
 export const metadata: Metadata = createMetadata({
@@ -136,6 +137,13 @@ export default function ServicosPage() {
           </Prose>
         </div>
       </SectionWrapper>
+
+      <ImpactCalculatorTeaserSection
+        title="Antes de escolher a frente, estime o peso financeiro da fricção"
+        subtitle="Se a dúvida hoje é onde está a maior alavanca, o simulador ajuda a transformar conversão, ticket e margem em uma leitura mais objetiva de prioridade."
+        background="surface"
+        trackingLocation="servicos_teaser"
+      />
 
       <CTASection
         eyebrow="Próximo passo"

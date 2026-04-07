@@ -1,36 +1,38 @@
 import type { Metadata } from 'next'
-import { createMetadata } from '@/lib/metadata'
+import BlogArticleHeader from '@/components/blog/BlogArticleHeader'
+import BlogArticleSchema from '@/components/blog/BlogArticleSchema'
+import RelatedArticles from '@/components/blog/RelatedArticles'
 import SectionWrapper from '@/components/sections/SectionWrapper'
 import CTASection from '@/components/sections/CTASection'
-import Tag from '@/components/ui/Tag'
+import { getBlogPost } from '@/lib/blog'
+import { createArticleMetadata } from '@/lib/metadata'
 
-export const metadata: Metadata = createMetadata({
-  title: 'Agência ou consultoria de marketing: qual a diferença e quando contratar cada uma',
-  description:
-    'Agência executa. Consultoria diagnostica, prioriza e estrutura antes de executar. A diferença parece simples, mas tem impacto direto no resultado. Quando cada modelo faz sentido.',
-  path: '/blog/agencia-ou-consultoria-de-marketing',
+const post = getBlogPost('agencia-ou-consultoria-de-marketing')
+
+export const metadata: Metadata = createArticleMetadata({
+  title: post.title,
+  description: post.description,
+  path: post.path,
+  category: post.category,
+  keywords: post.keywords,
 })
 
 export default function ArticlePage() {
   return (
     <>
-      <SectionWrapper background="canvas" className="border-b border-border">
-        <div className="flex flex-col gap-6 max-w-[700px]">
-          <div className="flex items-center gap-3">
-            <Tag variant="accent">Estratégia</Tag>
-            <span className="text-xs text-ink-muted">Abr 2026</span>
-            <span className="text-xs text-ink-muted">·</span>
-            <span className="text-xs text-ink-muted">7 min de leitura</span>
-          </div>
-          <h1 className="text-display font-serif text-ink-primary leading-tight">
+      <BlogArticleSchema post={post} />
+      <BlogArticleHeader
+        post={post}
+        title={
+          <>
             Agência ou consultoria de marketing:{' '}
-            <span className="text-ink-secondary">qual a diferença e quando contratar cada uma</span>
-          </h1>
-          <p className="text-lg text-ink-secondary leading-relaxed max-w-[56ch]">
-            A diferença parece óbvia mas raramente é. Agências executam. Consultorias diagnosticam, priorizam e estruturam. O problema é quando você contrata execução para resolver um problema que é de estratégia.
-          </p>
-        </div>
-      </SectionWrapper>
+            <span className="text-ink-secondary">
+              qual a diferença e quando contratar cada uma
+            </span>
+          </>
+        }
+        description="A diferença parece óbvia mas raramente é. Agências executam. Consultorias diagnosticam, priorizam e estruturam. O problema é quando você contrata execução para resolver um problema que é de estratégia."
+      />
 
       <SectionWrapper background="canvas" variant="narrow">
         <article className="flex flex-col gap-10 text-base text-ink-secondary leading-relaxed">
@@ -166,6 +168,8 @@ export default function ArticlePage() {
 
         </article>
       </SectionWrapper>
+
+      <RelatedArticles currentSlug={post.slug} />
 
       <CTASection
         eyebrow="Diagnóstico antes de proposta"

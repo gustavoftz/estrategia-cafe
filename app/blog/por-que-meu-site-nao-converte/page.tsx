@@ -1,37 +1,36 @@
 import type { Metadata } from 'next'
-import { createMetadata } from '@/lib/metadata'
+import BlogArticleHeader from '@/components/blog/BlogArticleHeader'
+import BlogArticleSchema from '@/components/blog/BlogArticleSchema'
+import RelatedArticles from '@/components/blog/RelatedArticles'
 import SectionWrapper from '@/components/sections/SectionWrapper'
 import CTASection from '@/components/sections/CTASection'
-import Tag from '@/components/ui/Tag'
+import { getBlogPost } from '@/lib/blog'
+import { createArticleMetadata } from '@/lib/metadata'
 
-export const metadata: Metadata = createMetadata({
-  title: 'Por que meu site não converte — e não é problema de tráfego',
-  description:
-    'A causa mais comum de conversão baixa não é falta de tráfego. É falta de clareza, estrutura e persuasão. Os cinco problemas mais frequentes e como identificá-los.',
-  path: '/blog/por-que-meu-site-nao-converte',
+const post = getBlogPost('por-que-meu-site-nao-converte')
+
+export const metadata: Metadata = createArticleMetadata({
+  title: post.title,
+  description: post.description,
+  path: post.path,
+  category: post.category,
+  keywords: post.keywords,
 })
 
 export default function ArticlePage() {
   return (
     <>
-      {/* Hero */}
-      <SectionWrapper background="canvas" className="border-b border-border">
-        <div className="flex flex-col gap-6 max-w-[700px]">
-          <div className="flex items-center gap-3">
-            <Tag variant="accent">Conversão</Tag>
-            <span className="text-xs text-ink-muted">Abr 2026</span>
-            <span className="text-xs text-ink-muted">·</span>
-            <span className="text-xs text-ink-muted">8 min de leitura</span>
-          </div>
-          <h1 className="text-display font-serif text-ink-primary leading-tight">
+      <BlogArticleSchema post={post} />
+      <BlogArticleHeader
+        post={post}
+        title={
+          <>
             Por que meu site não converte{' '}
             <span className="text-ink-secondary">— e não é problema de tráfego</span>
-          </h1>
-          <p className="text-lg text-ink-secondary leading-relaxed max-w-[56ch]">
-            O diagnóstico mais comum quando a conversão é baixa é &ldquo;preciso de mais tráfego&rdquo;. A solução mais comum é contratar mais mídia. O resultado mais comum é gastar mais para converter a mesma porcentagem — ou menos.
-          </p>
-        </div>
-      </SectionWrapper>
+          </>
+        }
+        description='O diagnóstico mais comum quando a conversão é baixa é "preciso de mais tráfego". A solução mais comum é contratar mais mídia. O resultado mais comum é gastar mais para converter a mesma porcentagem — ou menos.'
+      />
 
       {/* Body */}
       <SectionWrapper background="canvas" variant="narrow">
@@ -167,6 +166,8 @@ export default function ArticlePage() {
 
         </article>
       </SectionWrapper>
+
+      <RelatedArticles currentSlug={post.slug} />
 
       <CTASection
         eyebrow="Próximo passo"

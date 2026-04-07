@@ -1,8 +1,10 @@
 'use client'
 
-import { useState } from 'react'
+import { useId, useState } from 'react'
 import Button from '@/components/ui/Button'
-import { cn } from '@/lib/utils'
+import FormField from '@/components/ui/FormField'
+import { inputClass, selectClass, textareaClass } from '@/components/ui/formStyles'
+import { trackEvent } from '@/lib/analytics'
 
 type FormState = 'idle' | 'submitting' | 'success' | 'error'
 
@@ -23,33 +25,6 @@ const contatoOptions = [
   { value: 'video', label: 'Videochamada' },
 ]
 
-interface FieldProps {
-  label: string
-  hint?: string
-  required?: boolean
-  children: React.ReactNode
-}
-
-function Field({ label, hint, required, children }: FieldProps) {
-  return (
-    <label className="flex flex-col gap-2 text-sm font-medium text-ink-primary cursor-default">
-      <span>
-        {label}
-        {required && <span className="text-accent ml-1" aria-hidden="true">*</span>}
-      </span>
-      {hint && (
-        <span className="text-xs font-normal text-ink-muted leading-snug">{hint}</span>
-      )}
-      {children}
-    </label>
-  )
-}
-
-const inputClass =
-  'w-full px-4 py-3 text-sm text-ink-primary bg-canvas border border-border focus:border-ink-primary focus:outline-none transition-colors duration-150 placeholder:text-ink-muted'
-
-const textareaClass = cn(inputClass, 'resize-none min-h-[120px]')
-
 function normalizeSiteUrl(value: string) {
   const site = value.trim()
 
@@ -67,6 +42,8 @@ function normalizeSiteUrl(value: string) {
 export default function ContactForm() {
   const [state, setState] = useState<FormState>('idle')
   const [error, setError] = useState('')
+  const liveStatusId = useId()
+  const errorId = `${liveStatusId}-error`
   const [data, setData] = useState({
     nome: '',
     empresa: '',
@@ -83,6 +60,8 @@ export default function ContactForm() {
   const set = (field: keyof typeof data) =>
     (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) =>
       setData(prev => ({ ...prev, [field]: e.target.value }))
+
+  const isSubmitting = state === 'submitting'
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -134,6 +113,12 @@ export default function ContactForm() {
         contato: '',
         website: '',
       })
+      trackEvent('generate_lead', {
+        form_name: 'contact_form',
+        form_destination: 'contato',
+        frente: data.frente,
+        preferred_contact: data.contato || 'nao_informado',
+      })
       setState('success')
     } catch (submitError) {
       setError(
@@ -147,60 +132,84 @@ export default function ContactForm() {
 
   if (state === 'success') {
     return (
-      <div className="flex flex-col gap-4 py-12 border border-border px-8">
-        <span className="eyebrow text-accent">Mensagem enviada</span>
-        <h3 className="text-h3 font-serif text-ink-primary">
-          Vou ler com atenção antes de responder.
-        </h3>
-        <p className="text-base text-ink-secondary leading-relaxed max-w-[52ch]">
-          Se fizer sentido conversar, você receberá uma proposta de horário em até 48 horas úteis. Obrigado pela confiança.
-        </p>
+      <div className="editorial-panel px-8 py-12" role="status" aria-live="polite">
+        <div className="relative flex flex-col gap-4">
+          <span className="eyebrow text-accent">Mensagem enviada</span>
+          <h3 className="text-h3 font-serif text-ink-primary">
+            Vou ler com atenção antes de responder.
+          </h3>
+          <p className="max-w-[52ch] text-base text-ink-secondary leading-relaxed">
+            Se fizer sentido conversar, você receberá uma proposta de horário em até 48 horas úteis.
+            Obrigado pela confiança.
+          </p>
+        </div>
       </div>
     )
   }
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-6" noValidate>
+    <form
+      onSubmit={handleSubmit}
+      className="flex flex-col gap-6"
+      noValidate
+      aria-busy={isSubmitting}
+      aria-describedby={state === 'error' ? errorId : undefined}
+    >
+      <p id={liveStatusId} className="sr-only" aria-live="polite">
+        {isSubmitting ? 'Enviando sua mensagem.' : state === 'error' ? error : ''}
+      </p>
+
       {/* Row: Nome + Empresa */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-        <Field label="Nome" required>
+        <FormField label="Nome" required>
           <input
             type="text"
+            name="nome"
             required
             value={data.nome}
             onChange={set('nome')}
             placeholder="Seu nome"
             className={inputClass}
+            autoComplete="name"
+            disabled={isSubmitting}
           />
-        </Field>
-        <Field label="Empresa" required>
+        </FormField>
+        <FormField label="Empresa" required>
           <input
             type="text"
+            name="empresa"
             required
             value={data.empresa}
             onChange={set('empresa')}
             placeholder="Nome da empresa"
             className={inputClass}
+            autoComplete="organization"
+            disabled={isSubmitting}
           />
-        </Field>
+        </FormField>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-        <Field label="E-mail ou WhatsApp para retorno" required>
+        <FormField label="E-mail ou WhatsApp para retorno" required>
           <input
             type="text"
+            name="retorno"
             required
             value={data.retorno}
             onChange={set('retorno')}
             placeholder="seu@email.com ou +55 11 99999-9999"
             className={inputClass}
+            autoComplete="email"
+            disabled={isSubmitting}
           />
-        </Field>
-        <Field label="Forma preferida de contato">
+        </FormField>
+        <FormField label="Forma preferida de contato">
           <select
+            name="contato"
             value={data.contato}
             onChange={set('contato')}
-            className={cn(inputClass, 'cursor-pointer')}
+            className={selectClass}
+            disabled={isSubmitting}
           >
             {contatoOptions.map(o => (
               <option key={o.value} value={o.value} disabled={o.value === ''}>
@@ -208,68 +217,82 @@ export default function ContactForm() {
               </option>
             ))}
           </select>
-        </Field>
+        </FormField>
       </div>
 
       {/* Row: Site + Segmento */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-        <Field label="Site" hint="URL do site atual, se houver">
+        <FormField label="Site" hint="URL do site atual, se houver">
           <input
-            type="text"
+            type="url"
+            name="site"
             value={data.site}
             onChange={set('site')}
             placeholder="seusite.com.br ou https://seusite.com.br"
             className={inputClass}
+            autoComplete="url"
+            autoCapitalize="off"
+            inputMode="url"
+            spellCheck={false}
+            disabled={isSubmitting}
           />
-        </Field>
-        <Field label="Segmento" required>
+        </FormField>
+        <FormField label="Segmento" required>
           <input
             type="text"
+            name="segmento"
             required
             value={data.segmento}
             onChange={set('segmento')}
             placeholder="Ex: e-commerce, serviços B2B, SaaS..."
             className={inputClass}
+            disabled={isSubmitting}
           />
-        </Field>
+        </FormField>
       </div>
 
       {/* Principal desafio */}
-      <Field
+      <FormField
         label="Principal desafio hoje"
         hint="Descreva com clareza o que não está funcionando como deveria."
         required
       >
         <textarea
+          name="desafio"
           required
           value={data.desafio}
           onChange={set('desafio')}
           placeholder="Qual é o problema central que você quer resolver?"
           className={textareaClass}
+          disabled={isSubmitting}
         />
-      </Field>
+      </FormField>
 
       {/* O que já foi tentado */}
-      <Field
+      <FormField
         label="O que já foi tentado"
         hint="Soluções anteriores, agências, ferramentas, abordagens — e o resultado."
       >
         <textarea
+          name="tentativas"
           value={data.tentativas}
           onChange={set('tentativas')}
           placeholder="O que você já tentou? O que funcionou, o que não funcionou?"
           className={textareaClass}
+          disabled={isSubmitting}
         />
-      </Field>
+      </FormField>
 
-      {/* Row: Frente + Contato preferido */}
+      {/* Frente mais urgente */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-        <Field label="Frente mais urgente" required>
+        <FormField label="Frente mais urgente" required>
           <select
+            name="frente"
             required
             value={data.frente}
             onChange={set('frente')}
-            className={cn(inputClass, 'cursor-pointer')}
+            className={selectClass}
+            disabled={isSubmitting}
           >
             {frenteOptions.map(o => (
               <option key={o.value} value={o.value} disabled={o.value === ''}>
@@ -277,36 +300,49 @@ export default function ContactForm() {
               </option>
             ))}
           </select>
-        </Field>
+        </FormField>
       </div>
 
       <div className="hidden" aria-hidden="true">
-        <Field label="Website">
+        <FormField label="Website">
           <input
             type="text"
+            name="website"
             tabIndex={-1}
             autoComplete="off"
             value={data.website}
             onChange={set('website')}
             className={inputClass}
+            disabled={isSubmitting}
           />
-        </Field>
+        </FormField>
       </div>
 
-      <div className="pt-2">
+      <div className="rounded-[1.5rem] border border-border bg-surface/70 px-5 py-5">
+        <div className="mb-4 flex flex-col gap-2">
+          <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-ink-muted">
+            O que acontece depois
+          </span>
+          <p className="text-sm text-ink-secondary leading-relaxed">
+            Cada mensagem é lida manualmente. Se houver encaixe, a resposta chega com uma proposta
+            de próximo passo em até 48 horas úteis.
+          </p>
+        </div>
+
         {state === 'error' && (
-          <p className="mb-4 text-sm text-accent" role="alert">
+          <p id={errorId} className="mb-4 text-sm text-accent" role="alert">
             {error}
           </p>
         )}
+
         <Button
           type="submit"
           variant="primary"
           size="lg"
-          disabled={state === 'submitting'}
+          disabled={isSubmitting}
           className="w-full sm:w-auto"
         >
-          {state === 'submitting' ? 'Enviando...' : 'Enviar mensagem'}
+          {isSubmitting ? 'Enviando...' : 'Enviar mensagem'}
         </Button>
       </div>
     </form>

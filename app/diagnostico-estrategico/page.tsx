@@ -3,7 +3,8 @@ import { createMetadata } from '@/lib/metadata'
 import SectionWrapper from '@/components/sections/SectionWrapper'
 import SectionHeader from '@/components/sections/SectionHeader'
 import CTASection from '@/components/sections/CTASection'
-import Button from '@/components/ui/Button'
+import ImpactCalculatorTeaserSection from '@/components/sections/ImpactCalculatorTeaserSection'
+import TrackedButton from '@/components/analytics/TrackedButton'
 import Prose from '@/components/ui/Prose'
 
 export const metadata: Metadata = createMetadata({
@@ -86,9 +87,15 @@ export default function DiagnosticoPage() {
             O Diagnóstico Estratégico é uma análise estruturada do seu sistema comercial digital. O objetivo é identificar onde está a maior fricção, o que está funcionando e o que precisa mudar — com clareza e sem achismo.
           </p>
           <div className="pt-2">
-            <Button href="/contato" variant="primary" size="lg">
+            <TrackedButton
+              href="/contato"
+              variant="primary"
+              size="lg"
+              trackingLocation="diagnostico_hero"
+              trackingLabel="Solicitar o Diagnóstico Estratégico"
+            >
               Solicitar o Diagnóstico Estratégico
-            </Button>
+            </TrackedButton>
           </div>
         </div>
       </SectionWrapper>
@@ -180,6 +187,13 @@ export default function DiagnosticoPage() {
           </div>
         </div>
       </SectionWrapper>
+
+      <ImpactCalculatorTeaserSection
+        title="Quer dimensionar o potencial antes da conversa?"
+        subtitle="Se você já tem uma noção de volume, ticket e conversão, o simulador ajuda a estimar o impacto financeiro de melhorar o processo comercial antes de aprofundar o diagnóstico."
+        background="surface"
+        trackingLocation="diagnostico_teaser"
+      />
 
       <CTASection
         eyebrow="Próximo passo"

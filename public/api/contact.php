@@ -62,6 +62,46 @@ function smtp_command($socket, string $command, array $codes, string $context): 
   return smtp_expect($socket, $codes, $context);
 }
 
+function smtp_extract_domain(string $email): string {
+  $parts = explode('@', $email);
+  $domain = trim((string) end($parts));
+
+  return $domain !== '' ? $domain : 'estrategia.cafe';
+}
+
+function smtp_format_address(string $email, string $name = ''): string {
+  $safeEmail = trim($email);
+  $safeName = trim($name);
+
+  if ($safeName === '') {
+    return $safeEmail;
+  }
+
+  return sprintf('"%s" <%s>', addcslashes($safeName, '"\\'), $safeEmail);
+}
+
+function smtp_message_id(string $fromEmail): string {
+  $domain = smtp_extract_domain($fromEmail);
+
+  try {
+    $token = bin2hex(random_bytes(12));
+  } catch (Throwable $error) {
+    $token = str_replace('.', '', uniqid('', true));
+  }
+
+  return sprintf('<%s@%s>', $token, $domain);
+}
+
+function smtp_encode_body(string $message): string {
+  $normalized = preg_replace("/\r\n|\r|\n/", "\r\n", $message) ?? $message;
+
+  if (function_exists('quoted_printable_encode')) {
+    return quoted_printable_encode($normalized);
+  }
+
+  return $normalized;
+}
+
 function smtp_send_mail(array $config, string $to, string $subject, string $message, string $replyTo): void {
   $host = smtp_config_value($config, 'host', 'SMTP_HOST') ?: 'smtp.hostinger.com';
   $port = (int) (smtp_config_value($config, 'port', 'SMTP_PORT') ?: '587');
@@ -106,18 +146,28 @@ function smtp_send_mail(array $config, string $to, string $subject, string $mess
     smtp_command($socket, 'DATA', [354], 'Falha ao iniciar DATA.');
 
     $encodedSubject = '=?UTF-8?B?' . base64_encode($subject) . '?=';
-    $safeMessage = preg_replace("/\r\n|\r|\n/", "\r\n", $message) ?? $message;
+    $safeMessage = smtp_encode_body($message);
     $safeMessage = preg_replace('/^\./m', '..', $safeMessage) ?? $safeMessage;
+    $fromAddress = smtp_format_address($fromEmail, $fromName);
+    $toAddress = smtp_format_address($to, 'Contato estrategia.cafe');
+    $replyToAddress = filter_var($replyTo, FILTER_VALIDATE_EMAIL) !== false
+      ? smtp_format_address($replyTo)
+      : smtp_format_address($fromEmail, $fromName);
 
     $headers = [
-      'From: ' . sprintf('"%s" <%s>', addcslashes($fromName, '"\\'), $fromEmail),
-      'To: ' . $to,
-      'Reply-To: ' . $replyTo,
+      'From: ' . $fromAddress,
+      'Sender: ' . $fromEmail,
+      'To: ' . $toAddress,
+      'Reply-To: ' . $replyToAddress,
       'Subject: ' . $encodedSubject,
+      'Message-ID: ' . smtp_message_id($fromEmail),
       'MIME-Version: 1.0',
-      'Content-Type: text/plain; charset=UTF-8',
-      'Content-Transfer-Encoding: 8bit',
+      'Content-Type: text/plain; charset=UTF-8; format=flowed',
+      'Content-Transfer-Encoding: quoted-printable',
       'Date: ' . date(DATE_RFC2822),
+      'Auto-Submitted: auto-generated',
+      'X-Auto-Response-Suppress: All',
+      'X-Mailer: estrategia.cafe contact form',
     ];
 
     fwrite($socket, implode("\r\n", $headers) . "\r\n\r\n" . $safeMessage . "\r\n.\r\n");
