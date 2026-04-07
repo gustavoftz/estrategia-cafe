@@ -39,6 +39,10 @@ function getTrackedDestination(href?: string) {
     return 'diagnostico_estrategico'
   }
 
+  if (href === '/simulador-de-impacto-comercial') {
+    return 'simulador_impacto_comercial'
+  }
+
   return null
 }
 

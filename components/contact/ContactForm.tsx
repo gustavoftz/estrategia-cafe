@@ -2,8 +2,9 @@
 
 import { useId, useState } from 'react'
 import Button from '@/components/ui/Button'
+import FormField from '@/components/ui/FormField'
+import { inputClass, selectClass, textareaClass } from '@/components/ui/formStyles'
 import { trackEvent } from '@/lib/analytics'
-import { cn } from '@/lib/utils'
 
 type FormState = 'idle' | 'submitting' | 'success' | 'error'
 
@@ -23,33 +24,6 @@ const contatoOptions = [
   { value: 'whatsapp', label: 'WhatsApp' },
   { value: 'video', label: 'Videochamada' },
 ]
-
-interface FieldProps {
-  label: string
-  hint?: string
-  required?: boolean
-  children: React.ReactNode
-}
-
-function Field({ label, hint, required, children }: FieldProps) {
-  return (
-    <label className="flex flex-col gap-2 text-sm font-medium text-ink-primary cursor-default">
-      <span>
-        {label}
-        {required && <span className="text-accent ml-1" aria-hidden="true">*</span>}
-      </span>
-      {hint && (
-        <span className="text-xs font-normal text-ink-muted leading-snug">{hint}</span>
-      )}
-      {children}
-    </label>
-  )
-}
-
-const inputClass =
-  'w-full rounded-[1rem] border border-border bg-canvas px-4 py-3 text-sm text-ink-primary shadow-[0_14px_40px_rgba(25,24,26,0.04)] transition-colors duration-150 placeholder:text-ink-muted focus:border-ink-primary focus:outline-none'
-
-const textareaClass = cn(inputClass, 'resize-none min-h-[120px]')
 
 function normalizeSiteUrl(value: string) {
   const site = value.trim()
@@ -187,7 +161,7 @@ export default function ContactForm() {
 
       {/* Row: Nome + Empresa */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-        <Field label="Nome" required>
+        <FormField label="Nome" required>
           <input
             type="text"
             name="nome"
@@ -199,8 +173,8 @@ export default function ContactForm() {
             autoComplete="name"
             disabled={isSubmitting}
           />
-        </Field>
-        <Field label="Empresa" required>
+        </FormField>
+        <FormField label="Empresa" required>
           <input
             type="text"
             name="empresa"
@@ -212,11 +186,11 @@ export default function ContactForm() {
             autoComplete="organization"
             disabled={isSubmitting}
           />
-        </Field>
+        </FormField>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-        <Field label="E-mail ou WhatsApp para retorno" required>
+        <FormField label="E-mail ou WhatsApp para retorno" required>
           <input
             type="text"
             name="retorno"
@@ -228,13 +202,13 @@ export default function ContactForm() {
             autoComplete="email"
             disabled={isSubmitting}
           />
-        </Field>
-        <Field label="Forma preferida de contato">
+        </FormField>
+        <FormField label="Forma preferida de contato">
           <select
             name="contato"
             value={data.contato}
             onChange={set('contato')}
-            className={cn(inputClass, 'cursor-pointer')}
+            className={selectClass}
             disabled={isSubmitting}
           >
             {contatoOptions.map(o => (
@@ -243,12 +217,12 @@ export default function ContactForm() {
               </option>
             ))}
           </select>
-        </Field>
+        </FormField>
       </div>
 
       {/* Row: Site + Segmento */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-        <Field label="Site" hint="URL do site atual, se houver">
+        <FormField label="Site" hint="URL do site atual, se houver">
           <input
             type="url"
             name="site"
@@ -262,8 +236,8 @@ export default function ContactForm() {
             spellCheck={false}
             disabled={isSubmitting}
           />
-        </Field>
-        <Field label="Segmento" required>
+        </FormField>
+        <FormField label="Segmento" required>
           <input
             type="text"
             name="segmento"
@@ -274,11 +248,11 @@ export default function ContactForm() {
             className={inputClass}
             disabled={isSubmitting}
           />
-        </Field>
+        </FormField>
       </div>
 
       {/* Principal desafio */}
-      <Field
+      <FormField
         label="Principal desafio hoje"
         hint="Descreva com clareza o que não está funcionando como deveria."
         required
@@ -292,10 +266,10 @@ export default function ContactForm() {
           className={textareaClass}
           disabled={isSubmitting}
         />
-      </Field>
+      </FormField>
 
       {/* O que já foi tentado */}
-      <Field
+      <FormField
         label="O que já foi tentado"
         hint="Soluções anteriores, agências, ferramentas, abordagens — e o resultado."
       >
@@ -307,17 +281,17 @@ export default function ContactForm() {
           className={textareaClass}
           disabled={isSubmitting}
         />
-      </Field>
+      </FormField>
 
       {/* Frente mais urgente */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-        <Field label="Frente mais urgente" required>
+        <FormField label="Frente mais urgente" required>
           <select
             name="frente"
             required
             value={data.frente}
             onChange={set('frente')}
-            className={cn(inputClass, 'cursor-pointer')}
+            className={selectClass}
             disabled={isSubmitting}
           >
             {frenteOptions.map(o => (
@@ -326,11 +300,11 @@ export default function ContactForm() {
               </option>
             ))}
           </select>
-        </Field>
+        </FormField>
       </div>
 
       <div className="hidden" aria-hidden="true">
-        <Field label="Website">
+        <FormField label="Website">
           <input
             type="text"
             name="website"
@@ -341,7 +315,7 @@ export default function ContactForm() {
             className={inputClass}
             disabled={isSubmitting}
           />
-        </Field>
+        </FormField>
       </div>
 
       <div className="rounded-[1.5rem] border border-border bg-surface/70 px-5 py-5">

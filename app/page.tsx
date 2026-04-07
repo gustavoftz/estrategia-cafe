@@ -3,6 +3,7 @@ import SectionWrapper from '@/components/sections/SectionWrapper'
 import SectionHeader from '@/components/sections/SectionHeader'
 import TrackedButton from '@/components/analytics/TrackedButton'
 import CTASection from '@/components/sections/CTASection'
+import ImpactCalculatorTeaserSection from '@/components/sections/ImpactCalculatorTeaserSection'
 import Button from '@/components/ui/Button'
 import Prose from '@/components/ui/Prose'
 
@@ -447,6 +448,13 @@ export default function HomePage() {
           </div>
         </div>
       </SectionWrapper>
+
+      <ImpactCalculatorTeaserSection
+        title="Quer uma estimativa rápida antes de falar comigo?"
+        subtitle="O simulador transforma volume de oportunidades, conversão, ticket e margem em uma leitura mais concreta do impacto potencial de melhorar sua operação comercial."
+        background="canvas"
+        trackingLocation="home_teaser"
+      />
 
       {/* 9. CTA final */}
       <CTASection

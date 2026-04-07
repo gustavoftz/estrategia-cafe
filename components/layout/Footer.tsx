@@ -8,6 +8,7 @@ const navLinks = [
   { href: '/estudos-de-caso', label: 'Estudos de Caso' },
   { href: '/blog', label: 'Blog' },
   { href: '/sobre', label: 'Sobre' },
+  { href: '/simulador-de-impacto-comercial', label: 'Simulador de Impacto Comercial' },
   { href: '/contato', label: 'Contato' },
   { href: '/diagnostico-estrategico', label: 'Diagnóstico Estratégico' },
 ]

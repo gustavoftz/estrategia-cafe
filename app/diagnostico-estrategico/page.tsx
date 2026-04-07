@@ -3,6 +3,7 @@ import { createMetadata } from '@/lib/metadata'
 import SectionWrapper from '@/components/sections/SectionWrapper'
 import SectionHeader from '@/components/sections/SectionHeader'
 import CTASection from '@/components/sections/CTASection'
+import ImpactCalculatorTeaserSection from '@/components/sections/ImpactCalculatorTeaserSection'
 import TrackedButton from '@/components/analytics/TrackedButton'
 import Prose from '@/components/ui/Prose'
 
@@ -186,6 +187,13 @@ export default function DiagnosticoPage() {
           </div>
         </div>
       </SectionWrapper>
+
+      <ImpactCalculatorTeaserSection
+        title="Quer dimensionar o potencial antes da conversa?"
+        subtitle="Se você já tem uma noção de volume, ticket e conversão, o simulador ajuda a estimar o impacto financeiro de melhorar o processo comercial antes de aprofundar o diagnóstico."
+        background="surface"
+        trackingLocation="diagnostico_teaser"
+      />
 
       <CTASection
         eyebrow="Próximo passo"
