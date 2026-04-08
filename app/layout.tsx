@@ -20,14 +20,14 @@ const sans = Inter({
 
 export const metadata: Metadata = {
   title: {
-    default: 'estrategia.cafe — Consultoria estratégica digital',
-    template: '%s | estrategia.cafe',
+    default: 'estratégia. — Consultoria estratégica digital',
+    template: '%s | estratégia.',
   },
   description:
     'Consultoria estratégica especializada em reduzir fricção comercial no digital: posicionamento, site, aquisição, conversão e operação por WhatsApp como um sistema integrado.',
   metadataBase: new URL('https://estrategia.cafe'),
   openGraph: {
-    siteName: 'estrategia.cafe',
+    siteName: 'estratégia.',
     locale: 'pt_BR',
     type: 'website',
   },
@@ -39,7 +39,7 @@ export const metadata: Metadata = {
 const organizationSchema = {
   '@context': 'https://schema.org',
   '@type': 'ProfessionalService',
-  name: 'estrategia.cafe',
+  name: 'estratégia.',
   url: 'https://estrategia.cafe',
   description:
     'Consultoria estratégica especializada em reduzir fricção comercial no digital: posicionamento, site, aquisição, conversão e operação por WhatsApp como um sistema integrado.',

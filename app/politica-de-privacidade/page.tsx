@@ -2,9 +2,9 @@ import type { Metadata } from 'next'
 import SectionWrapper from '@/components/sections/SectionWrapper'
 
 export const metadata: Metadata = {
-  title: 'Política de Privacidade | estrategia.cafe',
+  title: 'Política de Privacidade | estratégia.',
   description:
-    'Como a estrategia.cafe coleta, usa e protege dados pessoais — em conformidade com a LGPD.',
+    'Como este site coleta, usa e protege dados pessoais — em conformidade com a LGPD.',
   alternates: {
     canonical: 'https://estrategia.cafe/politica-de-privacidade',
   },
@@ -31,7 +31,7 @@ export default function PoliticaDePrivacidadePage() {
           <section className="flex flex-col gap-4">
             <h2 className="text-base font-serif text-ink-primary">1. Quem somos</h2>
             <p>
-              A <strong className="font-semibold text-ink-primary">estrategia.cafe</strong> é uma
+              A <strong className="font-semibold text-ink-primary">estratégia.</strong> é uma
               consultoria estratégica digital com foco em posicionamento, conversão, aquisição e
               operação comercial por WhatsApp. Este site serve como canal institucional e de contato.
             </p>
@@ -131,7 +131,7 @@ export default function PoliticaDePrivacidadePage() {
               <strong className="font-semibold text-ink-primary">
                 Acordo de Processamento de Dados (DPA)
               </strong>{' '}
-              celebrado com a estrategia.cafe. Para mais informações sobre como o Google trata esses
+              celebrado com a estratégia. Para mais informações sobre como o Google trata esses
               dados, consulte a{' '}
               <a
                 href="https://policies.google.com/privacy"

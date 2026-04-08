@@ -26,10 +26,10 @@ export default function Footer() {
           <div className="flex flex-col gap-5 lg:col-span-1">
             <Link
               href="/"
-              aria-label="estrategia.cafe — página inicial"
+              aria-label="Página inicial da estratégia."
               className="font-serif text-[1.2rem] text-ink-inverse hover:text-ink-inverse/80 transition-colors self-start"
             >
-              estrategia<span className="text-accent-light">.</span>cafe
+              estratégia<span className="text-accent-light">.</span>
             </Link>
             <p className="text-sm text-ink-inverse/65 leading-relaxed max-w-[38ch]">
               Consultoria estratégica focada em reduzir fricção comercial no digital. Posicionamento, site, aquisição, conversão e operação por WhatsApp como um sistema integrado.
@@ -114,7 +114,7 @@ export default function Footer() {
       <div className="border-t border-ink-inverse/10">
         <div className="container-content max-w-content py-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
           <p className="text-xs text-ink-inverse/35">
-            © {year} estrategia.cafe. Todos os direitos reservados.
+            © {year} estratégia. Todos os direitos reservados.
           </p>
           <div className="flex items-center gap-4">
             <Link

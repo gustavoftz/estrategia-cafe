@@ -148,7 +148,7 @@ export default function Header() {
             <div className="flex min-w-0 items-center gap-4">
               <Link
                 href="/"
-                aria-label="estratégia — página inicial"
+                aria-label="Página inicial da estratégia."
                 className="shrink-0 font-serif text-[1.2rem] text-ink-primary transition-colors hover:text-ink-secondary"
                 onClick={() => setMenuOpen(false)}
               >

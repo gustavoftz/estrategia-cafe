@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 
 export const siteUrl = 'https://estrategia.cafe'
-export const siteName = 'estrategia.cafe'
+export const siteName = 'estratégia.'
 const defaultDescription =
   'Consultoria estratégica especializada em reduzir fricção comercial no digital: posicionamento, site, aquisição, conversão e operação por WhatsApp como um sistema integrado.'
 

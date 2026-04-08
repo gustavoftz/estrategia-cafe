@@ -38,7 +38,7 @@ const categoryAnchors = Object.fromEntries(
 const blogCollectionSchema = {
   '@context': 'https://schema.org',
   '@type': 'CollectionPage',
-  name: 'Blog estrategia.cafe',
+  name: 'Blog estratégia.',
   description:
     'Artigos sobre estratégia digital, SEO, conversão e operação comercial por WhatsApp.',
   hasPart: blogPosts.map((post) => ({

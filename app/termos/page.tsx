@@ -2,9 +2,9 @@ import type { Metadata } from 'next'
 import SectionWrapper from '@/components/sections/SectionWrapper'
 
 export const metadata: Metadata = {
-  title: 'Termos de Serviço | estrategia.cafe',
+  title: 'Termos de Serviço | estratégia.',
   description:
-    'Termos de uso do site estrategia.cafe — condições de acesso, propriedade intelectual e limites de responsabilidade.',
+    'Condições de acesso, propriedade intelectual e limites de responsabilidade do site da estratégia.',
   alternates: {
     canonical: 'https://estrategia.cafe/termos',
   },
@@ -31,7 +31,7 @@ export default function TermosPage() {
           <section className="flex flex-col gap-4">
             <h2 className="text-base font-serif text-ink-primary">1. Aceitação dos termos</h2>
             <p>
-              Ao acessar e utilizar o site <strong className="font-semibold text-ink-primary">estrategia.cafe</strong>,
+              Ao acessar e utilizar o site <strong className="font-semibold text-ink-primary">estratégia.</strong>,
               você concorda com as condições descritas neste documento. Caso não concorde com
               qualquer parte destes termos, recomendamos que não utilize o site.
             </p>
@@ -41,8 +41,8 @@ export default function TermosPage() {
             <h2 className="text-base font-serif text-ink-primary">2. Natureza do site</h2>
             <p>
               Este site tem caráter institucional e informativo. Seu objetivo é apresentar a
-              consultoria estrategia.cafe, descrever as frentes de trabalho e possibilitar o início
-              de uma conversa comercial.
+              consultoria, descrever as frentes de trabalho e possibilitar o início de uma
+              conversa comercial.
             </p>
             <p>
               O conteúdo publicado — textos, metodologias, estudos de caso e estruturas de análise —
@@ -60,7 +60,7 @@ export default function TermosPage() {
               interesse em iniciar uma conversa.
             </p>
             <p>
-              A estrategia.cafe responderá os contatos recebidos a seu critério e sem prazo
+              A estratégia. responderá os contatos recebidos a seu critério e sem prazo
               garantido, priorizando os que demonstrem compatibilidade com o perfil de clientes
               atendidos.
             </p>
@@ -70,25 +70,26 @@ export default function TermosPage() {
             <h2 className="text-base font-serif text-ink-primary">4. Propriedade intelectual</h2>
             <p>
               Todo o conteúdo deste site — incluindo textos, estruturas, metodologias, nomenclaturas
-              e elementos visuais — é de propriedade da estrategia.cafe, salvo indicação contrária.
+              e elementos visuais — é de propriedade da estratégia. Exceto quando houver indicação
+              em contrário.
             </p>
             <p>
               É permitida a reprodução parcial para fins pessoais ou educacionais, desde que com
-              atribuição explícita à estrategia.cafe e sem fins comerciais. A reprodução integral ou
-              comercial sem autorização prévia por escrito é proibida.
+              atribuição explícita e sem fins comerciais. A reprodução integral ou comercial sem
+              autorização prévia por escrito é proibida.
             </p>
             <p>
               É expressamente vedado o uso automatizado do conteúdo deste site para treinamento,
               ajuste fino ou alimentação de modelos de inteligência artificial, sistemas de
               aprendizado de máquina ou bases de dados similares, independentemente da finalidade
-              comercial ou não comercial, sem autorização prévia e por escrito da estrategia.cafe.
+              comercial ou não comercial, sem autorização prévia e por escrito da estratégia.
             </p>
           </section>
 
           <section className="flex flex-col gap-4">
             <h2 className="text-base font-serif text-ink-primary">5. Links externos</h2>
             <p>
-              Este site pode conter links para recursos externos. A estrategia.cafe não se
+              Este site pode conter links para recursos externos. A estratégia. não se
               responsabiliza pelo conteúdo, disponibilidade ou políticas de privacidade de sites de
               terceiros. O acesso a esses links é de responsabilidade do usuário.
             </p>
@@ -97,12 +98,12 @@ export default function TermosPage() {
           <section className="flex flex-col gap-4">
             <h2 className="text-base font-serif text-ink-primary">6. Limitação de responsabilidade</h2>
             <p>
-              A estrategia.cafe não garante que o site estará disponível de forma ininterrupta ou
+              A estratégia. não garante que o site estará disponível de forma ininterrupta ou
               livre de erros. O conteúdo pode ser alterado, suspenso ou descontinuado a qualquer
               momento sem aviso prévio.
             </p>
             <p>
-              Na máxima extensão permitida pela legislação aplicável, a estrategia.cafe não se
+              Na máxima extensão permitida pela legislação aplicável, a estratégia. não se
               responsabiliza por danos diretos, indiretos ou consequentes decorrentes do acesso ou
               uso das informações disponíveis neste site.
             </p>

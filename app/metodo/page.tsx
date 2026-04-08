@@ -74,7 +74,7 @@ export default function MetodoPage() {
               Método não é burocracia. É o que garante que o trabalho correto seja feito na ordem correta — e que o esforço resolva o problema real, não apenas o sintoma mais visível.
             </p>
             <p>
-              O processo da estrategia.cafe tem cinco fases. Cada uma informa a seguinte. Nenhuma é pulada.
+              O processo da estratégia. tem cinco fases. Cada uma informa a seguinte. Nenhuma é pulada.
             </p>
           </Prose>
         </div>

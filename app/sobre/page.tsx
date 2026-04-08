@@ -8,7 +8,7 @@ import Prose from '@/components/ui/Prose'
 export const metadata: Metadata = createMetadata({
   title: 'Sobre — Estratégia Digital Integrada',
   description:
-    'A estrategia.cafe nasceu da observação de que os problemas de digital raramente são de canal ou ferramenta — são de clareza, estrutura e coerência comercial.',
+    'A estratégia. nasceu da observação de que os problemas de digital raramente são de canal ou ferramenta — são de clareza, estrutura e coerência comercial.',
   path: '/sobre',
 })
 
@@ -35,7 +35,7 @@ export default function SobrePage() {
       {/* 1. Abertura — worldview primeiro, não biografia */}
       <SectionWrapper background="canvas" className="border-b border-border">
         <div className="flex flex-col gap-8 max-w-[720px]">
-          <span className="eyebrow">Sobre a estrategia.cafe</span>
+          <span className="eyebrow">Sobre a estratégia.</span>
           <h1 className="text-display font-serif text-ink-primary">
             A maioria dos problemas de digital não é de canal.{' '}
             <span className="text-ink-secondary">É de clareza, estrutura e coerência.</span>
@@ -48,7 +48,7 @@ export default function SobrePage() {
               Com frequência, o que está falhando é mais estrutural: a mensagem não é clara, o site não persuade, a jornada do lead é confusa, o atendimento comercial é inconsistente. São fricções que mais tráfego não resolve — porque tráfego só amplifica o que já existe.
             </p>
             <p>
-              A estrategia.cafe nasceu dessa observação. E existe para trabalhar exatamente nesses pontos.
+              A estratégia. nasceu dessa observação. E existe para trabalhar exatamente nesses pontos.
             </p>
           </Prose>
         </div>
@@ -82,13 +82,13 @@ export default function SobrePage() {
           />
           <Prose size="base" maxWidth={false}>
             <p>
-              A estrategia.cafe foi construída a partir de uma observação recorrente: as empresas que obtinham resultados mais consistentes no digital não eram as que investiam mais. Eram as que tinham maior clareza sobre sua proposta, maior coerência entre canais e maior estrutura para converter e atender o que chegava.
+              A estratégia. foi construída a partir de uma observação recorrente: as empresas que obtinham resultados mais consistentes no digital não eram as que investiam mais. Eram as que tinham maior clareza sobre sua proposta, maior coerência entre canais e maior estrutura para converter e atender o que chegava.
             </p>
             <p>
               Esse padrão se repetiu em e-commerces com tráfego alto e conversão baixa, em empresas B2B com WhatsApp sobrecarregado, em negócios que trocavam de agência a cada ano sem mudar o resultado. O problema quase nunca era falta de execução — era falta de diagnóstico. Executava-se sem entender. Escalava-se sem estruturar.
             </p>
             <p>
-              A forma de trabalho da estrategia.cafe nasceu dessa leitura: diagnóstico antes de proposta, priorização antes de escopo, método antes de velocidade.
+              A forma de trabalho da estratégia. nasceu dessa leitura: diagnóstico antes de proposta, priorização antes de escopo, método antes de velocidade.
             </p>
           </Prose>
         </div>

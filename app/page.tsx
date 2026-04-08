@@ -7,18 +7,18 @@ import ImpactCalculatorTeaserSection from '@/components/sections/ImpactCalculato
 import Prose from '@/components/ui/Prose'
 
 export const metadata: Metadata = {
-  title: 'estrategia.cafe — Consultoria estratégica digital',
+  title: 'estratégia. — Consultoria estratégica digital',
   description:
     'Ajudamos empresas a melhorar posicionamento, site, aquisição, conversão e atendimento comercial com uma abordagem integrada de estratégia, UX, CRO, SEO e automação por WhatsApp.',
   alternates: {
     canonical: 'https://estrategia.cafe/',
   },
   openGraph: {
-    title: 'estrategia.cafe — Consultoria estratégica digital',
+    title: 'estratégia. — Consultoria estratégica digital',
     description:
       'Ajudamos empresas a melhorar posicionamento, site, aquisição, conversão e atendimento comercial com uma abordagem integrada de estratégia, UX, CRO, SEO e automação por WhatsApp.',
     url: 'https://estrategia.cafe',
-    siteName: 'estrategia.cafe',
+    siteName: 'estratégia.',
     type: 'website',
     locale: 'pt_BR',
   },
@@ -298,7 +298,7 @@ export default function HomePage() {
               resultados mudam de patamar.
             </p>
             <p>
-              A estrategia.cafe trabalha nessa interseção — não como uma agência que executa tarefas,
+              A estratégia. trabalha nessa interseção — não como uma agência que executa tarefas,
               mas como uma consultoria que diagnostica onde está o problema, prioriza o que traz mais
               retorno e estrutura a execução com critério.
             </p>

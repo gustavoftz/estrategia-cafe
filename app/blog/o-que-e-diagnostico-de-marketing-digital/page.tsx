@@ -179,7 +179,7 @@ export default function ArticlePage() {
       <CTASection
         eyebrow="O diagnóstico como ponto de partida"
         title="Antes de qualquer proposta, antes de qualquer execução — entenda o problema."
-        subtitle="O Diagnóstico Estratégico da estrategia.cafe é uma análise de 90 minutos com documento de resultado. Sem pitch, sem proposta genérica."
+        subtitle="O Diagnóstico Estratégico da estratégia. é uma análise de 90 minutos com documento de resultado. Sem pitch, sem proposta genérica."
         primaryCta={{ label: 'Conhecer o Diagnóstico Estratégico', href: '/diagnostico-estrategico' }}
         secondaryCta={{ label: 'Ver o método', href: '/metodo' }}
       />
