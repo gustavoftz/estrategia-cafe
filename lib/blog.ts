@@ -11,6 +11,7 @@ export interface BlogPostEntry {
   excerpt: string
   category: BlogCategory
   dateLabel: string
+  datePublished: string
   readTime: string
   path: string
   keywords: string[]
@@ -45,6 +46,7 @@ export const blogPosts: BlogPostEntry[] = [
       'A maioria dos sites existe. Poucos vendem. A diferença não está no design — está em clareza, estrutura e persuasão. 12 critérios para avaliar em qual dos dois lados o seu site está.',
     category: 'Conversão',
     dateLabel: 'Abr 2026',
+    datePublished: '2026-04-01',
     readTime: '6 min',
     path: '/blog/site-que-vende-vs-site-que-existe',
     keywords: ['site que vende', 'site que converte', 'cro', 'ux', 'copy para site'],
@@ -59,6 +61,7 @@ export const blogPosts: BlogPostEntry[] = [
       'SEO para B2B não é SEO para B2C com outro produto. O ciclo de venda é mais longo, a decisão envolve mais pessoas e o conteúdo precisa trabalhar de forma diferente.',
     category: 'SEO',
     dateLabel: 'Abr 2026',
+    datePublished: '2026-04-01',
     readTime: '8 min',
     path: '/blog/seo-organico-para-empresas-b2b',
     keywords: ['seo b2b', 'seo orgânico', 'aquisição orgânica', 'conteúdo b2b'],
@@ -73,6 +76,7 @@ export const blogPosts: BlogPostEntry[] = [
       'Qualificação não é sobre filtrar pessoas. É sobre ter contexto antes da primeira conversa — para que o atendente entre preparado e o lead não precise repetir as mesmas informações três vezes.',
     category: 'Operação Comercial',
     dateLabel: 'Abr 2026',
+    datePublished: '2026-04-05',
     readTime: '7 min',
     path: '/blog/como-qualificar-leads-whatsapp',
     keywords: ['whatsapp', 'qualificação de leads', 'pré-atendimento', 'operação comercial'],
@@ -86,7 +90,8 @@ export const blogPosts: BlogPostEntry[] = [
     excerpt:
       'Posicionamento não é slogan nem identidade visual. É a clareza sobre quem você atende, qual problema resolve e por que alguém deveria escolher você. Sem isso, site, mídia e comercial operam no escuro.',
     category: 'Estratégia',
-    dateLabel: 'Abr 2026',
+    dateLabel: 'Mar 2026',
+    datePublished: '2026-03-18',
     readTime: '8 min',
     path: '/blog/posicionamento-de-marca',
     keywords: ['posicionamento de marca', 'proposta de valor', 'mensagem', 'estratégia'],
@@ -100,7 +105,8 @@ export const blogPosts: BlogPostEntry[] = [
     excerpt:
       'Tráfego, site, conversão, WhatsApp — a maioria das empresas trata cada um como canal separado. O problema é que eles não funcionam separados. O que muda quando você pensa em sistema.',
     category: 'Estratégia',
-    dateLabel: 'Abr 2026',
+    dateLabel: 'Mar 2026',
+    datePublished: '2026-03-11',
     readTime: '8 min',
     path: '/blog/sistema-comercial-digital',
     keywords: ['sistema comercial digital', 'estratégia digital', 'funil', 'operação comercial'],
@@ -114,7 +120,8 @@ export const blogPosts: BlogPostEntry[] = [
     excerpt:
       'Agência executa. Consultoria diagnostica, prioriza e estrutura antes de executar. A diferença parece simples, mas tem impacto direto no resultado. Quando cada modelo faz sentido.',
     category: 'Estratégia',
-    dateLabel: 'Abr 2026',
+    dateLabel: 'Mar 2026',
+    datePublished: '2026-03-25',
     readTime: '7 min',
     path: '/blog/agencia-ou-consultoria-de-marketing',
     keywords: ['consultoria de marketing', 'agência de marketing', 'diagnóstico', 'estratégia'],
@@ -129,6 +136,7 @@ export const blogPosts: BlogPostEntry[] = [
       'A taxa média de conversão de e-commerces brasileiros é de 1 a 2%. Passar de 1% para 2% dobra a receita sem investir mais em aquisição. O que é CRO e onde estão os maiores pontos de melhoria.',
     category: 'Conversão',
     dateLabel: 'Abr 2026',
+    datePublished: '2026-04-03',
     readTime: '9 min',
     path: '/blog/cro-para-ecommerce',
     keywords: ['cro para ecommerce', 'conversão ecommerce', 'taxa de conversão', 'ux ecommerce'],
@@ -143,6 +151,7 @@ export const blogPosts: BlogPostEntry[] = [
       'A causa mais comum de conversão baixa não é falta de tráfego. É falta de clareza, estrutura e persuasão. Os cinco problemas mais frequentes e como identificá-los antes de investir em mais mídia.',
     category: 'Conversão',
     dateLabel: 'Abr 2026',
+    datePublished: '2026-04-01',
     readTime: '8 min',
     path: '/blog/por-que-meu-site-nao-converte',
     keywords: ['site não converte', 'conversão de site', 'mensagem', 'ux', 'cro'],
@@ -157,6 +166,7 @@ export const blogPosts: BlogPostEntry[] = [
       'O WhatsApp é onde a maioria das conversas comerciais acontece no Brasil. Mas sem estrutura, acumula atrito, perde oportunidades e sobrecarrega o time. Como sair do caos operacional.',
     category: 'Operação Comercial',
     dateLabel: 'Abr 2026',
+    datePublished: '2026-04-07',
     readTime: '7 min',
     path: '/blog/como-estruturar-operacao-whatsapp',
     keywords: ['operação comercial whatsapp', 'whatsapp business', 'atendimento comercial', 'qualificação'],
@@ -170,7 +180,8 @@ export const blogPosts: BlogPostEntry[] = [
     excerpt:
       'Diagnóstico não é auditoria e não é proposta comercial. É a fase que determina se o que vem depois vai funcionar. O que inclui, quando faz sentido e o que esperar do processo.',
     category: 'Estratégia',
-    dateLabel: 'Abr 2026',
+    dateLabel: 'Mar 2026',
+    datePublished: '2026-03-04',
     readTime: '6 min',
     path: '/blog/o-que-e-diagnostico-de-marketing-digital',
     keywords: ['diagnóstico de marketing digital', 'diagnóstico estratégico', 'consultoria', 'estratégia'],

@@ -4,6 +4,7 @@ import { blogPosts } from '@/lib/blog'
 export const dynamic = 'force-static'
 
 const base = 'https://estrategia.cafe'
+const sitelaunch = new Date('2026-03-04')
 
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
@@ -15,43 +16,43 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
     {
       url: `${base}/servicos/`,
-      lastModified: new Date(),
+      lastModified: sitelaunch,
       changeFrequency: 'monthly',
       priority: 0.9,
     },
     {
       url: `${base}/diagnostico-estrategico/`,
-      lastModified: new Date(),
+      lastModified: sitelaunch,
       changeFrequency: 'monthly',
       priority: 0.9,
     },
     {
       url: `${base}/simulador-de-impacto-comercial/`,
-      lastModified: new Date(),
+      lastModified: sitelaunch,
       changeFrequency: 'monthly',
       priority: 0.8,
     },
     {
       url: `${base}/metodo/`,
-      lastModified: new Date(),
+      lastModified: sitelaunch,
       changeFrequency: 'monthly',
       priority: 0.8,
     },
     {
       url: `${base}/contato/`,
-      lastModified: new Date(),
+      lastModified: sitelaunch,
       changeFrequency: 'monthly',
       priority: 0.8,
     },
     {
       url: `${base}/estudos-de-caso/`,
-      lastModified: new Date(),
+      lastModified: sitelaunch,
       changeFrequency: 'monthly',
       priority: 0.7,
     },
     {
       url: `${base}/sobre/`,
-      lastModified: new Date(),
+      lastModified: sitelaunch,
       changeFrequency: 'monthly',
       priority: 0.7,
     },
@@ -63,19 +64,19 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
     ...blogPosts.map((post) => ({
       url: `${base}${post.path}/`,
-      lastModified: new Date(),
+      lastModified: new Date(post.datePublished),
       changeFrequency: 'monthly' as const,
       priority: 0.7,
     })),
     {
       url: `${base}/politica-de-privacidade/`,
-      lastModified: new Date(),
+      lastModified: sitelaunch,
       changeFrequency: 'yearly',
       priority: 0.3,
     },
     {
       url: `${base}/termos/`,
-      lastModified: new Date(),
+      lastModified: sitelaunch,
       changeFrequency: 'yearly',
       priority: 0.3,
     },

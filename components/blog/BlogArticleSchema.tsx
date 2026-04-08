@@ -13,6 +13,8 @@ export default function BlogArticleSchema({ post }: BlogArticleSchemaProps) {
     '@type': 'BlogPosting',
     headline: post.title,
     description: post.description,
+    datePublished: post.datePublished,
+    dateModified: post.datePublished,
     articleSection: post.category,
     keywords: post.keywords.join(', '),
     inLanguage: 'pt-BR',
