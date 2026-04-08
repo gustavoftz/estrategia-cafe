@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, Suspense } from 'react'
 import Script from 'next/script'
 import Link from 'next/link'
 import AnalyticsPageTracker from '@/components/analytics/AnalyticsPageTracker'
@@ -97,7 +97,9 @@ export default function CookieBanner() {
               initApollo();
             `}
           </Script>
-          <AnalyticsPageTracker />
+          <Suspense fallback={null}>
+            <AnalyticsPageTracker />
+          </Suspense>
         </>
       )}
 

@@ -61,7 +61,7 @@ const criteria: { label: string; exists: string; sells: string }[] = [
   {
     label: 'Velocidade',
     exists: 'Carregamento lento, especialmente em mobile. Imagens pesadas, scripts que bloqueiam renderização.',
-    sells: 'Carrega em menos de 3 segundos em 4G. Cada segundo a mais de carregamento reduz a taxa de conversão.',
+    sells: 'Carrega em menos de 3 segundos em 4G, em qualquer dispositivo. Performance é tratada como critério de conversão — imagens comprimidas, scripts assíncronos, sem bloqueio de renderização.',
   },
   {
     label: 'Experiência mobile',
@@ -102,7 +102,7 @@ export default function ArticlePage() {
             Um site que existe cumpre o requisito mínimo de presença digital. Um site que vende é um ativo comercial — que trabalha ativamente para converter o tráfego que recebe em leads, oportunidades e clientes.
           </p>
           <p>
-            A diferença está em clareza, estrutura e persuasão. Nos 12 critérios abaixo, você consegue avaliar em qual dos dois lados o seu site está — e identificar onde estão as maiores oportunidades de melhoria.
+            Os 12 critérios abaixo permitem avaliar em qual dos dois lados o seu site está hoje — e identificar onde estão as maiores oportunidades de melhoria.
           </p>
 
           <div className="flex flex-col gap-0">
@@ -131,7 +131,7 @@ export default function ArticlePage() {
               Como usar esse checklist
             </h2>
             <p>
-              Passe por cada critério e avalie honestamente em qual coluna o seu site está. Não todos os critérios têm o mesmo peso — priorize os que têm maior impacto no seu contexto específico.
+              Passe por cada critério e avalie honestamente em qual coluna o seu site está. Nem todos os critérios têm o mesmo peso — priorize os que têm maior impacto no seu contexto específico.
             </p>
             <p>
               Em geral, os três critérios com maior impacto imediato são: proposta de valor (o visitante entende em 3 segundos o que você oferece?), CTA principal (é específico e tem contexto suficiente?) e prova social (existe prova documentada de que você entrega resultado?). Corrigir esses três, antes de qualquer outra mudança, tende a ter o maior retorno sobre o esforço.

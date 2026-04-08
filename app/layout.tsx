@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import { DM_Serif_Display, Inter } from 'next/font/google'
 import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
-import CookieBanner from '@/components/cookies/CookieBanner'
+import CookieBannerLoader from '@/components/cookies/CookieBannerLoader'
 import '@/styles/globals.css'
 
 const serif = DM_Serif_Display({
@@ -79,7 +79,7 @@ export default function RootLayout({
         <Header />
         <main id="main-content" className="flex-1">{children}</main>
         <Footer />
-        <CookieBanner />
+        <CookieBannerLoader />
       </body>
     </html>
   )

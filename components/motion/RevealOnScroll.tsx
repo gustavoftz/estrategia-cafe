@@ -34,7 +34,7 @@ function getSharedObserver() {
         sharedObserver?.unobserve(entry.target)
       }
     },
-    { threshold: 0.18, rootMargin: '0px 0px -10% 0px' }
+    { threshold: 0, rootMargin: '0px 0px -10% 0px' }
   )
 
   return sharedObserver
