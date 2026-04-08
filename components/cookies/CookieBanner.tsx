@@ -34,7 +34,6 @@ export default function CookieBanner() {
     }
     window.addEventListener('keydown', onKeyDown)
     return () => window.removeEventListener('keydown', onKeyDown)
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [visible])
 
   function accept() {
@@ -81,6 +80,23 @@ export default function CookieBanner() {
               }
             `}
           </Script>
+          <Script id="apollo-tracker" strategy="afterInteractive">
+            {`
+              function initApollo() {
+                var n = Math.random().toString(36).substring(7);
+                var o = document.createElement('script');
+                o.src = 'https://assets.apollo.io/micro/website-tracker/tracker.iife.js?nocache=' + n;
+                o.async = true;
+                o.defer = true;
+                o.onload = function() {
+                  window.trackingFunctions.onLoad({ appId: '69d66eb4e05b860019b8b9b0' });
+                };
+                document.head.appendChild(o);
+              }
+
+              initApollo();
+            `}
+          </Script>
           <AnalyticsPageTracker />
         </>
       )}
@@ -95,8 +111,8 @@ export default function CookieBanner() {
           <div className="container-content max-w-content py-4 flex flex-col sm:flex-row items-start sm:items-center gap-4 justify-between">
             <p className="text-sm text-ink-secondary leading-relaxed max-w-[64ch]">
               Utilizamos cookies analíticos para entender como o site é acessado e melhorar a
-              experiência. Nenhum dado pessoal é vendido ou compartilhado com terceiros além do
-              Google Analytics.{' '}
+              experiência. Esses dados podem ser processados por ferramentas como Google Analytics
+              e Apollo. Nenhum dado pessoal é vendido ou compartilhado para fins de revenda.{' '}
               <Link
                 href="/politica-de-privacidade"
                 className="underline underline-offset-2 hover:text-ink-primary"

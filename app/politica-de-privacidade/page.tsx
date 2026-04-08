@@ -19,7 +19,7 @@ export default function PoliticaDePrivacidadePage() {
           <span className="eyebrow">Legal</span>
           <h1 className="text-h1 font-serif text-ink-primary">Política de Privacidade</h1>
           <p className="text-base text-ink-secondary leading-relaxed">
-            Última atualização: 7 de abril de 2026
+            Última atualização: 8 de abril de 2026
           </p>
         </div>
       </SectionWrapper>
@@ -74,13 +74,14 @@ export default function PoliticaDePrivacidadePage() {
               </div>
               <div className="flex flex-col gap-2 pl-4 border-l border-border">
                 <p className="font-semibold text-ink-primary text-sm">
-                  Cookies analíticos (Google Analytics 4)
+                  Cookies analíticos (Google Analytics 4 e Apollo)
                 </p>
                 <p>
-                  Com o seu consentimento, utilizamos o Google Analytics 4 para coletar dados
-                  agregados de navegação — como páginas visitadas, tempo de permanência e origem do
-                  tráfego. Esses dados não identificam você individualmente. Nenhum dado é
-                  compartilhado com terceiros para fins publicitários ou de revenda.
+                  Com o seu consentimento, utilizamos Google Analytics 4 e o rastreador de site da
+                  Apollo para coletar dados agregados de navegação, como páginas visitadas, tempo
+                  de permanência e origem do tráfego. Esses dados não identificam você
+                  individualmente. Nenhum dado é compartilhado com terceiros para fins
+                  publicitários ou de revenda.
                 </p>
               </div>
             </div>
@@ -122,17 +123,20 @@ export default function PoliticaDePrivacidadePage() {
               dados pessoais.
             </p>
             <p>
-              Caso você aceite os cookies analíticos, o Google Analytics 4 instalará seus próprios
-              cookies para mensuração de uso. Você pode revogar esse consentimento a qualquer
-              momento limpando os dados do site nas configurações do seu navegador.
+              Caso você aceite os cookies analíticos, Google Analytics 4 e Apollo poderão utilizar
+              seus próprios cookies e identificadores para mensuração de uso. Você pode revogar
+              esse consentimento a qualquer momento limpando os dados do site nas configurações do
+              seu navegador.
             </p>
             <p>
-              O Google atua como operador de dados nos termos da LGPD, com base em{' '}
+              O Google e a Apollo atuam como operadores de dados nos termos da LGPD, com base em{' '}
               <strong className="font-semibold text-ink-primary">
                 Acordo de Processamento de Dados (DPA)
               </strong>{' '}
-              celebrado com a estratégia. Para mais informações sobre como o Google trata esses
-              dados, consulte a{' '}
+              celebrado com a estratégia. Para mais informações sobre como essas empresas tratam
+              esses dados, consulte as respectivas políticas de privacidade:
+            </p>
+            <p>
               <a
                 href="https://policies.google.com/privacy"
                 target="_blank"
@@ -140,6 +144,16 @@ export default function PoliticaDePrivacidadePage() {
                 className="underline underline-offset-2 hover:text-ink-primary"
               >
                 Política de Privacidade do Google
+                <span className="sr-only">(abre em nova aba)</span>
+              </a>
+              {' '}e{' '}
+              <a
+                href="https://www.apollo.io/privacy-policy"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline underline-offset-2 hover:text-ink-primary"
+              >
+                Política de Privacidade da Apollo
                 <span className="sr-only">(abre em nova aba)</span>
               </a>
               .
