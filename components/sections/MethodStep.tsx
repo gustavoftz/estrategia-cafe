@@ -43,7 +43,7 @@ export default function MethodStep({
           {description}
         </p>
         {detail && (
-          <p className="text-sm text-ink-muted leading-relaxed max-w-[55ch]">
+          <p className="text-sm text-ink-secondary leading-relaxed max-w-[55ch]">
             {detail}
           </p>
         )}

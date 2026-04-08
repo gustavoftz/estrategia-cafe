@@ -38,13 +38,13 @@ export default function RelatedArticles({ currentSlug }: RelatedArticlesProps) {
             >
               <div className="flex flex-wrap items-center gap-3">
                 <Tag variant="accent">{post.category}</Tag>
-                <span className="text-xs text-ink-muted">{post.readTime} de leitura</span>
+                <span className="text-xs text-ink-secondary">{post.readTime} de leitura</span>
               </div>
               <h3 className="text-h3 font-serif leading-snug text-ink-primary transition-colors duration-150 group-hover:text-accent">
                 {post.title}
               </h3>
               <p className="flex-1 text-sm leading-relaxed text-ink-secondary">{post.excerpt}</p>
-              <span className="text-xs font-semibold uppercase tracking-[0.16em] text-ink-muted">
+              <span className="text-xs font-semibold uppercase tracking-[0.16em] text-ink-subtle">
                 Ler a seguir
               </span>
             </Link>

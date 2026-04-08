@@ -26,6 +26,7 @@ export default function Footer() {
           <div className="flex flex-col gap-5 lg:col-span-1">
             <Link
               href="/"
+              aria-label="estrategia.cafe — página inicial"
               className="font-serif text-[1.2rem] text-ink-inverse hover:text-ink-inverse/80 transition-colors self-start"
             >
               estrategia<span className="text-accent-light">.</span>cafe
@@ -37,7 +38,7 @@ export default function Footer() {
 
           {/* Column 2: Navigation */}
           <div className="flex flex-col gap-4">
-            <span className="text-xs font-semibold uppercase tracking-widest text-ink-inverse/40">
+            <span className="text-xs font-semibold uppercase tracking-widest text-ink-inverse/50">
               Páginas
             </span>
             <nav aria-label="Links do rodapé">
@@ -57,7 +58,7 @@ export default function Footer() {
           </div>
 
           <div className="flex flex-col gap-4">
-            <span className="text-xs font-semibold uppercase tracking-widest text-ink-inverse/40">
+            <span className="text-xs font-semibold uppercase tracking-widest text-ink-inverse/50">
               Leituras
             </span>
             <nav aria-label="Leituras recomendadas">
@@ -79,7 +80,7 @@ export default function Footer() {
           {/* Column 4: Contact + CTA */}
           <div className="flex flex-col gap-6">
             <div className="flex flex-col gap-4">
-              <span className="text-xs font-semibold uppercase tracking-widest text-ink-inverse/40">
+              <span className="text-xs font-semibold uppercase tracking-widest text-ink-inverse/50">
                 Contato
               </span>
               <a

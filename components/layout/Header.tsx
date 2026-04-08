@@ -22,6 +22,7 @@ export default function Header() {
   const mobileMenuId = useId()
   const menuButtonRef = useRef<HTMLButtonElement | null>(null)
   const firstMobileLinkRef = useRef<HTMLAnchorElement | null>(null)
+  const dialogPanelRef = useRef<HTMLDivElement | null>(null)
   const shouldRestoreFocusRef = useRef(false)
 
   // Subtle background on scroll
@@ -87,9 +88,28 @@ export default function Header() {
       return
     }
 
+    const FOCUSABLE = 'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
+
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
         setMenuOpen(false)
+        return
+      }
+
+      if (event.key === 'Tab' && dialogPanelRef.current) {
+        const focusable = Array.from(
+          dialogPanelRef.current.querySelectorAll<HTMLElement>(FOCUSABLE)
+        )
+        if (focusable.length === 0) return
+        const first = focusable[0]
+        const last = focusable[focusable.length - 1]
+        if (event.shiftKey && document.activeElement === first) {
+          event.preventDefault()
+          last.focus()
+        } else if (!event.shiftKey && document.activeElement === last) {
+          event.preventDefault()
+          first.focus()
+        }
       }
     }
 
@@ -128,15 +148,16 @@ export default function Header() {
             <div className="flex min-w-0 items-center gap-4">
               <Link
                 href="/"
+                aria-label="estratégia — página inicial"
                 className="shrink-0 font-serif text-[1.2rem] text-ink-primary transition-colors hover:text-ink-secondary"
                 onClick={() => setMenuOpen(false)}
               >
-                estrategia<span className="text-accent">.</span>cafe
+                estratégia<span className="text-accent">.</span>
               </Link>
 
               <div className="hidden items-center gap-2 border-l border-border/80 pl-4 2xl:flex">
                 <span className="h-1.5 w-1.5 rounded-full bg-accent" aria-hidden="true" />
-                <span className="text-[10px] font-semibold uppercase tracking-[0.24em] text-ink-muted">
+                <span className="text-[10px] font-semibold uppercase tracking-[0.24em] text-ink-subtle">
                   Diagnóstico primeiro
                 </span>
               </div>
@@ -163,7 +184,7 @@ export default function Header() {
             <div className="hidden items-center gap-3 xl:flex">
               <TrackedLink
                 href="/diagnostico-estrategico"
-                className="whitespace-nowrap text-[11px] font-semibold uppercase tracking-[0.16em] text-ink-muted transition-colors hover:text-accent"
+                className="whitespace-nowrap text-[11px] font-semibold uppercase tracking-[0.16em] text-ink-subtle transition-colors hover:text-accent"
                 trackingLocation="header_desktop_link"
                 trackingLabel="Diagnóstico"
               >
@@ -184,7 +205,7 @@ export default function Header() {
               ref={menuButtonRef}
               onClick={() => setMenuOpen(prev => !prev)}
               className={cn(
-                'flex h-10 w-10 flex-col items-center justify-center gap-[5px] rounded-full transition-colors xl:hidden',
+                'flex h-11 w-11 flex-col items-center justify-center gap-[5px] rounded-full transition-colors xl:hidden',
                 menuOpen ? 'bg-surface' : 'bg-transparent'
               )}
               aria-controls={mobileMenuId}
@@ -230,11 +251,12 @@ export default function Header() {
       >
         <div className="container-content pt-[84px]">
           <div
+            ref={dialogPanelRef}
             className="editorial-panel surface-grid px-6 py-6"
             onClick={(event) => event.stopPropagation()}
           >
             <div className="relative flex flex-col gap-2">
-              <span className="text-[10px] font-semibold uppercase tracking-[0.24em] text-ink-muted">
+              <span className="text-[10px] font-semibold uppercase tracking-[0.24em] text-ink-subtle">
                 Diagnóstico primeiro
               </span>
               <p className="text-sm text-ink-secondary leading-relaxed">

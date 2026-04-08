@@ -53,6 +53,7 @@ export default function PoliticaDePrivacidadePage() {
                 className="underline underline-offset-2 hover:text-ink-primary"
               >
                 +55 61 99988-5276
+                <span className="sr-only">(abre em nova aba)</span>
               </a>
               .
             </p>
@@ -139,6 +140,7 @@ export default function PoliticaDePrivacidadePage() {
                 className="underline underline-offset-2 hover:text-ink-primary"
               >
                 Política de Privacidade do Google
+                <span className="sr-only">(abre em nova aba)</span>
               </a>
               .
             </p>

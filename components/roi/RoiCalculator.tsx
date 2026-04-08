@@ -115,7 +115,7 @@ function MetricCard({ label, value, detail, tone = 'default' }: MetricCardProps)
           : 'border-border bg-canvas/80'
       )}
     >
-      <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-ink-muted">
+      <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-ink-subtle">
         {label}
       </span>
       <p className="mt-3 text-2xl font-serif text-ink-primary">{value}</p>
@@ -127,7 +127,7 @@ function MetricCard({ label, value, detail, tone = 'default' }: MetricCardProps)
 function AnalysisCard({ title, children }: AnalysisCardProps) {
   return (
     <div className="rounded-[1.35rem] border border-border bg-surface/70 px-5 py-5">
-      <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-ink-muted">
+      <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-ink-subtle">
         {title}
       </span>
       <p className="mt-3 text-sm leading-relaxed text-ink-secondary">{children}</p>
@@ -369,7 +369,7 @@ export default function RoiCalculator() {
           <div className="flex flex-col gap-6">
             <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
               <div className="max-w-[52ch]">
-                <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-ink-muted">
+                <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-ink-subtle">
                   Premissas do diagnóstico
                 </span>
                 <p className="mt-3 text-sm leading-relaxed text-ink-secondary">
@@ -399,7 +399,7 @@ export default function RoiCalculator() {
                 >
                   <div className="relative">
                     {field.prefix && (
-                      <span className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 select-none text-sm text-ink-muted">
+                      <span className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 select-none text-sm text-ink-subtle">
                         {field.prefix}
                       </span>
                     )}
@@ -418,7 +418,7 @@ export default function RoiCalculator() {
                       )}
                     />
                     {field.suffix && (
-                      <span className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 select-none text-sm text-ink-muted">
+                      <span className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 select-none text-sm text-ink-subtle">
                         {field.suffix}
                       </span>
                     )}
@@ -445,7 +445,7 @@ export default function RoiCalculator() {
                   <span className="text-sm font-semibold text-ink-primary">
                     Quero testar uma hipótese própria
                   </span>
-                  <span className="text-xs leading-relaxed text-ink-muted">
+                  <span className="text-xs leading-relaxed text-ink-subtle">
                     Abra este modo só se quiser sair da faixa guiada e usar uma projeção manual.
                   </span>
                 </div>
@@ -460,7 +460,7 @@ export default function RoiCalculator() {
                   strokeLinecap="round"
                   strokeLinejoin="round"
                   className={cn(
-                    'shrink-0 text-ink-muted transition-transform duration-200',
+                    'shrink-0 text-ink-subtle transition-transform duration-200',
                     isAdvancedOpen && 'rotate-180'
                   )}
                   aria-hidden="true"
@@ -537,7 +537,7 @@ export default function RoiCalculator() {
         >
           <div className="flex flex-col gap-5">
             <div className="rounded-[1.35rem] border border-border bg-canvas/88 px-5 py-5">
-              <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-ink-muted">
+              <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-ink-subtle">
                 Resultado do diagnóstico
               </span>
               <p className="mt-3 text-sm leading-relaxed text-ink-secondary">
@@ -556,7 +556,7 @@ export default function RoiCalculator() {
               <p className="mt-2 text-sm leading-relaxed text-ink-secondary">
                 {getOpportunitySignalSummary(inputs, results)}
               </p>
-              <p className="mt-3 text-xs font-semibold uppercase tracking-[0.18em] text-ink-muted">
+              <p className="mt-3 text-xs font-semibold uppercase tracking-[0.18em] text-ink-subtle">
                 {highlightedScenarioText}
               </p>
             </div>
@@ -574,7 +574,7 @@ export default function RoiCalculator() {
 
             {notices.length > 0 && (
               <div className="rounded-[1.35rem] border border-border bg-white/70 px-5 py-5">
-                <div className="mb-3 text-[11px] font-semibold uppercase tracking-[0.18em] text-ink-muted">
+                <div className="mb-3 text-[11px] font-semibold uppercase tracking-[0.18em] text-ink-subtle">
                   Ajustes na leitura
                 </div>
                 <ul className="flex list-disc flex-col gap-2 pl-5 text-sm leading-relaxed text-ink-secondary">
@@ -645,7 +645,7 @@ export default function RoiCalculator() {
                     {getResultSuggestionSummary(inputs, results)}
                   </AnalysisCard>
                   <div className="rounded-[1.35rem] border border-border bg-surface/70 px-5 py-5">
-                    <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-ink-muted">
+                    <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-ink-subtle">
                       Próximo passo recomendado
                     </span>
                     <ul className="mt-3 flex list-disc flex-col gap-2 pl-5 text-sm leading-relaxed text-ink-secondary">
@@ -658,7 +658,7 @@ export default function RoiCalculator() {
               </div>
             </DetailedAnalysisGate>
 
-            <p className="text-xs leading-relaxed text-ink-muted">
+            <p className="text-xs leading-relaxed text-ink-subtle">
               Leitura orientativa, não promessa de resultado. Os números variam conforme qualidade
               do tráfego, clareza da proposta, operação comercial, margem real e ritmo de execução.
             </p>

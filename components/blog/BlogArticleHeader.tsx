@@ -18,7 +18,7 @@ export default function BlogArticleHeader({
   return (
     <SectionWrapper background="canvas" className="border-b border-border">
       <div className="flex max-w-[720px] flex-col gap-5">
-        <nav aria-label="Breadcrumb" className="text-xs text-ink-muted">
+        <nav aria-label="Breadcrumb" className="text-xs text-ink-secondary">
           <ol className="flex max-w-full flex-wrap items-center gap-2">
             <li>
               <Link href="/" className="hover:text-ink-primary">
@@ -40,9 +40,9 @@ export default function BlogArticleHeader({
 
         <div className="flex flex-wrap items-center gap-3">
           <Tag variant="accent">{post.category}</Tag>
-          <span className="text-xs text-ink-muted">{post.dateLabel}</span>
-          <span className="text-xs text-ink-muted">·</span>
-          <span className="text-xs text-ink-muted">{post.readTime} de leitura</span>
+          <span className="text-xs text-ink-secondary">{post.dateLabel}</span>
+          <span className="text-xs text-ink-secondary" aria-hidden="true">·</span>
+          <span className="text-xs text-ink-secondary">{post.readTime} de leitura</span>
         </div>
 
         <h1 className="text-display font-serif leading-tight text-ink-primary">{title}</h1>

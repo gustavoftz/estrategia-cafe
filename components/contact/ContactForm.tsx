@@ -74,6 +74,7 @@ export default function ContactForm() {
   const errorId = `${liveStatusId}-error`
   const [data, setData] = useState<ContactFormData>(initialData)
   const hasTrackedStartRef = useRef(false)
+  const formRef = useRef<HTMLFormElement>(null)
 
   const trackFormStart = () => {
     if (hasTrackedStartRef.current) {
@@ -109,6 +110,9 @@ export default function ContactForm() {
       })
       setError('Preencha os campos obrigatórios para enviar a mensagem.')
       setState('error')
+      const firstMissing = missingRequiredFields[0]
+      const el = formRef.current?.querySelector<HTMLElement>(`[name="${firstMissing}"]`)
+      el?.focus()
       return
     }
 
@@ -186,6 +190,7 @@ export default function ContactForm() {
 
   return (
     <form
+      ref={formRef}
       onSubmit={handleSubmit}
       onFocusCapture={trackFormStart}
       className="flex flex-col gap-6"
@@ -193,6 +198,7 @@ export default function ContactForm() {
       aria-busy={isSubmitting}
       aria-describedby={state === 'error' ? errorId : undefined}
     >
+      <p className="sr-only">Campos marcados com * são obrigatórios</p>
       <p id={liveStatusId} className="sr-only" aria-live="polite">
         {isSubmitting ? 'Enviando sua mensagem.' : state === 'error' ? error : ''}
       </p>
@@ -358,7 +364,7 @@ export default function ContactForm() {
 
       <div className="rounded-[1.5rem] border border-border bg-surface/70 px-5 py-5">
         <div className="mb-4 flex flex-col gap-2">
-          <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-ink-muted">
+          <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-ink-subtle">
             O que acontece depois
           </span>
           <p className="text-sm text-ink-secondary leading-relaxed">

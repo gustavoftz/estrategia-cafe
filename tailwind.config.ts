@@ -20,7 +20,10 @@ const config: Config = {
         ink: {
           primary: '#19181A',
           secondary: '#65605A',
-          muted: '#9A958F',
+          // subtle: accessible label/eyebrow color (~4.97:1 on canvas) — use instead of
+          // ink-muted for any text that conveys information (eyebrow labels, captions, etc.)
+          subtle: '#706B65',
+          muted: '#9A958F', // decorative only — fails WCAG AA, do not use for informational text
           inverse: '#FAFAF8',
         },
         // Brand accent — dark forest green, used sparingly

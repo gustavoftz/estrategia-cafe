@@ -54,7 +54,7 @@ export default function DetailedAnalysisGate({
     >
       <div className="flex flex-col gap-4">
         <div className="flex flex-col gap-2">
-          <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-ink-muted">
+          <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-ink-subtle">
             Continuação do diagnóstico
           </span>
           <h3 className="text-h3 font-serif text-ink-primary">{title}</h3>
@@ -73,7 +73,7 @@ export default function DetailedAnalysisGate({
         </div>
 
         <div className="flex flex-col gap-3 pt-1 sm:flex-row sm:items-center sm:justify-between">
-          <div className="max-w-[34rem] text-xs leading-relaxed text-ink-muted">
+          <div className="max-w-[34rem] text-xs leading-relaxed text-ink-subtle">
             {unlockMode === 'local-preview'
               ? 'Nesta versão, a leitura abre aqui mesmo, sem sair da página.'
               : 'Este CTA está pronto para futura integração com WhatsApp ou mini formulário.'}

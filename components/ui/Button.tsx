@@ -62,6 +62,7 @@ export default function Button(props: ButtonProps) {
           onClick={onClick}
         >
           {children}
+          <span className="sr-only">(abre em nova aba)</span>
         </a>
       )
     }

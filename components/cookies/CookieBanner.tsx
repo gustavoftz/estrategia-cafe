@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Script from 'next/script'
 import Link from 'next/link'
 import AnalyticsPageTracker from '@/components/analytics/AnalyticsPageTracker'
@@ -13,6 +13,7 @@ type Consent = 'accepted' | 'declined' | null
 export default function CookieBanner() {
   const [consent, setConsent] = useState<Consent>(null)
   const [visible, setVisible] = useState(false)
+  const acceptButtonRef = useRef<HTMLButtonElement>(null)
 
   useEffect(() => {
     const stored = localStorage.getItem(CONSENT_KEY) as Consent
@@ -24,6 +25,17 @@ export default function CookieBanner() {
       setVisible(true)
     }
   }, [])
+
+  useEffect(() => {
+    if (!visible) return
+    acceptButtonRef.current?.focus()
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') decline()
+    }
+    window.addEventListener('keydown', onKeyDown)
+    return () => window.removeEventListener('keydown', onKeyDown)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [visible])
 
   function accept() {
     localStorage.setItem(CONSENT_KEY, 'accepted')
@@ -76,6 +88,7 @@ export default function CookieBanner() {
       {visible && (
         <div
           role="dialog"
+          aria-modal="true"
           aria-label="Preferências de cookies"
           className="fixed bottom-0 left-0 right-0 z-50 border-t border-border bg-canvas shadow-[0_-4px_24px_rgba(0,0,0,0.06)]"
         >
@@ -100,6 +113,7 @@ export default function CookieBanner() {
                 Recusar
               </button>
               <button
+                ref={acceptButtonRef}
                 onClick={accept}
                 className="px-5 py-2.5 text-sm font-medium bg-ink-primary text-ink-inverse border border-ink-primary hover:bg-ink-primary/90 active:scale-[0.98] transition-all duration-150"
               >

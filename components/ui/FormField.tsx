@@ -1,5 +1,7 @@
+'use client'
+
+import React, { useId, type ReactNode } from 'react'
 import { cn } from '@/lib/utils'
-import type { ReactNode } from 'react'
 
 interface FormFieldProps {
   label: string
@@ -18,6 +20,21 @@ export default function FormField({
   className,
   children,
 }: FormFieldProps) {
+  const id = useId()
+  const hintId = hint ? `${id}-hint` : undefined
+  const errorId = error ? `${id}-error` : undefined
+  const describedBy = [hintId, errorId].filter(Boolean).join(' ') || undefined
+
+  const enhancedChildren = describedBy
+    ? React.Children.map(children, (child) =>
+        React.isValidElement(child)
+          ? React.cloneElement(child as React.ReactElement<Record<string, unknown>>, {
+              'aria-describedby': describedBy,
+            })
+          : child
+      )
+    : children
+
   return (
     <label
       className={cn(
@@ -34,12 +51,16 @@ export default function FormField({
         )}
       </span>
 
-      {hint && <span className="text-xs font-normal leading-snug text-ink-muted">{hint}</span>}
+      {hint && (
+        <span id={hintId} className="text-xs font-normal leading-snug text-ink-secondary">
+          {hint}
+        </span>
+      )}
 
-      {children}
+      {enhancedChildren}
 
       {error && (
-        <span className="text-xs leading-snug text-ink-primary" role="alert">
+        <span id={errorId} className="text-xs leading-snug text-ink-primary" role="alert">
           {error}
         </span>
       )}

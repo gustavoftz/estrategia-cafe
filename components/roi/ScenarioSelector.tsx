@@ -25,7 +25,7 @@ export default function ScenarioSelector({
   return (
     <div className="rounded-[1.35rem] border border-border bg-surface/70 px-5 py-5">
       <div className="mb-5 flex flex-col gap-2">
-        <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-ink-muted">
+        <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-ink-subtle">
           Faixas de evolução
         </span>
         <p className="text-sm leading-relaxed text-ink-secondary">
@@ -62,9 +62,9 @@ export default function ScenarioSelector({
               <div className="flex items-start justify-between gap-3">
                 <div>
                   <p className="text-sm font-semibold text-ink-primary">{scenario.label}</p>
-                  <p className="mt-1 text-xs uppercase tracking-[0.16em] text-ink-muted">
+                  <p className="mt-1 text-xs uppercase tracking-[0.16em] text-ink-subtle">
                     Taxa estimada {formatPercentage(projectedRate)}
-                    <span className="ml-1.5 text-ink-muted/60">
+                    <span className="ml-1.5 text-ink-subtle/60">
                       +{Math.round((scenario.multiplier - 1) * 100)}%
                     </span>
                   </p>
