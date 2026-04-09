@@ -133,7 +133,7 @@ export default function CookieBanner() {
               <button
                 ref={acceptButtonRef}
                 onClick={accept}
-                className="px-5 py-2.5 text-sm font-medium bg-ink-primary text-ink-inverse border border-ink-primary hover:bg-ink-primary/90 active:scale-[0.98] transition-all duration-150"
+                className="px-5 py-2.5 text-sm font-medium bg-ink-primary text-ink-inverse border border-ink-primary hover:bg-ink-primary/90 active:scale-[0.98] transition-[transform,background-color,border-color,color] duration-150"
               >
                 Aceitar cookies
               </button>

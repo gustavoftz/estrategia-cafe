@@ -97,7 +97,7 @@ export default function ContatoPage() {
       {/* 5. Canal alternativo */}
       <SectionWrapper background="canvas" noPadding className="py-10 md:py-14 border-t border-border">
         <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-10">
-          <p className="text-sm text-ink-muted">Canal alternativo</p>
+          <p className="text-sm text-ink-subtle">Canal alternativo</p>
           <a
             href="mailto:contato@estrategia.cafe"
             className="text-sm font-medium text-ink-primary hover:text-accent transition-colors duration-150"

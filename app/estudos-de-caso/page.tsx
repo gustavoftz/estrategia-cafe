@@ -80,13 +80,13 @@ export default function EstudosDeCasoPage() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16">
               <div className="flex flex-col gap-8">
                 <div className="flex flex-col gap-3">
-                  <h3 className="text-xs font-sans font-semibold uppercase tracking-widest text-ink-muted">
+                  <h3 className="text-xs font-sans font-semibold uppercase tracking-widest text-ink-subtle">
                     Contexto
                   </h3>
                   <p className="text-sm text-ink-secondary leading-relaxed">{c.context}</p>
                 </div>
                 <div className="flex flex-col gap-3">
-                  <h3 className="text-xs font-sans font-semibold uppercase tracking-widest text-ink-muted">
+                  <h3 className="text-xs font-sans font-semibold uppercase tracking-widest text-ink-subtle">
                     Problema identificado
                   </h3>
                   <p className="text-sm text-ink-secondary leading-relaxed">{c.problem}</p>
@@ -95,24 +95,24 @@ export default function EstudosDeCasoPage() {
 
               <div className="flex flex-col gap-8">
                 <div className="flex flex-col gap-3">
-                  <h3 className="text-xs font-sans font-semibold uppercase tracking-widest text-ink-muted">
+                  <h3 className="text-xs font-sans font-semibold uppercase tracking-widest text-ink-subtle">
                     Hipótese estratégica
                   </h3>
                   <p className="text-sm text-ink-secondary leading-relaxed">{c.hypothesis}</p>
                 </div>
                 <div className="flex flex-col gap-3">
-                  <h3 className="text-xs font-sans font-semibold uppercase tracking-widest text-ink-muted">
+                  <h3 className="text-xs font-sans font-semibold uppercase tracking-widest text-ink-subtle">
                     Intervenção
                   </h3>
                   <p className="text-sm text-ink-secondary leading-relaxed">{c.intervention}</p>
                 </div>
                 <div className="flex flex-col gap-3 p-5 border border-border">
-                  <h3 className="text-xs font-sans font-semibold uppercase tracking-widest text-ink-muted">
+                  <h3 className="text-xs font-sans font-semibold uppercase tracking-widest text-ink-subtle">
                     Impacto percebido
                   </h3>
                   <p className="text-sm text-ink-secondary leading-relaxed">{c.result}</p>
                 </div>
-                <p className="text-xs text-ink-muted leading-relaxed">
+                <p className="text-xs text-ink-subtle leading-relaxed">
                   Os resultados descritos são específicos ao contexto deste cliente e não constituem
                   garantia de desempenho para outros projetos.
                 </p>

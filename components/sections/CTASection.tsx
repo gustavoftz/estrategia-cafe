@@ -47,7 +47,7 @@ export default function CTASection({
 
         <div className="relative flex flex-col items-center gap-6 text-center">
           {eyebrow && (
-            <span className="text-xs font-sans font-semibold uppercase tracking-widest text-accent-light">
+            <span className="text-xs font-sans font-semibold uppercase tracking-widest text-accent-pale">
               {eyebrow}
             </span>
           )}
@@ -60,7 +60,7 @@ export default function CTASection({
             </p>
           )}
 
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-ink-inverse/40">
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-ink-inverse/60">
             Sem proposta genérica. Sem pressão para contratar.
           </p>
 

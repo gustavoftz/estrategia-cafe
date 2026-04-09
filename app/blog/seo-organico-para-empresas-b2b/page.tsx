@@ -79,7 +79,7 @@ export default function ArticlePage() {
                   <span className="text-sm font-semibold text-ink-primary block mb-3">{dimension}</span>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div className="flex flex-col gap-1 p-4 bg-surface">
-                      <span className="text-xs font-semibold text-ink-muted uppercase tracking-wide">B2C</span>
+                      <span className="text-xs font-semibold text-ink-subtle uppercase tracking-wide">B2C</span>
                       <p className="text-sm text-ink-secondary leading-relaxed" dangerouslySetInnerHTML={{ __html: b2c }} />
                     </div>
                     <div className="flex flex-col gap-1 p-4 border border-accent/20 bg-accent/5">

@@ -114,7 +114,7 @@ export default function ArticlePage() {
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 ml-10">
                   <div className="flex flex-col gap-2 p-4 bg-surface">
-                    <span className="text-xs font-semibold text-ink-muted uppercase tracking-wide">Site que existe</span>
+                    <span className="text-xs font-semibold text-ink-subtle uppercase tracking-wide">Site que existe</span>
                     <p className="text-sm text-ink-secondary leading-relaxed" dangerouslySetInnerHTML={{ __html: exists }} />
                   </div>
                   <div className="flex flex-col gap-2 p-4 border border-accent/20 bg-accent/5">

@@ -78,7 +78,7 @@ export default function ArticlePage() {
               A regra geral: três a cinco perguntas objetivas, feitas em sequência após a mensagem de boas-vindas. Não em um formulário pesado — em mensagens curtas que parecem uma conversa, não um interrogatório.
             </p>
             <div className="flex flex-col gap-4 p-6 border border-border bg-surface">
-              <span className="text-xs font-semibold uppercase tracking-wide text-ink-muted">Exemplo de fluxo de qualificação</span>
+              <span className="text-xs font-semibold uppercase tracking-wide text-ink-subtle">Exemplo de fluxo de qualificação</span>
               <div className="flex flex-col gap-3">
                 {[
                   { step: '→', msg: 'Olá! Obrigado pelo contato. Para entender melhor como posso ajudar, me conta: qual é o principal desafio que está buscando resolver?' },

@@ -113,20 +113,20 @@ export default function Footer() {
       {/* Bottom bar */}
       <div className="border-t border-ink-inverse/10">
         <div className="container-content max-w-content py-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-          <p className="text-xs text-ink-inverse/35">
+          <p className="text-xs text-ink-inverse/50">
             © {year} estratégia. Todos os direitos reservados.
           </p>
           <div className="flex items-center gap-4">
             <Link
               href="/politica-de-privacidade"
-              className="text-xs text-ink-inverse/35 hover:text-ink-inverse/60 transition-colors duration-150"
+              className="text-xs text-ink-inverse/50 hover:text-ink-inverse/70 transition-colors duration-150"
             >
               Política de Privacidade
             </Link>
             <span className="text-ink-inverse/20 text-xs">·</span>
             <Link
               href="/termos"
-              className="text-xs text-ink-inverse/35 hover:text-ink-inverse/60 transition-colors duration-150"
+              className="text-xs text-ink-inverse/50 hover:text-ink-inverse/70 transition-colors duration-150"
             >
               Termos de Serviço
             </Link>

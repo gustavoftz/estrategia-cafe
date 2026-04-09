@@ -39,7 +39,7 @@ export default function SimuladorDeImpactoComercialPage() {
           <div className="grid grid-cols-1 gap-5 lg:grid-cols-[minmax(0,1fr)_18rem] lg:items-start">
             <div className="rounded-[1.5rem] border border-border bg-surface/75 px-6 py-6">
               <div className="flex flex-col gap-4">
-                <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-ink-muted">
+                <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-ink-subtle">
                   Como ler este diagnóstico
                 </span>
                 <div className="flex flex-col divide-y divide-border">
@@ -62,7 +62,7 @@ export default function SimuladorDeImpactoComercialPage() {
 
             <div className="rounded-[1.5rem] border border-border bg-canvas/90 px-6 py-6">
               <div className="flex flex-col gap-4">
-                <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-ink-muted">
+                <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-ink-subtle">
                   Se a leitura fizer sentido
                 </span>
                 <p className="text-sm leading-relaxed text-ink-secondary">

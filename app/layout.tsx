@@ -9,13 +9,13 @@ const serif = DM_Serif_Display({
   weight: ['400'],
   subsets: ['latin'],
   variable: '--font-serif',
-  display: 'swap',
+  display: 'optional',
 })
 
 const sans = Inter({
   subsets: ['latin'],
   variable: '--font-sans',
-  display: 'swap',
+  display: 'optional',
 })
 
 export const metadata: Metadata = {

@@ -97,7 +97,7 @@ export default function BlogPage() {
               >
                 <div className="flex items-center gap-3">
                   <Tag variant="accent">{post.category}</Tag>
-                  <span className="text-xs text-ink-muted">{post.readTime} de leitura</span>
+                  <span className="text-xs text-ink-subtle">{post.readTime} de leitura</span>
                 </div>
                 <h2 className="text-h3 font-serif text-ink-primary leading-snug group-hover:text-accent transition-colors duration-150">
                   {post.title}
@@ -105,7 +105,7 @@ export default function BlogPage() {
                 <p className="text-sm text-ink-secondary leading-relaxed flex-1">
                   {post.excerpt}
                 </p>
-                <span className="text-xs font-semibold uppercase tracking-[0.16em] text-ink-muted">
+                <span className="text-xs font-semibold uppercase tracking-[0.16em] text-ink-subtle">
                   Ler artigo
                 </span>
               </Link>
@@ -147,9 +147,9 @@ export default function BlogPage() {
                     >
                       <div className="flex flex-wrap items-center gap-3">
                         <Tag variant="accent">{post.category}</Tag>
-                        <span className="text-xs text-ink-muted">{post.dateLabel}</span>
-                        <span className="text-xs text-ink-muted">·</span>
-                        <span className="text-xs text-ink-muted">{post.readTime} de leitura</span>
+                        <span className="text-xs text-ink-subtle">{post.dateLabel}</span>
+                        <span className="text-xs text-ink-subtle">·</span>
+                        <span className="text-xs text-ink-subtle">{post.readTime} de leitura</span>
                       </div>
                       <h3 className="text-h3 font-serif leading-snug text-ink-primary transition-colors duration-150 group-hover:text-accent">
                         {post.title}
@@ -157,7 +157,7 @@ export default function BlogPage() {
                       <p className="flex-1 text-sm leading-relaxed text-ink-secondary">
                         {post.excerpt}
                       </p>
-                      <span className="text-xs font-semibold uppercase tracking-[0.16em] text-ink-muted">
+                      <span className="text-xs font-semibold uppercase tracking-[0.16em] text-ink-subtle">
                         Abrir leitura
                       </span>
                     </Link>

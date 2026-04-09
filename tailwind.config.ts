@@ -31,6 +31,7 @@ const config: Config = {
           DEFAULT: '#1C5C3A',
           light: '#2D7A52',
           dark: '#123D26',
+          pale: '#5DB87A', // light green for text on dark backgrounds (~7.3:1 on ink-primary)
         },
       },
       fontFamily: {

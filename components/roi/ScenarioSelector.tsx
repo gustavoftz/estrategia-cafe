@@ -64,7 +64,7 @@ export default function ScenarioSelector({
                   <p className="text-sm font-semibold text-ink-primary">{scenario.label}</p>
                   <p className="mt-1 text-xs uppercase tracking-[0.16em] text-ink-subtle">
                     Taxa estimada {formatPercentage(projectedRate)}
-                    <span className="ml-1.5 text-ink-subtle/60">
+                    <span className="ml-1.5 text-ink-subtle">
                       +{Math.round((scenario.multiplier - 1) * 100)}%
                     </span>
                   </p>

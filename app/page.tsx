@@ -193,7 +193,7 @@ export default function HomePage() {
                     Ver o Diagnóstico Estratégico
                   </TrackedButton>
                 </div>
-                <p className="mx-auto max-w-[30ch] text-center text-xs font-semibold uppercase tracking-[0.18em] text-ink-muted lg:mx-0 lg:max-w-none lg:text-left">
+                <p className="mx-auto max-w-[30ch] text-center text-xs font-semibold uppercase tracking-[0.18em] text-ink-subtle lg:mx-0 lg:max-w-none lg:text-left">
                   Sem proposta genérica. Sem pacote fechado. Sem diagnóstico apressado.
                 </p>
               </div>
@@ -202,7 +202,7 @@ export default function HomePage() {
                 {heroSignals.map(({ label, detail }) => (
                   <div key={label} className="editorial-panel px-5 py-5">
                     <div className="relative flex flex-col gap-3">
-                      <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-ink-muted">
+                      <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-ink-subtle">
                         {label}
                       </span>
                       <p className="text-sm text-ink-secondary leading-relaxed">{detail}</p>
@@ -222,7 +222,7 @@ export default function HomePage() {
                 <div className="relative flex flex-col gap-6">
                   <div className="flex items-start justify-between gap-4">
                     <div className="flex flex-col gap-2">
-                      <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-ink-muted">
+                      <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-ink-subtle">
                         Leitura de sistema
                       </span>
                       <h2 className="text-h3 font-serif text-ink-primary">
@@ -384,7 +384,7 @@ export default function HomePage() {
                 href={href}
                 className="group flex flex-col gap-5 p-7 border border-border hover:border-ink-muted transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-[0_24px_60px_rgba(17,17,17,0.08)]"
               >
-                <span className="eyebrow text-ink-muted">{tag}</span>
+                <span className="eyebrow text-ink-subtle">{tag}</span>
                 <div className="flex flex-col gap-3">
                   <p className="text-sm font-sans font-semibold text-ink-primary leading-snug">
                     {problem}
