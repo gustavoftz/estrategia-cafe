@@ -21,15 +21,11 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Deploy via rsync
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-        run: |
-          mkdir -p ~/.ssh
-          echo "$SSH_PRIVATE_KEY" > ~/.ssh/deploy_key
-          chmod 600 ~/.ssh/deploy_key
-          ssh-keyscan -p 65002 147.93.38.41 >> ~/.ssh/known_hosts 2>/dev/null || true
-
-          rsync -avz --delete --no-compress \
-            -e "ssh -i ~/.ssh/deploy_key -p 65002 -o StrictHostKeyChecking=no -o BatchMode=yes" \
-            out/ u164538823@147.93.38.41:domains/estrategia.cafe/public_html/
+      - name: Deploy via FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ./out/
+          server-dir: /domains/estrategia.cafe/public_html/
