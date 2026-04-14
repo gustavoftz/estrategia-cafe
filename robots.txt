@@ -1,5 +1,6 @@
 User-Agent: *
 Allow: /
+Disallow: /lavajatodorogerio/
 
 User-Agent: GPTBot
 User-Agent: ChatGPT-User
