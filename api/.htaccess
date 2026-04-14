@@ -1,0 +1,3 @@
+<FilesMatch "^contact\.config(\.example)?\.php$|^contact-error\.log$">
+  Require all denied
+</FilesMatch>
