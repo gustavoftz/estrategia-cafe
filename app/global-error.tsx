@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect } from 'react'
+import Link from 'next/link'
 import { DM_Serif_Display, Inter } from 'next/font/google'
 
 const serif = DM_Serif_Display({
@@ -97,7 +98,7 @@ export default function GlobalError({
             >
               Tentar novamente
             </button>
-            <a
+            <Link
               href="/"
               style={{
                 display: 'inline-flex',
@@ -118,7 +119,7 @@ export default function GlobalError({
               }}
             >
               Voltar ao início
-            </a>
+            </Link>
           </div>
         </div>
       </body>
