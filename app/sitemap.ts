@@ -7,10 +7,14 @@ const base = 'https://estrategia.cafe'
 const sitelaunch = new Date('2026-03-04')
 
 export default function sitemap(): MetadataRoute.Sitemap {
+  const latestPost = blogPosts.reduce((a, b) =>
+    new Date(a.datePublished) > new Date(b.datePublished) ? a : b
+  )
+
   return [
     {
       url: `${base}/`,
-      lastModified: new Date(),
+      lastModified: sitelaunch,
       changeFrequency: 'monthly',
       priority: 1,
     },
@@ -58,7 +62,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
     {
       url: `${base}/blog/`,
-      lastModified: new Date(),
+      lastModified: new Date(latestPost.datePublished),
       changeFrequency: 'weekly',
       priority: 0.8,
     },
