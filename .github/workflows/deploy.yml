@@ -25,10 +25,13 @@ jobs:
 
       - name: Push build to deploy branch
         run: |
+          REPO_URL="https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git"
           cd out
           git init
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
+          # Fetch existing deploy history so the pull on Hostinger stays fast-forward
+          git fetch "$REPO_URL" deploy && git reset FETCH_HEAD || true
           git add -A
-          git commit -m "deploy: ${{ github.sha }}"
-          git push --force https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git HEAD:deploy
+          git diff --cached --quiet || git commit -m "deploy: ${{ github.sha }}"
+          git push "$REPO_URL" HEAD:deploy
