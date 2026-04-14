@@ -344,8 +344,8 @@ html,body{width:100%;height:100%;overflow:hidden;background:#111;font-family:'In
 <!-- ══ S10 PROVA VISUAL ══ -->
 <section class="slide" id="s10">
   <div class="photo-r">
-    <video id="s10-va" muted playsinline style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;opacity:1;transition:opacity .9s ease;z-index:1;"></video>
-    <video id="s10-vb" muted playsinline style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .9s ease;z-index:2;"></video>
+    <video id="s10-va" muted playsinline preload="none" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;opacity:1;transition:opacity .9s ease;z-index:1;"></video>
+    <video id="s10-vb" muted playsinline preload="none" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .9s ease;z-index:2;"></video>
   </div>
   <div class="fade-r"></div>
   <div class="logo"><img src="./431664041_917856899722647_806968138364954983_n.jpg" alt="Logo"></div>
@@ -362,27 +362,27 @@ html,body{width:100%;height:100%;overflow:hidden;background:#111;font-family:'In
 <script>
 (function(){
   var pl=[
-    './WhatsApp%20Video%202026-04-11%20at%2010.16.17.mp4',
-    './WhatsApp%20Video%202026-04-11%20at%2010.16.18.mp4',
-    './WhatsApp%20Video%202026-04-11%20at%2010.16.28.mp4',
-    './WhatsApp%20Video%202026-04-11%20at%2010.16.28%20(1).mp4',
-    './WhatsApp%20Video%202026-04-11%20at%2010.16.28%20(2).mp4',
-    './WhatsApp%20Video%202026-04-11%20at%2010.16.28%20(3).mp4',
-    './WhatsApp%20Video%202026-04-11%20at%2010.16.29.mp4',
-    './WhatsApp%20Video%202026-04-11%20at%2010.16.29%20(1).mp4',
-    './WhatsApp%20Video%202026-04-11%20at%2010.40.43.mp4',
-    './WhatsApp%20Video%202026-04-11%20at%2010.40.44.mp4',
-    './WhatsApp%20Video%202026-04-11%20at%2010.40.44%20(1).mp4',
-    './WhatsApp%20Video%202026-04-11%20at%2010.40.48.mp4',
-    './WhatsApp%20Video%202026-04-11%20at%2010.40.48%20(1).mp4',
-    './WhatsApp%20Video%202026-04-11%20at%2010.40.48%20(2).mp4',
-    './WhatsApp%20Video%202026-04-11%20at%2010.40.48%20(3).mp4',
-    './WhatsApp%20Video%202026-04-11%20at%2010.40.48%20(4).mp4',
-    './WhatsApp%20Video%202026-04-11%20at%2010.40.49.mp4'
+    './v/WhatsApp%20Video%202026-04-11%20at%2010.16.17.mp4',
+    './v/WhatsApp%20Video%202026-04-11%20at%2010.16.18.mp4',
+    './v/WhatsApp%20Video%202026-04-11%20at%2010.16.28.mp4',
+    './v/WhatsApp%20Video%202026-04-11%20at%2010.16.28%20(1).mp4',
+    './v/WhatsApp%20Video%202026-04-11%20at%2010.16.28%20(2).mp4',
+    './v/WhatsApp%20Video%202026-04-11%20at%2010.16.28%20(3).mp4',
+    './v/WhatsApp%20Video%202026-04-11%20at%2010.16.29.mp4',
+    './v/WhatsApp%20Video%202026-04-11%20at%2010.16.29%20(1).mp4',
+    './v/WhatsApp%20Video%202026-04-11%20at%2010.40.43.mp4',
+    './v/WhatsApp%20Video%202026-04-11%20at%2010.40.44.mp4',
+    './v/WhatsApp%20Video%202026-04-11%20at%2010.40.44%20(1).mp4',
+    './v/WhatsApp%20Video%202026-04-11%20at%2010.40.48.mp4',
+    './v/WhatsApp%20Video%202026-04-11%20at%2010.40.48%20(1).mp4',
+    './v/WhatsApp%20Video%202026-04-11%20at%2010.40.48%20(2).mp4',
+    './v/WhatsApp%20Video%202026-04-11%20at%2010.40.48%20(3).mp4',
+    './v/WhatsApp%20Video%202026-04-11%20at%2010.40.48%20(4).mp4',
+    './v/WhatsApp%20Video%202026-04-11%20at%2010.40.49.mp4'
   ];
   var va=document.getElementById('s10-va');
   var vb=document.getElementById('s10-vb');
-  var idx=0, busy=false;
+  var idx=0, busy=false, started=false;
 
   function load(el,src){ el.src=src; el.load(); }
   function play(el){ el.playbackRate=1.75; el.play().catch(function(){}); }
@@ -412,17 +412,19 @@ html,body{width:100%;height:100%;overflow:hidden;background:#111;font-family:'In
     if(a.currentTime>=a.duration-1.0) crossfade();
   }
 
-  // Init: load first two
-  load(va, pl[0]);
-  va.addEventListener('canplay', function init(){
-    va.removeEventListener('canplay', init);
-    play(va);
-    va.style.opacity='1';
-    // preload second
-    load(vb, pl[1%pl.length]);
-  });
-
-  setInterval(watchTime, 250);
+  // Lazy init: only called when slide 10 becomes active
+  window.s10Init=function(){
+    if(started) return;
+    started=true;
+    load(va, pl[0]);
+    va.addEventListener('canplay', function init(){
+      va.removeEventListener('canplay', init);
+      play(va);
+      va.style.opacity='1';
+      load(vb, pl[1%pl.length]);
+    });
+    setInterval(watchTime, 250);
+  };
 })();
 </script>
 
@@ -508,6 +510,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#111;font-family:'In
     wrap.style.transform='translateY('+(-cur*window.innerHeight)+'px)';
     prog.style.width=((cur+1)/TOTAL*100)+'%';
     show(cur);
+    if(n===9 && window.s10Init) window.s10Init();
     setTimeout(function(){locked=false;},750);
   }
 
