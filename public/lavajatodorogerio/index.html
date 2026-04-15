@@ -86,7 +86,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#111;font-family:'In
 </head>
 <body>
 
-<div id="progress" style="width:8.33%"></div>
+<div id="progress" style="width:9.09%"></div>
 <button id="nav-prev" aria-label="Anterior"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke-width="1.5"><polyline points="9,9 3,6 9,3"/></svg></button>
 <button id="nav-next" aria-label="Próximo"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke-width="1.5"><polyline points="3,3 9,6 3,9"/></svg></button>
 
@@ -344,8 +344,8 @@ html,body{width:100%;height:100%;overflow:hidden;background:#111;font-family:'In
 <!-- ══ S10 PROVA VISUAL ══ -->
 <section class="slide" id="s10">
   <div class="photo-r">
-    <video id="s10-va" muted playsinline preload="none" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;opacity:1;transition:opacity .9s ease;z-index:1;"></video>
-    <video id="s10-vb" muted playsinline preload="none" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .9s ease;z-index:2;"></video>
+    <video id="s10-va" muted playsinline style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;opacity:1;transition:opacity .9s ease;z-index:1;"></video>
+    <video id="s10-vb" muted playsinline style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .9s ease;z-index:2;"></video>
   </div>
   <div class="fade-r"></div>
   <div class="logo"><img src="./431664041_917856899722647_806968138364954983_n.jpg" alt="Logo"></div>
@@ -362,27 +362,27 @@ html,body{width:100%;height:100%;overflow:hidden;background:#111;font-family:'In
 <script>
 (function(){
   var pl=[
-    './v/WhatsApp%20Video%202026-04-11%20at%2010.16.17.mp4',
-    './v/WhatsApp%20Video%202026-04-11%20at%2010.16.18.mp4',
-    './v/WhatsApp%20Video%202026-04-11%20at%2010.16.28.mp4',
-    './v/WhatsApp%20Video%202026-04-11%20at%2010.16.28%20(1).mp4',
-    './v/WhatsApp%20Video%202026-04-11%20at%2010.16.28%20(2).mp4',
-    './v/WhatsApp%20Video%202026-04-11%20at%2010.16.28%20(3).mp4',
-    './v/WhatsApp%20Video%202026-04-11%20at%2010.16.29.mp4',
-    './v/WhatsApp%20Video%202026-04-11%20at%2010.16.29%20(1).mp4',
-    './v/WhatsApp%20Video%202026-04-11%20at%2010.40.43.mp4',
-    './v/WhatsApp%20Video%202026-04-11%20at%2010.40.44.mp4',
-    './v/WhatsApp%20Video%202026-04-11%20at%2010.40.44%20(1).mp4',
-    './v/WhatsApp%20Video%202026-04-11%20at%2010.40.48.mp4',
-    './v/WhatsApp%20Video%202026-04-11%20at%2010.40.48%20(1).mp4',
-    './v/WhatsApp%20Video%202026-04-11%20at%2010.40.48%20(2).mp4',
-    './v/WhatsApp%20Video%202026-04-11%20at%2010.40.48%20(3).mp4',
-    './v/WhatsApp%20Video%202026-04-11%20at%2010.40.48%20(4).mp4',
-    './v/WhatsApp%20Video%202026-04-11%20at%2010.40.49.mp4'
+    './WhatsApp%20Video%202026-04-11%20at%2010.16.17.mp4',
+    './WhatsApp%20Video%202026-04-11%20at%2010.16.18.mp4',
+    './WhatsApp%20Video%202026-04-11%20at%2010.16.28.mp4',
+    './WhatsApp%20Video%202026-04-11%20at%2010.16.28%20(1).mp4',
+    './WhatsApp%20Video%202026-04-11%20at%2010.16.28%20(2).mp4',
+    './WhatsApp%20Video%202026-04-11%20at%2010.16.28%20(3).mp4',
+    './WhatsApp%20Video%202026-04-11%20at%2010.16.29.mp4',
+    './WhatsApp%20Video%202026-04-11%20at%2010.16.29%20(1).mp4',
+    './WhatsApp%20Video%202026-04-11%20at%2010.40.43.mp4',
+    './WhatsApp%20Video%202026-04-11%20at%2010.40.44.mp4',
+    './WhatsApp%20Video%202026-04-11%20at%2010.40.44%20(1).mp4',
+    './WhatsApp%20Video%202026-04-11%20at%2010.40.48.mp4',
+    './WhatsApp%20Video%202026-04-11%20at%2010.40.48%20(1).mp4',
+    './WhatsApp%20Video%202026-04-11%20at%2010.40.48%20(2).mp4',
+    './WhatsApp%20Video%202026-04-11%20at%2010.40.48%20(3).mp4',
+    './WhatsApp%20Video%202026-04-11%20at%2010.40.48%20(4).mp4',
+    './WhatsApp%20Video%202026-04-11%20at%2010.40.49.mp4'
   ];
   var va=document.getElementById('s10-va');
   var vb=document.getElementById('s10-vb');
-  var idx=0, busy=false, started=false;
+  var idx=0, busy=false;
 
   function load(el,src){ el.src=src; el.load(); }
   function play(el){ el.playbackRate=1.75; el.play().catch(function(){}); }
@@ -412,47 +412,25 @@ html,body{width:100%;height:100%;overflow:hidden;background:#111;font-family:'In
     if(a.currentTime>=a.duration-1.0) crossfade();
   }
 
-  // Lazy init: only called when slide 10 becomes active
-  window.s10Init=function(){
-    if(started) return;
-    started=true;
-    load(va, pl[0]);
-    va.addEventListener('canplay', function init(){
-      va.removeEventListener('canplay', init);
-      play(va);
-      va.style.opacity='1';
-      load(vb, pl[1%pl.length]);
-    });
-    setInterval(watchTime, 250);
-  };
+  // Init: load first two
+  load(va, pl[0]);
+  va.addEventListener('canplay', function init(){
+    va.removeEventListener('canplay', init);
+    play(va);
+    va.style.opacity='1';
+    // preload second
+    load(vb, pl[1%pl.length]);
+  });
+
+  setInterval(watchTime, 250);
 })();
 </script>
-
-<!-- ══ S11 VALOR ══ -->
-<section class="slide slide-t" id="s11">
-  <div class="vl"></div><div class="bgn">11</div>
-  <div class="logo"><img src="./431664041_917856899722647_806968138364954983_n.jpg" alt="Logo"></div>
-  <div class="snum">11</div>
-  <div style="position:absolute;top:clamp(96px,13vh,124px);left:clamp(36px,6vw,96px);max-width:580px;z-index:10;">
-    <div class="eyebrow an">Valor para a concessionária</div>
-    <div class="an d1" style="color:#fff;font-size:clamp(28px,3.6vw,50px);font-weight:500;line-height:1.2;">O que esta parceria<br><strong style="font-weight:800;">entrega ao grupo.</strong></div>
-    <div class="an d2" style="width:44px;height:2px;background:#F8C50B;margin:clamp(20px,3vh,32px) 0;"></div>
-  </div>
-  <div style="position:absolute;top:50%;left:clamp(36px,6vw,96px);right:clamp(36px,6vw,96px);transform:translateY(-20%);display:grid;grid-template-columns:1fr 1fr;gap:clamp(16px,2.4vh,24px) clamp(40px,6vw,96px);z-index:10;">
-    <div class="an d3" style="border-left:2px solid rgba(248,197,11,.65);padding-left:22px;"><div style="color:rgba(255,255,255,.82);font-size:clamp(17px,1.8vw,22px);font-weight:500;line-height:1.75;">Consistência na entrega final dos veículos</div></div>
-    <div class="an d3" style="border-left:2px solid rgba(248,197,11,.65);padding-left:22px;"><div style="color:rgba(255,255,255,.82);font-size:clamp(17px,1.8vw,22px);font-weight:500;line-height:1.75;">Prazo cumprido e fluxo interno preservado</div></div>
-    <div class="an d4" style="border-left:2px solid rgba(248,197,11,.65);padding-left:22px;"><div style="color:rgba(255,255,255,.82);font-size:clamp(17px,1.8vw,22px);font-weight:500;line-height:1.75;">Parceiro que cumpre o que combinou</div></div>
-    <div class="an d4" style="border-left:2px solid rgba(248,197,11,.65);padding-left:22px;"><div style="color:rgba(255,255,255,.82);font-size:clamp(17px,1.8vw,22px);font-weight:500;line-height:1.75;">Padrão visual elevado no momento da entrega</div></div>
-    <div class="an d5" style="border-left:2px solid rgba(248,197,11,.65);padding-left:22px;"><div style="color:rgba(255,255,255,.82);font-size:clamp(17px,1.8vw,22px);font-weight:500;line-height:1.75;">Capacidade para grandes volumes mensais</div></div>
-    <div class="an d5" style="border-left:2px solid rgba(248,197,11,.65);padding-left:22px;"><div style="color:rgba(255,255,255,.82);font-size:clamp(17px,1.8vw,22px);font-weight:500;line-height:1.75;">Comunicação direta e zero surpresas</div></div>
-  </div>
-  <div class="foot"><span class="foot-l">Lava Jato do Rogério</span><span class="foot-r">Brasília / DF</span></div>
-</section>
 
 <!-- ══ S12 FECHAMENTO ══ -->
 <section class="slide" id="s12">
   <div class="bg"></div><div class="ov"></div>
-  <div class="snum lt">12</div>
+  <div class="logo"><img src="./431664041_917856899722647_806968138364954983_n.jpg" alt="Logo"></div>
+  <div class="snum lt">11</div>
 
   <!-- Logo grande à esquerda -->
   <div class="an" style="position:absolute;top:50%;left:clamp(48px,7vw,108px);transform:translateY(-50%);z-index:10;">
@@ -495,7 +473,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#111;font-family:'In
 
 <script>
 (function(){
-  var TOTAL=12, cur=0, locked=false, wlocked=false;
+  var TOTAL=11, cur=0, locked=false, wlocked=false;
   var wrap=document.getElementById('slides-wrap');
   var prog=document.getElementById('progress');
   var slides=Array.from(document.querySelectorAll('.slide'));
@@ -510,7 +488,6 @@ html,body{width:100%;height:100%;overflow:hidden;background:#111;font-family:'In
     wrap.style.transform='translateY('+(-cur*window.innerHeight)+'px)';
     prog.style.width=((cur+1)/TOTAL*100)+'%';
     show(cur);
-    if(n===9 && window.s10Init) window.s10Init();
     setTimeout(function(){locked=false;},750);
   }
 
@@ -578,23 +555,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#111;font-family:'In
   window.addEventListener('resize',function(){ rsz(); initPts(); });
   rsz(); initPts(); tick();
 
-  /* ── 2. GROWING BARS — S11 ── */
-  document.querySelectorAll('#s11 .an').forEach(function(el,i){
-    var st=el.getAttribute('style')||'';
-    if(st.indexOf('border-left')<0) return;
-    el.style.borderLeft='none';
-    el.style.position='relative';
-    var bar=document.createElement('span');
-    bar.style.cssText='position:absolute;left:0;top:0;width:2px;background:rgba(248,197,11,.65);height:0;display:block;transition:height .85s cubic-bezier(.22,1,.36,1);';
-    el.insertBefore(bar,el.firstChild);
-    var delay=el.classList.contains('d4')?80:el.classList.contains('d5')?160:20;
-    new MutationObserver(function(){
-      if(el.classList.contains('show'))
-        setTimeout(function(){ bar.style.height='100%'; },delay);
-    }).observe(el,{attributes:true,attributeFilter:['class']});
-  });
-
-  /* ── 3. COUNT-UP — S05 & S06 ── */
+  /* ── 2. COUNT-UP — S05 & S06 ── */
   var defs=[
     {id:'s05',cls:'d3',val:80, sfx:'%',    dur:1100},
     {id:'s05',cls:'d4',val:1000,sfx:'+',  dur:1500,dot:true},
