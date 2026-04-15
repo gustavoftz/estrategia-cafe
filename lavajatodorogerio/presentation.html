@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lava Jato do Rogério — Apresentação Institucional 2025</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html,body{width:100%;height:100%;overflow:hidden;background:#111;font-family:'Inter',sans-serif;-webkit-font-smoothing:antialiased;}
+#deck{position:fixed;inset:0;overflow:hidden;}
+#slides-wrap{display:flex;flex-direction:column;transition:transform .68s cubic-bezier(.77,0,.175,1);will-change:transform;}
+.slide{width:100vw;height:100vh;position:relative;overflow:hidden;flex-shrink:0;background:#111;}
+.slide-t{background:linear-gradient(148deg,#171717 0%,#0e0e0e 55%,#141414 100%);}
+
+/* Progress */
+#progress{position:fixed;top:0;left:0;height:4px;background:#F8C50B;z-index:200;transition:width .68s cubic-bezier(.77,0,.175,1);}
+
+/* Logo */
+.logo{position:absolute;top:clamp(20px,2.8vh,28px);left:clamp(36px,4.5vw,64px);width:clamp(52px,4.5vw,68px);height:clamp(52px,4.5vw,68px);border-radius:50%;overflow:hidden;z-index:30;border:1px solid rgba(248,197,11,.28);box-shadow:0 0 0 4px rgba(248,197,11,.05);}
+.logo img{width:100%;height:100%;object-fit:cover;display:block;}
+
+/* Slide number */
+.snum{position:absolute;top:clamp(26px,3.2vh,38px);right:clamp(36px,4.5vw,64px);font-size:11px;font-weight:600;letter-spacing:.3em;z-index:30;color:#505050;}
+.snum.lt{color:rgba(255,255,255,.55);}
+
+/* Footer */
+.foot{position:absolute;bottom:0;left:0;right:0;height:44px;border-top:1px solid rgba(255,255,255,.07);display:flex;align-items:center;justify-content:space-between;padding:0 clamp(36px,4.5vw,72px);z-index:30;}
+.foot-l{color:rgba(255,255,255,.48);font-size:10px;font-weight:600;letter-spacing:.26em;text-transform:uppercase;}
+.foot-r{color:rgba(255,255,255,.48);font-size:10px;letter-spacing:.16em;}
+.foot.lt .foot-l,.foot.lt .foot-r{color:rgba(255,255,255,.88);}
+
+/* Left accent line — text slides */
+.vl{position:absolute;left:0;top:12%;bottom:12%;width:3px;background:linear-gradient(to bottom,transparent,rgba(248,197,11,.18) 28%,rgba(248,197,11,.18) 72%,transparent);z-index:5;}
+
+/* Ghost bg number — decorative */
+.bgn{position:absolute;right:-.06em;bottom:-.12em;font-size:clamp(180px,22vw,300px);font-weight:900;color:rgba(255,255,255,.022);line-height:1;letter-spacing:-.04em;z-index:1;user-select:none;pointer-events:none;}
+
+/* Split layout */
+.photo-r{position:absolute;top:0;right:0;height:100%;width:52%;background-size:cover;background-position:center;}
+.fade-r{position:absolute;top:0;right:52%;width:320px;height:100%;background:linear-gradient(to right,#121212 42%,transparent);z-index:3;}
+.tcol{position:absolute;top:50%;left:clamp(36px,6vw,96px);width:44%;transform:translateY(-46%);z-index:10;}
+
+/* Typography */
+.eyebrow{display:flex;align-items:center;gap:14px;color:rgba(255,255,255,.88);font-size:11px;font-weight:600;letter-spacing:.32em;text-transform:uppercase;margin-bottom:clamp(28px,4vh,48px);}
+.eyebrow::before{content:'';display:inline-block;width:22px;height:2px;background:#F8C50B;flex-shrink:0;}
+.h2{color:#fff;font-size:clamp(28px,3.2vw,48px);font-weight:500;line-height:1.2;}
+.h2 strong{font-weight:800;}
+.rule{width:44px;height:2px;background:#F8C50B;margin:clamp(24px,3.2vh,38px) 0 clamp(22px,3vh,34px);}
+.body{color:rgba(255,255,255,.90);font-size:clamp(17px,1.8vw,22px);font-weight:500;line-height:1.9;}
+
+/* Animations */
+.an{opacity:0;transform:translateY(22px);transition:opacity .65s ease,transform .65s ease;}
+.an.show{opacity:1;transform:none;}
+.d1{transition-delay:.08s}.d2{transition-delay:.2s}.d3{transition-delay:.34s}
+.d4{transition-delay:.5s}.d5{transition-delay:.66s}.d6{transition-delay:.82s}
+@media(prefers-reduced-motion:reduce){.an{transition:none!important;opacity:1!important;transform:none!important;}#slides-wrap{transition:none!important;}}
+
+/* Nav buttons */
+#nav-prev,#nav-next{position:fixed;right:clamp(12px,1.6vw,22px);width:36px;height:36px;border:1px solid rgba(255,255,255,.1);background:rgba(17,17,17,.6);cursor:pointer;z-index:100;display:flex;align-items:center;justify-content:center;transition:border-color .2s,background .2s;backdrop-filter:blur(6px);}
+#nav-prev:hover,#nav-next:hover{border-color:rgba(248,197,11,.4);background:rgba(17,17,17,.9);}
+#nav-prev{top:50%;transform:translateY(calc(-100% - 7px));}
+#nav-next{top:50%;transform:translateY(7px);}
+#nav-prev svg,#nav-next svg{stroke:rgba(255,255,255,.4);}
+
+/* ── Slide-specific ── */
+#s01 .bg{position:absolute;inset:0;background:url('./gemini%20lava%20jato%20rogerio/Gemini_Generated_Image_q6ai64q6ai64q6ai.png') 0% 50%/130% auto no-repeat;}
+#s01 .ov{position:absolute;inset:0;background:linear-gradient(120deg,rgba(10,10,10,.92) 0%,rgba(10,10,10,.72) 38%,rgba(10,10,10,.28) 65%,rgba(10,10,10,.05) 100%);}
+#s01 .ov2{position:absolute;bottom:0;left:0;right:0;height:200px;background:linear-gradient(to top,rgba(10,10,10,.65),transparent);}
+
+#s02,#s04,#s07,#s10{background:linear-gradient(148deg,#161616 0%,#0f0f0f 100%);}
+#s02 .photo-r{background-image:url('./gemini%20lava%20jato%20rogerio/Gemini_Generated_Image_u4w85au4w85au4w8.png');background-position:center 30%;}
+#s04 .photo-r{background-image:url('./gemini%20lava%20jato%20rogerio/Gemini_Generated_Image_jl9jhdjl9jhdjl9j.png');background-position:center top;}
+#s07 .photo-r{background-image:url('./gemini%20lava%20jato%20rogerio/Gemini_Generated_Image_6v5qbd6v5qbd6v5q.png');background-position:center 50%;}
+#s10 .photo-r{background-image:none;}
+#s10 .photo-r video{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;object-position:center;}
+
+#s09 .bg{position:absolute;inset:0;background:url('./WhatsApp%20Image%202026-04-11%20at%2010.40.45.jpeg') center 55%/cover no-repeat;}
+#s09 .ov{position:absolute;inset:0;background:linear-gradient(130deg,rgba(10,10,10,.82) 0%,rgba(10,10,10,.50) 45%,rgba(10,10,10,.18) 100%);}
+#s09 .ov2{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(10,10,10,.42) 0%,transparent 32%,transparent 64%,rgba(10,10,10,.65) 100%);}
+
+#s12 .bg{position:absolute;inset:0;background:url('./WhatsApp%20Image%202026-04-11%20at%2010.40.45%20(3).jpeg') center 40%/cover no-repeat;}
+#s12 .ov{position:absolute;inset:0;background:linear-gradient(115deg,rgba(10,10,10,.96) 0%,rgba(10,10,10,.84) 35%,rgba(10,10,10,.44) 65%,rgba(10,10,10,.14) 100%);}
+</style>
+</head>
+<body>
+
+<div id="progress" style="width:9.09%"></div>
+<button id="nav-prev" aria-label="Anterior"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke-width="1.5"><polyline points="9,9 3,6 9,3"/></svg></button>
+<button id="nav-next" aria-label="Próximo"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke-width="1.5"><polyline points="3,3 9,6 3,9"/></svg></button>
+
+<div id="deck"><div id="slides-wrap">
+
+<!-- ══ S01 CAPA ══ -->
+<section class="slide" id="s01">
+  <div class="bg"></div><div class="ov"></div><div class="ov2"></div>
+  <div style="position:absolute;top:50%;transform:translateY(-50%);left:clamp(36px,6vw,96px);z-index:10;max-width:clamp(480px,64vw,820px);">
+    <div class="an" style="margin-bottom:clamp(20px,3vh,32px);">
+      <img src="./431664041_917856899722647_806968138364954983_n.jpg" alt="Logo" style="width:clamp(72px,7vw,100px);height:clamp(72px,7vw,100px);border-radius:50%;object-fit:cover;border:2px solid rgba(248,197,11,.5);box-shadow:0 0 0 6px rgba(248,197,11,.08),0 8px 32px rgba(0,0,0,.5);">
+    </div>
+    <div class="an d1" style="color:rgba(255,255,255,.88);font-size:11px;font-weight:600;letter-spacing:.34em;text-transform:uppercase;margin-bottom:clamp(16px,2.4vh,24px);">Apresentação institucional · 2026</div>
+    <div class="an d1" style="color:#fff;font-size:clamp(46px,6.8vw,92px);font-weight:300;letter-spacing:.04em;line-height:1.12;text-transform:uppercase;white-space:nowrap;">Lava Jato do<br><span style="font-weight:900;letter-spacing:.02em;">Rogério</span></div>
+    <div class="an d2" style="display:flex;align-items:center;gap:14px;margin-top:clamp(22px,3.2vh,34px);">
+      <div style="width:28px;height:2px;background:#F8C50B;flex-shrink:0;"></div>
+      <span style="color:rgba(255,255,255,.88);font-size:clamp(13px,1.2vw,15px);font-weight:500;letter-spacing:.04em;">Lavagem e estética automotiva para concessionárias</span>
+    </div>
+    <div class="an d3" style="margin-top:clamp(20px,2.8vh,30px);display:inline-flex;border:1px solid rgba(248,197,11,.45);padding:14px 32px;gap:14px;align-items:center;">
+      <div style="width:5px;height:5px;border-radius:50%;background:#F8C50B;flex-shrink:0;"></div>
+      <span style="color:#F8C50B;font-size:14px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;">Qualidade · Pontualidade · Confiança</span>
+    </div>
+  </div>
+  <div class="foot">
+    <span class="foot-l">(61) 99949-3305 · @lavajatodorogerio_ · LavajatodoRogerio.com</span>
+    <span class="foot-r">Brasília / DF</span>
+  </div>
+</section>
+
+<!-- ══ S02 TESE EXECUTIVA ══ -->
+<section class="slide" id="s02">
+  <div class="photo-r"></div><div class="fade-r"></div>
+  <div class="logo"><img src="./431664041_917856899722647_806968138364954983_n.jpg" alt="Logo"></div>
+  <div class="snum">02</div>
+  <div class="tcol">
+    <div class="eyebrow an">Tese executiva</div>
+    <div class="h2 an d1">A etapa final<br><strong>define a experiência</strong><br>inteira.</div>
+    <div class="rule an d2"></div>
+    <div class="body an d3">A lavagem e a estética não são detalhes operacionais.<br>São o que o cliente vê, toca e sente na entrega.<br><br>Quando essa etapa falha, tudo que foi<br>bem feito antes deixa de importar.</div>
+  </div>
+  <div class="foot"><span class="foot-l">Lava Jato do Rogério</span><span class="foot-r">Brasília / DF</span></div>
+</section>
+
+<!-- ══ S03 O PROBLEMA ══ -->
+<section class="slide slide-t" id="s03">
+  <div class="vl"></div><div class="bgn">03</div>
+  <div class="logo"><img src="./431664041_917856899722647_806968138364954983_n.jpg" alt="Logo"></div>
+  <div class="snum">03</div>
+
+  <!-- Título -->
+  <div style="position:absolute;top:clamp(110px,16vh,148px);left:clamp(36px,6vw,96px);right:clamp(36px,6vw,96px);z-index:10;">
+    <div class="eyebrow an">O problema</div>
+    <div class="an d1" style="color:#fff;font-size:clamp(28px,3.6vw,52px);font-weight:500;line-height:1.18;">Três pontos que uma concessionária<br>não pode aceitar.</div>
+  </div>
+
+  <!-- Colunas -->
+  <div style="position:absolute;top:50%;transform:translateY(-30%);left:clamp(36px,6vw,96px);right:clamp(36px,6vw,96px);display:grid;grid-template-columns:1fr 1fr 1fr;gap:clamp(24px,4vw,56px);z-index:10;">
+
+    <div class="an d2">
+      <div style="color:#F8C50B;font-size:clamp(44px,5.5vw,76px);font-weight:300;letter-spacing:.02em;line-height:1;">01</div>
+      <div style="width:28px;height:2px;background:rgba(248,197,11,.45);margin:14px 0 18px;"></div>
+      <div style="color:#fff;font-size:13px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;margin-bottom:14px;">Qualidade inconsistente</div>
+      <div style="color:rgba(255,255,255,.88);font-size:clamp(14px,1.3vw,16px);font-weight:500;line-height:1.85;">Veículos entregues com padrão irregular geram retrabalho e comprometem a entrega final.</div>
+    </div>
+
+    <div class="an d3">
+      <div style="color:#F8C50B;font-size:clamp(44px,5.5vw,76px);font-weight:300;letter-spacing:.02em;line-height:1;">02</div>
+      <div style="width:28px;height:2px;background:rgba(248,197,11,.45);margin:14px 0 18px;"></div>
+      <div style="color:#fff;font-size:13px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;margin-bottom:14px;">Atraso na entrega</div>
+      <div style="color:rgba(255,255,255,.88);font-size:clamp(14px,1.3vw,16px);font-weight:500;line-height:1.85;">Falhas de prazo afetam o fluxo interno e comprometem a experiência do cliente final.</div>
+    </div>
+
+    <div class="an d4">
+      <div style="color:#F8C50B;font-size:clamp(44px,5.5vw,76px);font-weight:300;letter-spacing:.02em;line-height:1;">03</div>
+      <div style="width:28px;height:2px;background:rgba(248,197,11,.45);margin:14px 0 18px;"></div>
+      <div style="color:#fff;font-size:13px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;margin-bottom:14px;">Fornecedor não confiável</div>
+      <div style="color:rgba(255,255,255,.88);font-size:clamp(14px,1.3vw,16px);font-weight:500;line-height:1.85;">Quando o combinado não é cumprido, a gestão perde previsibilidade e opera com insegurança.</div>
+    </div>
+
+  </div>
+  <div class="foot"><span class="foot-l">Lava Jato do Rogério</span><span class="foot-r">Brasília / DF</span></div>
+</section>
+
+<!-- ══ S04 QUEM SOMOS ══ -->
+<section class="slide" id="s04">
+  <div class="photo-r"></div><div class="fade-r"></div>
+  <div class="logo"><img src="./431664041_917856899722647_806968138364954983_n.jpg" alt="Logo"></div>
+  <div class="snum">04</div>
+  <div class="tcol">
+    <div class="eyebrow an">Quem somos</div>
+    <div class="h2 an d1">Uma operação jovem,<br><strong>construída para crescer.</strong></div>
+    <div class="rule an d2"></div>
+    <div class="body an d3">Fundado em 2023 com propósito claro:<br>ser referência em estética automotiva<br>para concessionárias.<br><br>Uma operação criada para crescer<br>sem abrir mão do padrão<br>que nos define desde o primeiro dia.</div>
+  </div>
+  <div class="foot"><span class="foot-l">Lava Jato do Rogério</span><span class="foot-r">Brasília / DF</span></div>
+</section>
+
+<!-- ══ S05 TRAJETÓRIA ══ -->
+<section class="slide slide-t" id="s05">
+  <div class="vl"></div><div class="bgn">05</div>
+  <div class="logo"><img src="./431664041_917856899722647_806968138364954983_n.jpg" alt="Logo"></div>
+  <div class="snum">05</div>
+  <!-- Esquerda: título + texto centrados -->
+  <div style="position:absolute;top:50%;left:clamp(36px,6vw,96px);width:42%;transform:translateY(-44%);z-index:10;">
+    <div class="eyebrow an">Trajetória</div>
+    <div class="h2 an d1" style="margin-top:clamp(18px,2.6vh,28px);">Crescimento que<br><strong>virou método.</strong></div>
+    <div class="an d2" style="color:rgba(255,255,255,.88);font-size:clamp(16px,1.5vw,19px);font-weight:500;line-height:1.85;margin-top:clamp(22px,3vh,32px);">
+      A empresa não cresceu só em volume.<br>Cresceu em aprendizado, domínio técnico<br>e organização operacional.<br><br>Hoje trabalhamos com mais controle,<br>mais disciplina e mais previsibilidade.
+    </div>
+  </div>
+  <!-- Direita: estatísticas centradas -->
+  <div style="position:absolute;top:50%;right:clamp(36px,6vw,96px);width:38%;transform:translateY(-50%);display:flex;flex-direction:column;gap:clamp(22px,3.5vh,34px);z-index:10;">
+    <div class="an d3" style="border-left:2px solid rgba(248,197,11,.25);padding-left:28px;">
+      <div style="color:#F8C50B;font-size:clamp(44px,5.8vw,72px);font-weight:300;line-height:1;margin-bottom:10px;">80%</div>
+      <div style="color:rgba(255,255,255,.88);font-size:11px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;">Crescimento em 2024</div>
+    </div>
+    <div class="an d4" style="border-left:2px solid rgba(248,197,11,.25);padding-left:28px;">
+      <div style="color:#F8C50B;font-size:clamp(44px,5.8vw,72px);font-weight:300;line-height:1;margin-bottom:10px;">1.000+</div>
+      <div style="color:rgba(255,255,255,.88);font-size:11px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;">Veículos por mês</div>
+    </div>
+    <div class="an d5" style="border-left:2px solid rgba(248,197,11,.25);padding-left:28px;">
+      <div style="color:#F8C50B;font-size:clamp(44px,5.8vw,72px);font-weight:300;line-height:1;margin-bottom:10px;">2 anos</div>
+      <div style="color:rgba(255,255,255,.88);font-size:11px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;">De trajetória consolidada</div>
+    </div>
+  </div>
+  <div class="foot"><span class="foot-l">Lava Jato do Rogério</span><span class="foot-r">Brasília / DF</span></div>
+</section>
+
+<!-- ══ S06 ESTRUTURA ══ -->
+<section class="slide slide-t" id="s06">
+  <div class="vl"></div><div class="bgn">06</div>
+  <div class="logo"><img src="./431664041_917856899722647_806968138364954983_n.jpg" alt="Logo"></div>
+  <div class="snum">06</div>
+  <div style="position:absolute;top:clamp(96px,13vh,124px);left:clamp(36px,6vw,96px);z-index:10;">
+    <div class="eyebrow an">Estrutura operacional</div>
+    <div class="h2 an d1">Estrutura para<br><strong>volume, velocidade e padrão.</strong></div>
+  </div>
+  <div style="position:absolute;top:50%;transform:translateY(-30%);left:clamp(36px,6vw,96px);right:clamp(36px,6vw,96px);display:grid;grid-template-columns:1fr 1fr 1fr;gap:0;z-index:10;">
+    <div class="an d2" style="border-left:2px solid rgba(248,197,11,.18);padding-left:32px;padding-right:24px;">
+      <div style="color:#F8C50B;font-size:clamp(58px,8vw,100px);font-weight:300;line-height:1;margin-bottom:14px;letter-spacing:-.02em;">12</div>
+      <div style="color:#fff;font-size:clamp(20px,2.2vw,30px);font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin-bottom:12px;">Baias</div>
+      <div style="color:rgba(255,255,255,.88);font-size:clamp(14px,1.2vw,16px);font-weight:500;line-height:1.75;">de atendimento simultâneo</div>
+    </div>
+    <div class="an d3" style="border-left:2px solid rgba(248,197,11,.18);padding-left:32px;padding-right:24px;">
+      <div style="color:#F8C50B;font-size:clamp(58px,8vw,100px);font-weight:300;line-height:1;margin-bottom:14px;letter-spacing:-.02em;">12</div>
+      <div style="color:#fff;font-size:clamp(20px,2.2vw,30px);font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin-bottom:12px;">Profissionais</div>
+      <div style="color:rgba(255,255,255,.88);font-size:clamp(14px,1.2vw,16px);font-weight:500;line-height:1.75;">especializados em estética automotiva</div>
+    </div>
+    <div class="an d4" style="border-left:2px solid rgba(248,197,11,.18);padding-left:32px;padding-right:24px;">
+      <div style="color:#F8C50B;font-size:clamp(58px,8vw,100px);font-weight:300;line-height:1;margin-bottom:14px;letter-spacing:-.02em;">1.000+</div>
+      <div style="color:#fff;font-size:clamp(20px,2.2vw,30px);font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin-bottom:12px;">Veículos / mês</div>
+      <div style="color:rgba(255,255,255,.88);font-size:clamp(14px,1.2vw,16px);font-weight:500;line-height:1.75;">atendidos com padrão consistente</div>
+    </div>
+  </div>
+  <div class="foot"><span class="foot-l">Lava Jato do Rogério</span><span class="foot-r">Brasília / DF</span></div>
+</section>
+
+<!-- ══ S07 PROCESSO ══ -->
+<section class="slide" id="s07">
+  <div class="photo-r"></div><div class="fade-r"></div>
+  <div class="logo"><img src="./431664041_917856899722647_806968138364954983_n.jpg" alt="Logo"></div>
+  <div class="snum">07</div>
+  <div class="tcol">
+    <div class="eyebrow an">Processo</div>
+    <div class="h2 an d1">Por trás do resultado,<br><strong>um processo.</strong></div>
+    <div style="margin-top:clamp(28px,4vh,44px);display:flex;flex-direction:column;gap:clamp(16px,2.4vh,22px);">
+      <div class="an d2" style="display:flex;align-items:flex-start;gap:20px;">
+        <span style="color:#F8C50B;font-size:11px;font-weight:700;letter-spacing:.22em;min-width:22px;padding-top:3px;flex-shrink:0;">01</span>
+        <span style="color:rgba(255,255,255,.88);font-size:clamp(15px,1.5vw,18px);font-weight:500;line-height:1.7;">Recebimento e identificação da demanda</span>
+      </div>
+      <div class="an d3" style="display:flex;align-items:flex-start;gap:20px;">
+        <span style="color:#F8C50B;font-size:11px;font-weight:700;letter-spacing:.22em;min-width:22px;padding-top:3px;flex-shrink:0;">02</span>
+        <span style="color:rgba(255,255,255,.88);font-size:clamp(15px,1.5vw,18px);font-weight:500;line-height:1.7;">Execução conforme o tipo de serviço</span>
+      </div>
+      <div class="an d4" style="display:flex;align-items:flex-start;gap:20px;">
+        <span style="color:#F8C50B;font-size:11px;font-weight:700;letter-spacing:.22em;min-width:22px;padding-top:3px;flex-shrink:0;">03</span>
+        <span style="color:rgba(255,255,255,.88);font-size:clamp(15px,1.5vw,18px);font-weight:500;line-height:1.7;">Conferência de acabamento</span>
+      </div>
+      <div class="an d5" style="display:flex;align-items:flex-start;gap:20px;">
+        <span style="color:#F8C50B;font-size:11px;font-weight:700;letter-spacing:.22em;min-width:22px;padding-top:3px;flex-shrink:0;">04</span>
+        <span style="color:rgba(255,255,255,.88);font-size:clamp(15px,1.5vw,18px);font-weight:500;line-height:1.7;">Revisão final</span>
+      </div>
+      <div class="an d6" style="display:flex;align-items:flex-start;gap:20px;">
+        <span style="color:#F8C50B;font-size:11px;font-weight:700;letter-spacing:.22em;min-width:22px;padding-top:3px;flex-shrink:0;">05</span>
+        <span style="color:rgba(255,255,255,.88);font-size:clamp(15px,1.5vw,18px);font-weight:500;line-height:1.7;">Liberação para entrega</span>
+      </div>
+    </div>
+  </div>
+  <div class="foot"><span class="foot-l">Lava Jato do Rogério</span><span class="foot-r">Brasília / DF</span></div>
+</section>
+
+<!-- ══ S08 TRÊS COMPROMISSOS ══ -->
+<section class="slide slide-t" id="s08">
+  <div class="vl"></div><div class="bgn">08</div>
+  <div class="logo"><img src="./431664041_917856899722647_806968138364954983_n.jpg" alt="Logo"></div>
+  <div class="snum">08</div>
+  <div style="position:absolute;top:clamp(96px,13vh,124px);left:clamp(36px,6vw,96px);z-index:10;">
+    <div class="an" style="color:#fff;font-size:clamp(30px,3.8vw,54px);font-weight:500;line-height:1.15;">Três compromissos.</div>
+    <div class="an d1" style="color:#F8C50B;font-size:13px;font-weight:500;letter-spacing:.14em;margin-top:12px;font-style:italic;">Sem negociação.</div>
+  </div>
+  <div style="position:absolute;top:clamp(200px,31vh,240px);left:clamp(36px,6vw,96px);right:clamp(36px,6vw,96px);height:1px;background:rgba(255,255,255,.07);z-index:10;"></div>
+  <div style="position:absolute;top:clamp(228px,34vh,272px);left:clamp(36px,6vw,96px);right:clamp(36px,6vw,96px);display:grid;grid-template-columns:1fr 1fr 1fr;gap:clamp(28px,4.5vw,64px);z-index:10;">
+    <div class="an d2">
+      <div style="color:#F8C50B;font-size:clamp(26px,2.8vw,38px);font-weight:300;letter-spacing:.04em;line-height:1;">01</div>
+      <div style="width:24px;height:2px;background:rgba(248,197,11,.35);margin:20px 0 18px;"></div>
+      <div style="color:#fff;font-size:clamp(22px,2.4vw,32px);font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:18px;">Qualidade</div>
+      <div style="color:rgba(255,255,255,.90);font-size:clamp(15px,1.4vw,18px);font-weight:500;line-height:1.6;margin-bottom:14px;">Padrão não se promete.<br>Se entrega.</div>
+      <div style="color:rgba(255,255,255,.88);font-size:clamp(13px,1.2vw,15px);font-weight:500;line-height:1.8;">Processos padronizados e conferência em cada atendimento.</div>
+    </div>
+    <div class="an d3">
+      <div style="color:#F8C50B;font-size:clamp(26px,2.8vw,38px);font-weight:300;letter-spacing:.04em;line-height:1;">02</div>
+      <div style="width:24px;height:2px;background:rgba(248,197,11,.35);margin:20px 0 18px;"></div>
+      <div style="color:#fff;font-size:clamp(22px,2.4vw,32px);font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:18px;">Pontualidade</div>
+      <div style="color:rgba(255,255,255,.90);font-size:clamp(15px,1.4vw,18px);font-weight:500;line-height:1.6;margin-bottom:14px;">Pontualidade é processo,<br>não sorte.</div>
+      <div style="color:rgba(255,255,255,.88);font-size:clamp(13px,1.2vw,15px);font-weight:500;line-height:1.8;">Fluxo organizado para cumprir o prazo acordado — sempre.</div>
+    </div>
+    <div class="an d4">
+      <div style="color:#F8C50B;font-size:clamp(26px,2.8vw,38px);font-weight:300;letter-spacing:.04em;line-height:1;">03</div>
+      <div style="width:24px;height:2px;background:rgba(248,197,11,.35);margin:20px 0 18px;"></div>
+      <div style="color:#fff;font-size:clamp(22px,2.4vw,32px);font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:18px;">Confiança</div>
+      <div style="color:rgba(255,255,255,.90);font-size:clamp(15px,1.4vw,18px);font-weight:500;line-height:1.6;margin-bottom:14px;">O que combinamos,<br>entregamos.</div>
+      <div style="color:rgba(255,255,255,.88);font-size:clamp(13px,1.2vw,15px);font-weight:500;line-height:1.8;">Transparência, comunicação direta e zero surpresas.</div>
+    </div>
+  </div>
+  <div class="foot"><span class="foot-l">Lava Jato do Rogério</span><span class="foot-r">Brasília / DF</span></div>
+</section>
+
+<!-- ══ S09 PORTFÓLIO ══ -->
+<section class="slide" id="s09">
+  <div class="bg"></div><div class="ov"></div><div class="ov2"></div>
+  <div class="logo"><img src="./431664041_917856899722647_806968138364954983_n.jpg" alt="Logo"></div>
+  <div class="snum lt">09</div>
+  <div style="position:absolute;bottom:clamp(64px,9vh,96px);left:clamp(36px,6vw,96px);z-index:10;">
+    <div class="an" style="color:#F8C50B;font-size:11px;font-weight:600;letter-spacing:.32em;text-transform:uppercase;margin-bottom:16px;">Portfólio</div>
+    <div class="an d1" style="color:#fff;font-size:clamp(32px,4.4vw,60px);font-weight:300;line-height:1.18;">Veículos que exigem<br><strong style="font-weight:800;">mais do que cuidado.</strong></div>
+    <div class="an d2" style="margin-top:clamp(18px,2.8vh,26px);display:flex;gap:clamp(14px,2vw,24px);flex-wrap:wrap;align-items:center;">
+      <span style="color:rgba(255,255,255,.88);font-size:11px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;">BYD</span>
+      <span style="color:rgba(248,197,11,.4);">·</span>
+      <span style="color:rgba(255,255,255,.88);font-size:11px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;">Mercedes-Benz</span>
+      <span style="color:rgba(248,197,11,.4);">·</span>
+      <span style="color:rgba(255,255,255,.88);font-size:11px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;">BMW</span>
+      <span style="color:rgba(248,197,11,.4);">·</span>
+      <span style="color:rgba(255,255,255,.88);font-size:11px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;">Audi</span>
+      <span style="color:rgba(248,197,11,.4);">·</span>
+      <span style="color:rgba(255,255,255,.88);font-size:11px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;">Porsche</span>
+      <span style="color:rgba(248,197,11,.4);">·</span>
+      <span style="color:rgba(255,255,255,.88);font-size:11px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;">Land Rover</span>
+      <span style="color:rgba(248,197,11,.4);">·</span>
+      <span style="color:rgba(255,255,255,.88);font-size:11px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;">Chevrolet Camaro</span>
+    </div>
+  </div>
+  <div class="foot lt"><span class="foot-l">Lava Jato do Rogério</span><span class="foot-r">Brasília / DF</span></div>
+</section>
+
+<!-- ══ S10 PROVA VISUAL ══ -->
+<section class="slide" id="s10">
+  <div class="photo-r">
+    <video id="s10-va" muted playsinline style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;opacity:1;transition:opacity .9s ease;z-index:1;"></video>
+    <video id="s10-vb" muted playsinline style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .9s ease;z-index:2;"></video>
+  </div>
+  <div class="fade-r"></div>
+  <div class="logo"><img src="./431664041_917856899722647_806968138364954983_n.jpg" alt="Logo"></div>
+  <div class="snum">10</div>
+  <div class="tcol">
+    <div class="eyebrow an">Prova visual</div>
+    <div class="h2 an d1">Experiência prática,<br><strong>padrão visível.</strong></div>
+    <div class="rule an d2"></div>
+    <div class="body an d3">Atendemos diariamente veículos que exigem<br>cuidado, atenção e responsabilidade estética.<br><br>Mais do que falar sobre o que fazemos,<br>preferimos mostrar.</div>
+  </div>
+  <div class="foot"><span class="foot-l">Lava Jato do Rogério</span><span class="foot-r">Brasília / DF</span></div>
+</section>
+
+<script>
+(function(){
+  var pl=[
+    './WhatsApp%20Video%202026-04-11%20at%2010.16.17.mp4',
+    './WhatsApp%20Video%202026-04-11%20at%2010.16.18.mp4',
+    './WhatsApp%20Video%202026-04-11%20at%2010.16.28.mp4',
+    './WhatsApp%20Video%202026-04-11%20at%2010.16.28%20(1).mp4',
+    './WhatsApp%20Video%202026-04-11%20at%2010.16.28%20(2).mp4',
+    './WhatsApp%20Video%202026-04-11%20at%2010.16.28%20(3).mp4',
+    './WhatsApp%20Video%202026-04-11%20at%2010.16.29.mp4',
+    './WhatsApp%20Video%202026-04-11%20at%2010.16.29%20(1).mp4',
+    './WhatsApp%20Video%202026-04-11%20at%2010.40.43.mp4',
+    './WhatsApp%20Video%202026-04-11%20at%2010.40.44.mp4',
+    './WhatsApp%20Video%202026-04-11%20at%2010.40.44%20(1).mp4',
+    './WhatsApp%20Video%202026-04-11%20at%2010.40.48.mp4',
+    './WhatsApp%20Video%202026-04-11%20at%2010.40.48%20(1).mp4',
+    './WhatsApp%20Video%202026-04-11%20at%2010.40.48%20(2).mp4',
+    './WhatsApp%20Video%202026-04-11%20at%2010.40.48%20(3).mp4',
+    './WhatsApp%20Video%202026-04-11%20at%2010.40.48%20(4).mp4',
+    './WhatsApp%20Video%202026-04-11%20at%2010.40.49.mp4'
+  ];
+  var va=document.getElementById('s10-va');
+  var vb=document.getElementById('s10-vb');
+  var idx=0, busy=false;
+
+  function load(el,src){ el.src=src; el.load(); }
+  function play(el){ el.playbackRate=1.75; el.play().catch(function(){}); }
+
+  function active(){ return va.style.opacity==='1'?va:vb; }
+  function standby(){ return va.style.opacity==='1'?vb:va; }
+
+  function crossfade(){
+    if(busy) return;
+    busy=true;
+    idx=(idx+1)%pl.length;
+    var nx=standby();
+    var cur=active();
+    load(nx, pl[idx]);
+    nx.addEventListener('canplay', function go(){
+      nx.removeEventListener('canplay', go);
+      play(nx);
+      nx.style.opacity='1';
+      cur.style.opacity='0';
+      setTimeout(function(){ cur.pause(); busy=false; }, 950);
+    });
+  }
+
+  function watchTime(){
+    var a=active();
+    if(!a.duration||a.duration===Infinity||a.duration<1) return;
+    if(a.currentTime>=a.duration-1.0) crossfade();
+  }
+
+  // Init: load first two
+  load(va, pl[0]);
+  va.addEventListener('canplay', function init(){
+    va.removeEventListener('canplay', init);
+    play(va);
+    va.style.opacity='1';
+    // preload second
+    load(vb, pl[1%pl.length]);
+  });
+
+  setInterval(watchTime, 250);
+})();
+</script>
+
+<!-- ══ S12 FECHAMENTO ══ -->
+<section class="slide" id="s12">
+  <div class="bg"></div><div class="ov"></div>
+  <div class="logo"><img src="./431664041_917856899722647_806968138364954983_n.jpg" alt="Logo"></div>
+  <div class="snum lt">11</div>
+
+  <!-- Logo grande à esquerda -->
+  <div class="an" style="position:absolute;top:50%;left:clamp(48px,7vw,108px);transform:translateY(-50%);z-index:10;">
+    <img src="./431664041_917856899722647_806968138364954983_n.jpg" alt="Logo"
+      style="width:clamp(160px,18vw,240px);height:clamp(160px,18vw,240px);border-radius:50%;object-fit:cover;border:2px solid rgba(248,197,11,.45);box-shadow:0 0 0 10px rgba(248,197,11,.06),0 0 60px rgba(248,197,11,.08);">
+  </div>
+
+  <!-- Linha divisória vertical -->
+  <div style="position:absolute;top:15%;bottom:15%;left:clamp(260px,30vw,400px);width:1px;background:linear-gradient(to bottom,transparent,rgba(248,197,11,.25) 30%,rgba(248,197,11,.25) 70%,transparent);z-index:10;"></div>
+
+  <!-- Texto à direita -->
+  <div style="position:absolute;top:50%;left:clamp(280px,33vw,430px);right:clamp(36px,5vw,72px);transform:translateY(-50%);z-index:10;">
+    <div class="an d1" style="color:rgba(255,255,255,.88);font-size:11px;font-weight:600;letter-spacing:.34em;text-transform:uppercase;margin-bottom:clamp(18px,2.8vh,28px);">Encerramento</div>
+    <div class="an d2" style="color:#fff;font-size:clamp(24px,2.8vw,42px);font-weight:300;line-height:1.3;">Qualidade consistente.<br>Entrega pontual.<br><strong style="font-weight:800;">Confiança no combinado.</strong></div>
+    <div class="an d3" style="width:40px;height:2px;background:#F8C50B;margin:clamp(20px,3vh,32px) 0;"></div>
+    <div class="an d4" style="display:flex;flex-direction:column;gap:clamp(8px,1.4vh,12px);">
+      <div style="display:flex;align-items:center;gap:12px;">
+        <div style="width:4px;height:4px;border-radius:50%;background:#F8C50B;flex-shrink:0;"></div>
+        <span style="color:#F8C50B;font-size:clamp(14px,1.4vw,17px);font-weight:600;">(61) 99949-3305</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px;">
+        <div style="width:4px;height:4px;border-radius:50%;background:#F8C50B;flex-shrink:0;"></div>
+        <span style="color:#F8C50B;font-size:clamp(14px,1.4vw,17px);font-weight:600;">@lavajatodorogerio_</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px;">
+        <div style="width:4px;height:4px;border-radius:50%;background:#F8C50B;flex-shrink:0;"></div>
+        <span style="color:#F8C50B;font-size:clamp(14px,1.4vw,17px);font-weight:600;">LavajatodoRogerio.com</span>
+      </div>
+      <div style="color:rgba(255,255,255,.88);font-size:11px;font-weight:500;letter-spacing:.14em;margin-top:6px;">Brasília / DF</div>
+    </div>
+  </div>
+
+  <div class="foot lt">
+    <span class="foot-l">Lava Jato do Rogério</span>
+    <span class="foot-r">Brasília / DF</span>
+  </div>
+</section>
+
+</div></div>
+
+<script>
+(function(){
+  var TOTAL=11, cur=0, locked=false, wlocked=false;
+  var wrap=document.getElementById('slides-wrap');
+  var prog=document.getElementById('progress');
+  var slides=Array.from(document.querySelectorAll('.slide'));
+
+  function show(i){ slides[i].querySelectorAll('.an').forEach(function(e){e.classList.add('show');}); }
+
+  function goTo(n){
+    if(locked)return;
+    n=Math.max(0,Math.min(TOTAL-1,n));
+    if(n===cur)return;
+    locked=true; cur=n;
+    wrap.style.transform='translateY('+(-cur*window.innerHeight)+'px)';
+    prog.style.width=((cur+1)/TOTAL*100)+'%';
+    show(cur);
+    setTimeout(function(){locked=false;},750);
+  }
+
+  function next(){goTo(cur+1);} function prev(){goTo(cur-1);}
+
+  document.addEventListener('keydown',function(e){
+    if(['ArrowDown','ArrowRight',' '].includes(e.key)){e.preventDefault();next();}
+    if(['ArrowUp','ArrowLeft'].includes(e.key)){e.preventDefault();prev();}
+  });
+
+  document.addEventListener('wheel',function(e){
+    e.preventDefault();
+    if(wlocked)return; wlocked=true;
+    e.deltaY>0?next():prev();
+    setTimeout(function(){wlocked=false;},820);
+  },{passive:false});
+
+  var ty=0;
+  document.addEventListener('touchstart',function(e){ty=e.touches[0].clientY;},{passive:true});
+  document.addEventListener('touchend',function(e){
+    var d=ty-e.changedTouches[0].clientY;
+    if(Math.abs(d)>48){d>0?next():prev();}
+  });
+
+  document.getElementById('nav-prev').addEventListener('click',prev);
+  document.getElementById('nav-next').addEventListener('click',next);
+
+  window.addEventListener('resize',function(){
+    wrap.style.transition='none';
+    wrap.style.transform='translateY('+(-cur*window.innerHeight)+'px)';
+    setTimeout(function(){wrap.style.transition='';},50);
+  });
+
+  show(0);
+})();
+</script>
+
+<script>
+/* ═══ ANIMATIONS: PARTICLES · GROWING BARS · COUNT-UP ═══ */
+(function(){
+
+  /* ── 1. PARTICLES — S01 cover ── */
+  var s01=document.getElementById('s01');
+  var cvs=document.createElement('canvas');
+  cvs.style.cssText='position:absolute;inset:0;width:100%;height:100%;z-index:5;pointer-events:none;';
+  s01.appendChild(cvs);
+  var ctx=cvs.getContext('2d'), pts=[], W, H;
+  function rsz(){ W=cvs.width=cvs.offsetWidth; H=cvs.height=cvs.offsetHeight; }
+  function mkPt(sy){
+    return { x:Math.random()*W, y:sy!==undefined?sy:H+2,
+      r:Math.random()*.8+.15, vx:(Math.random()-.5)*.12,
+      vy:-(Math.random()*.32+.06), o:Math.random()*.05+.015 };
+  }
+  function initPts(){ pts=[]; for(var i=0;i<75;i++) pts.push(mkPt(Math.random()*H)); }
+  function tick(){
+    ctx.clearRect(0,0,W,H);
+    for(var i=0;i<pts.length;i++){
+      var p=pts[i]; p.x+=p.vx; p.y+=p.vy;
+      if(p.y<-4) pts[i]=mkPt();
+      ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+      ctx.fillStyle='rgba(255,255,255,'+p.o+')'; ctx.fill();
+    }
+    requestAnimationFrame(tick);
+  }
+  window.addEventListener('resize',function(){ rsz(); initPts(); });
+  rsz(); initPts(); tick();
+
+  /* ── 2. COUNT-UP — S05 & S06 ── */
+  var defs=[
+    {id:'s05',cls:'d3',val:80, sfx:'%',    dur:1100},
+    {id:'s05',cls:'d4',val:1000,sfx:'+',  dur:1500,dot:true},
+    {id:'s05',cls:'d5',val:2,  sfx:' anos',dur:700},
+    {id:'s06',cls:'d2',val:12, sfx:'',     dur:800},
+    {id:'s06',cls:'d3',val:12, sfx:'',     dur:900},
+    {id:'s06',cls:'d4',val:1000,sfx:'+',  dur:1500,dot:true},
+  ];
+  function fmt(n,dot){
+    if(!dot||n<1000) return String(n);
+    return Math.floor(n/1000)+'.'+String(n%1000).padStart(3,'0');
+  }
+  defs.forEach(function(d){
+    var par=document.querySelector('#'+d.id+' .an.'+d.cls);
+    if(!par) return;
+    var el=par.querySelector('[style*="F8C50B"]');
+    if(!el) return;
+    var fired=false;
+    new MutationObserver(function(){
+      if(fired||!par.classList.contains('show')) return;
+      fired=true;
+      var t0=null;
+      (function step(ts){
+        if(!t0) t0=ts;
+        var p=Math.min((ts-t0)/d.dur,1), e=1-Math.pow(1-p,3);
+        el.textContent=fmt(Math.round(e*d.val),d.dot)+d.sfx;
+        if(p<1) requestAnimationFrame(step);
+        else el.textContent=fmt(d.val,d.dot)+d.sfx;
+      })(performance.now());
+    }).observe(par,{attributes:true,attributeFilter:['class']});
+  });
+
+})();
+</script>
+</body>
+</html>
